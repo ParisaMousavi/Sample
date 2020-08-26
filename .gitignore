@@ -3,3 +3,7 @@
 ################################################################################
 
 /Sample/Sample.Api.Products/obj
+/Sample/Sample.Api.Products/bin/Debug/netcoreapp3.1
+/Sample/Sample.Api.Images/obj
+/Sample/Sample.Api.Images/bin/Debug/netcoreapp3.1
+/Sample/.vs/Sample/v16
