@@ -15,7 +15,7 @@ namespace Sample.Api.Products.Interfaces
     public interface IProductsProvider
     {
 
-        Task<(bool IsSuccess, IEnumerable<Models.Product>, string ErrorMessage)> GetProductAsync();
+        Task<(bool IsSuccess, IEnumerable<Models.Product> Products, string ErrorMessage)> GetProductAsync();
 
     }
 }
