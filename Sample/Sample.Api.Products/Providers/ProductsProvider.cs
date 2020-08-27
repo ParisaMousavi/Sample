@@ -24,7 +24,7 @@ namespace Sample.Api.Products.Providers
         private readonly ILogger<ProductsProvider> logger;
         private readonly IMapper mapper;
 
-        public ProductsProvider(Db.ProductsDbContext  dbContext, ILogger<ProductsProvider> logger, IMapper mapper)
+        public ProductsProvider(Db.ProductsDbContext dbContext, ILogger<ProductsProvider> logger, IMapper mapper)
         {
             this.dbContext = dbContext;
             this.logger = logger;
@@ -50,7 +50,7 @@ namespace Sample.Api.Products.Providers
             try
             {
                 var products = await dbContext.Products.ToListAsync();
-                if(products != null && products.Any())
+                if (products != null && products.Any())
                 {
                     var result = mapper.Map<IEnumerable<Db.Product>, IEnumerable<Models.Product>>(products);
                     return (true, result, null);
@@ -62,6 +62,19 @@ namespace Sample.Api.Products.Providers
 
                 logger?.LogError(ex.ToString());
                 return (false, null, ex.Message);
+            }
+        }
+
+        async Task<(bool IsSuccess, string ErrorMessage)> IProductsProvider.AddProductAsync()
+        {
+            try
+            {
+                return (true, null);
+            }
+            catch (Exception ex)
+            {
+                logger?.LogError(ex.ToString());
+                return (false, ex.Message);
             }
         }
     }

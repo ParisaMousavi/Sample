@@ -16,6 +16,7 @@ namespace Sample.Api.Products.Interfaces
     {
 
         Task<(bool IsSuccess, IEnumerable<Models.Product> Products, string ErrorMessage)> GetProductAsync();
+        Task<(bool IsSuccess, string ErrorMessage)> AddProductAsync();
 
     }
 }
