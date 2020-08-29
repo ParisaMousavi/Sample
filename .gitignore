@@ -9,3 +9,5 @@
 /Sample/.vs/Sample/v16
 /Sample/Sample.Api.Secrets/bin/Debug/netcoreapp3.1
 /Sample/Sample.Api.Secrets/obj
+/Sample/Sample.Api.Persistency/bin/Debug/netcoreapp3.1
+/Sample/Sample.Api.Persistency/obj
