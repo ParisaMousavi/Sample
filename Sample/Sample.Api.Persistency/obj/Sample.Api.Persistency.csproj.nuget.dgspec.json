@@ -1,25 +1,27 @@
 {
   "format": 1,
   "restore": {
-    "/home/codespace/workspace/Sample/Sample/Sample.Api.Persistency/Sample.Api.Persistency.csproj": {}
+    "C:\\Users\\paris\\Source\\Repos\\Sample\\Sample\\Sample.Api.Persistency\\Sample.Api.Persistency.csproj": {}
   },
   "projects": {
-    "/home/codespace/workspace/Sample/Sample/Sample.Api.Persistency/Sample.Api.Persistency.csproj": {
+    "C:\\Users\\paris\\Source\\Repos\\Sample\\Sample\\Sample.Api.Persistency\\Sample.Api.Persistency.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "/home/codespace/workspace/Sample/Sample/Sample.Api.Persistency/Sample.Api.Persistency.csproj",
+        "projectUniqueName": "C:\\Users\\paris\\Source\\Repos\\Sample\\Sample\\Sample.Api.Persistency\\Sample.Api.Persistency.csproj",
         "projectName": "Sample.Api.Persistency",
-        "projectPath": "/home/codespace/workspace/Sample/Sample/Sample.Api.Persistency/Sample.Api.Persistency.csproj",
-        "packagesPath": "/var/nuget",
-        "outputPath": "/home/codespace/workspace/Sample/Sample/Sample.Api.Persistency/obj/",
+        "projectPath": "C:\\Users\\paris\\Source\\Repos\\Sample\\Sample\\Sample.Api.Persistency\\Sample.Api.Persistency.csproj",
+        "packagesPath": "C:\\Users\\paris\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\paris\\Source\\Repos\\Sample\\Sample\\Sample.Api.Persistency\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "/home/codespace/.nuget/NuGet/NuGet.Config"
+          "C:\\Users\\paris\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
           "netcoreapp3.1"
         ],
         "sources": {
+          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
@@ -53,7 +55,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "/opt/dotnet/sdks/3.1.301/sdk/3.1.301/RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\3.1.401\\RuntimeIdentifierGraph.json"
         }
       }
     }

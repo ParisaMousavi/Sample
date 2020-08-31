@@ -11,3 +11,6 @@
 /Sample/Sample.Api.Secrets/obj
 /Sample/Sample.Api.Persistency/bin/Debug/netcoreapp3.1
 /Sample/Sample.Api.Persistency/obj
+/Sample/Sample.Api.Catalog/bin/Debug/netcoreapp3.1
+/Sample/Sample.Api.Catalog/obj
+/Sample/.vs/Sample/DesignTimeBuild

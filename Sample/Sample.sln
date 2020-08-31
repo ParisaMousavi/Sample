@@ -7,9 +7,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Sample.Api.Products", "Samp
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Sample.Api.Images", "Sample.Api.Images\Sample.Api.Images.csproj", "{9711840B-F6E8-47C4-BEE8-37E0EC70F5FA}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sample.Api.Secrets", "Sample.Api.Secrets\Sample.Api.Secrets.csproj", "{3EA46500-98EB-49D4-B60C-C6167EA6588D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Sample.Api.Secrets", "Sample.Api.Secrets\Sample.Api.Secrets.csproj", "{3EA46500-98EB-49D4-B60C-C6167EA6588D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFSC}") = "Sample.Api.Persistency", "Sample.Api.Persistency\Sample.Api.Persistency.csproj", "{3EA46500-98EB-49D4-B60C-C6167EA6588E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Sample.Api.Persistency", "Sample.Api.Persistency\Sample.Api.Persistency.csproj", "{3EA46500-98EB-49D4-B60C-C6167EA6588E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sample.Api.Catalog", "Sample.Api.Catalog\Sample.Api.Catalog.csproj", "{A34E90C4-5921-4A17-A584-5B6D4805DBF9}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -33,6 +35,10 @@ Global
 		{3EA46500-98EB-49D4-B60C-C6167EA6588E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3EA46500-98EB-49D4-B60C-C6167EA6588E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{3EA46500-98EB-49D4-B60C-C6167EA6588E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A34E90C4-5921-4A17-A584-5B6D4805DBF9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A34E90C4-5921-4A17-A584-5B6D4805DBF9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A34E90C4-5921-4A17-A584-5B6D4805DBF9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A34E90C4-5921-4A17-A584-5B6D4805DBF9}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
