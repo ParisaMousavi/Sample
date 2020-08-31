@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Sample.Api.Catalog.Db
+namespace Sample.Api.Catalog.Terms
 {
-    public class Catalog
+    public class CatalogUpdateTerms
     {
         public int Id { get; set; }
         public string Name { get; set; }
@@ -14,14 +14,10 @@ namespace Sample.Api.Catalog.Db
         public string PictureFileName { get; set; }
         public string PictureUri { get; set; }
         public int CatalogTypeId { get; set; }
-        public CatalogType CatalogType { get; set; }
         public int CatalogBrandId { get; set; }
-        public CatalogBrand CatalogBrand { get; set; }
         public int AvailableStock { get; set; }
         public int RestockThreshold { get; set; }
         public int MaxStockThreshold { get; set; }
-
-        public bool OnReorder { get; set; }
 
     }
 }

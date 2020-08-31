@@ -30,6 +30,7 @@ namespace Sample.Api.Catalog
             services.AddDbContext<Db.CatalogsDbContext>(options => {
                 options.UseInMemoryDatabase("Catalogs");
             });
+            services.AddScoped<Interfaces.ICatalogsService, Services.CatalogsService>();
             
         }
 
