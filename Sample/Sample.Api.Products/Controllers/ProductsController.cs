@@ -25,7 +25,7 @@ namespace Sample.Api.Products.Controllers
         [HttpGet]
         public async Task<IActionResult> GetProductsAsync()
         {
-            var result = await productsProvider.GetProductAsync();
+            var result = await productsProvider.GetProductsAsync();
             if(result.IsSuccess)
             {
                 return Ok(result.Products);

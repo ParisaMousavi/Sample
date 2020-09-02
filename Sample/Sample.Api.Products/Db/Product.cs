@@ -7,7 +7,7 @@ namespace Sample.Api.Products.Db
 {
     public class Product
     {
-        public int Id { get; set; }
+        public Guid Id { get; set; }
 
         public string Name { get; set; }
 
@@ -15,6 +15,6 @@ namespace Sample.Api.Products.Db
 
         public int Inventory { get; set; }
 
-
+        public string ImageUrl { get; set; }
     }
 }

@@ -15,8 +15,13 @@ namespace Sample.Api.Products.Interfaces
     public interface IProductsProvider
     {
 
-        Task<(bool IsSuccess, IEnumerable<Models.Product> Products, string ErrorMessage)> GetProductAsync();
-        Task<(bool IsSuccess, string ErrorMessage)> AddProductAsync();
 
+
+        Task<(bool IsSuccess, IEnumerable<Models.Product> Products, string ErrorMessage)> GetProductsAsync();
+        Task<(bool IsSuccess, Models.Product Product, string ErrorMessage)> GetProductAsync(Guid id);
+        Task<(bool IsSuccess, string ErrorMessage)> AddProductAsync(Models.Product product);
+        Task<(bool IsSuccess, Models.Product Product, string ErrorMessage)> UpdateProductAsync(Models.Product product);
+
+        Task<(bool IsSuccess, string ErrorMessage)> DeleteProductAsync(Guid id);
     }
 }

@@ -11,7 +11,7 @@ namespace Sample.Api.Images.Interfaces
     {
 
         public Task<(Stream Content, string ContentType)> GetBlobAsync(string name);
-        public Task UploadBlobAsync(string filePath, string fileName);
+        public Task<(bool IsSuccess, string ImageUrl, string ErrorMessage)> UploadBlobAsync(string filePath, string blobName);
         public Task<IEnumerable<string>> ListBlobAsync();
 
     }

@@ -37,15 +37,15 @@ namespace Sample.Api.Products.Providers
         {
             if (!dbContext.Products.Any())
             {
-                dbContext.Products.Add(new Db.Product() { Id = 1, Name = "Book", Price = 29, Inventory = 100 });
-                dbContext.Products.Add(new Db.Product() { Id = 2, Name = "Car", Price = 29000, Inventory = 3 });
-                dbContext.Products.Add(new Db.Product() { Id = 3, Name = "Lamp", Price = 12, Inventory = 450 });
+                dbContext.Products.Add(new Db.Product() { Id = Guid.NewGuid(), Name = "Book", Price = 29, Inventory = 100 });
+                dbContext.Products.Add(new Db.Product() { Id = Guid.NewGuid(), Name = "Car", Price = 29000, Inventory = 3 });
+                dbContext.Products.Add(new Db.Product() { Id = Guid.NewGuid(), Name = "Lamp", Price = 12, Inventory = 450 });
                 dbContext.SaveChanges();
             }
 
         }
 
-        async Task<(bool IsSuccess, IEnumerable<Models.Product> Products, string ErrorMessage)> IProductsProvider.GetProductAsync()
+        async Task<(bool IsSuccess, IEnumerable<Models.Product> Products, string ErrorMessage)> IProductsProvider.GetProductsAsync()
         {
             try
             {
@@ -65,7 +65,7 @@ namespace Sample.Api.Products.Providers
             }
         }
 
-        async Task<(bool IsSuccess, string ErrorMessage)> IProductsProvider.AddProductAsync()
+        async Task<(bool IsSuccess, string ErrorMessage)> IProductsProvider.AddProductAsync(Models.Product product)
         {
             try
             {
@@ -76,6 +76,22 @@ namespace Sample.Api.Products.Providers
                 logger?.LogError(ex.ToString());
                 return (false, ex.Message);
             }
+        }
+
+
+        Task<(bool IsSuccess, Models.Product Product, string ErrorMessage)> IProductsProvider.GetProductAsync(Guid id)
+        {
+            throw new NotImplementedException();
+        }
+
+        Task<(bool IsSuccess, Models.Product Product, string ErrorMessage)> IProductsProvider.UpdateProductAsync(Models.Product product)
+        {
+            throw new NotImplementedException();
+        }
+
+        Task<(bool IsSuccess, string ErrorMessage)> IProductsProvider.DeleteProductAsync(Guid id)
+        {
+            throw new NotImplementedException();
         }
     }
 }

@@ -68,7 +68,7 @@ namespace Sample.Api.Images.Providers
 
         }
 
-        async Task IImagesProvider.UploadBlobAsync(string filePath, string fileName)
+        async Task<(bool IsSuccess, string ImageUrl, string ErrorMessage)> IImagesProvider.UploadBlobAsync(string filePath, string blobName)
         {
             filePath = @"C:\Users\P.Moosavinezhad\Pictures\MPI.png";
 
@@ -76,13 +76,16 @@ namespace Sample.Api.Images.Providers
             var containerClient = blobServiceClient.GetBlobContainerClient("products");
 
             // 2. Blob Client
-            var blobClient = containerClient.GetBlobClient(fileName);
+            var blobClient = containerClient.GetBlobClient(blobName);
 
             using FileStream uploadFileStream = File.OpenRead(filePath);
 
-            await blobClient.UploadAsync(uploadFileStream,true);
+            var blobContentInfo = await blobClient.UploadAsync(uploadFileStream, true);
 
             uploadFileStream.Close();
+
+            return (true, blobContentInfo.Value.ToString(), null);
         }
+
     }
 }
