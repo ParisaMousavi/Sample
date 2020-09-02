@@ -9,7 +9,7 @@ using Microsoft.Extensions.Logging;
 using Sample.Api.Images.Extensions;
 using Sample.Api.Images.Interfaces;
 
-namespace Sample.Api.Images.Services
+namespace Sample.Api.Images.Providers
 {
     public class ImagesProvider : IImagesProvider
     {

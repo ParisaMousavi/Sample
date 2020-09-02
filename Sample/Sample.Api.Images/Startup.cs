@@ -27,8 +27,8 @@ namespace Sample.Api.Images
         {
             services.AddControllers();
             services.AddSingleton(x => new BlobServiceClient(Configuration.GetValue<string>("AzureBlobStorageConnectionString")));
-            services.AddScoped<Interfaces.IImagesProvider, Services.ImagesProvider>();
-            
+            services.AddScoped<Interfaces.IImagesProvider, Providers.ImagesProvider>();
+                       
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
