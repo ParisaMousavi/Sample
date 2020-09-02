@@ -5,6 +5,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Azure.Storage.Blobs;
 using Azure.Storage.Blobs.Models;
+using Azure.Storage.Queues;
 using Microsoft.Extensions.Logging;
 using Sample.Api.Images.Extensions;
 using Sample.Api.Images.Interfaces;
@@ -13,13 +14,20 @@ namespace Sample.Api.Images.Providers
 {
     public class ImagesProvider : IImagesProvider
     {
-        private readonly BlobServiceClient blobServiceClient;
-        private readonly ILogger logger;
+        private readonly BlobServiceClient _blobServiceClient;
+        private readonly QueueServiceClient _queueServiceClient;
+        private readonly ILogger _logger;
 
-        public ImagesProvider(BlobServiceClient blobServiceClient, ILogger<ImagesProvider> logger)
+        public ImagesProvider(BlobServiceClient blobServiceClient, QueueServiceClient queueServiceClient, ILogger<ImagesProvider> logger)
         {
-            this.blobServiceClient = blobServiceClient;
-            this.logger = logger;
+            this._blobServiceClient = blobServiceClient;
+            this._queueServiceClient = queueServiceClient;
+            this._logger = logger;
+        }
+
+        async Task<(bool IsSuccess, string ThumbnailUrl, string ErrorMessage)> IImagesProvider.CreateThumbnailAsync(string filePath, string blobName)
+        {
+            throw new NotImplementedException();
         }
 
         async Task<(Stream Content, string ContentType)> IImagesProvider.GetBlobAsync(string name)
@@ -28,7 +36,7 @@ namespace Sample.Api.Images.Providers
             {
 
                 // 1. Container Client
-                var containerClient = blobServiceClient.GetBlobContainerClient("products");
+                var containerClient = _blobServiceClient.GetBlobContainerClient("products");
                 // 2. Blob Client
                 var blobClient = containerClient.GetBlobClient(name);
 
@@ -39,7 +47,7 @@ namespace Sample.Api.Images.Providers
             }
             catch (Exception ex)
             {
-                logger?.LogError(ex.ToString());
+                _logger?.LogError(ex.ToString());
                 return (null, null);
             }
         }
@@ -49,7 +57,7 @@ namespace Sample.Api.Images.Providers
             try
             {
                 // 1. Container Client
-                var containerClient = blobServiceClient.GetBlobContainerClient("products");
+                var containerClient = _blobServiceClient.GetBlobContainerClient("products");
 
                 var items = new List<string>();
 
@@ -62,7 +70,7 @@ namespace Sample.Api.Images.Providers
             }
             catch (Exception ex)
             {
-                logger?.LogError(ex.ToString());
+                _logger?.LogError(ex.ToString());
                 return (null);
             }
 
@@ -73,7 +81,7 @@ namespace Sample.Api.Images.Providers
             filePath = @"C:\Users\P.Moosavinezhad\Pictures\MPI.png";
 
             // 1. Container Client
-            var containerClient = blobServiceClient.GetBlobContainerClient("products");
+            var containerClient = _blobServiceClient.GetBlobContainerClient("products");
 
             // 2. Blob Client
             var blobClient = containerClient.GetBlobClient(blobName);

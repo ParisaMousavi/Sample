@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Azure.Storage.Blobs;
+using Azure.Storage.Queues;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
@@ -27,6 +28,7 @@ namespace Sample.Api.Images
         {
             services.AddControllers();
             services.AddSingleton(x => new BlobServiceClient(Configuration.GetValue<string>("AzureBlobStorageConnectionString")));
+            services.AddSingleton(x => new QueueServiceClient(Configuration.GetValue<string>("AzureBlobStorageConnectionString")));
             services.AddScoped<Interfaces.IImagesProvider, Providers.ImagesProvider>();
                        
         }

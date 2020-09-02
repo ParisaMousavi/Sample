@@ -14,5 +14,6 @@ namespace Sample.Api.Images.Interfaces
         public Task<(bool IsSuccess, string ImageUrl, string ErrorMessage)> UploadBlobAsync(string filePath, string blobName);
         public Task<IEnumerable<string>> ListBlobAsync();
 
+        public Task<(bool IsSuccess, string ThumbnailUrl, string ErrorMessage)> CreateThumbnailAsync(string filePath, string blobName);
     }
 }
