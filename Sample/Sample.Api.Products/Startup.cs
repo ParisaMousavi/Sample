@@ -11,6 +11,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using Sample.Api.Products;
 
 namespace Sample.Api.Products
 {
@@ -27,12 +28,14 @@ namespace Sample.Api.Products
         public void ConfigureServices(IServiceCollection services)
         {
 
-            services.AddScoped<Interfaces.IProductsProvider , Providers.ProductsProvider>();
+            services.AddScoped<Interfaces.IProductsProvider, Providers.ProductsProvider>();
             services.AddAutoMapper(typeof(Startup));
-            services.AddDbContext<Db.ProductsDbContext>(options => 
+            services.AddDbContext<Db.ProductsDbContext>(options =>
             {
                 options.UseInMemoryDatabase("Products"); // Specify tha name of the database
             });
+            services.AddScoped<Sample.Api.Images.Interfaces.IImagesProvider, Sample.Api.Images.Providers.ImagesProvider>();
+            services.AddScoped<Sample.Api.Images.Interfaces.IQueuesProvider, Sample.Api.Images.Providers.QueueProvider>();
             services.AddControllers();
         }
 

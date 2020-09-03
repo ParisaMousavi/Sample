@@ -14,7 +14,7 @@ namespace Sample.Api.Images.Providers
         private readonly QueueServiceClient _queueServiceClient;
         private readonly ILogger _logger;
 
-        public QueueProvider(QueueServiceClient queueServiceClient, ILogger logger)
+        public QueueProvider(QueueServiceClient queueServiceClient, ILogger<QueueProvider> logger)
         {
             this._queueServiceClient = queueServiceClient;
             this._logger = logger;
@@ -50,7 +50,7 @@ namespace Sample.Api.Images.Providers
             try
             {
                 var queueClient = _queueServiceClient.GetQueueClient("products");
-                
+
 
                 // 1. Container Client
                 var queues = await queueClient.ReceiveMessagesAsync(maxMessages: 1);

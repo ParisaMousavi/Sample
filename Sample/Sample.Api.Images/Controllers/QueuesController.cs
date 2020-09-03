@@ -22,22 +22,22 @@ namespace Sample.Api.Images.Controllers
         [HttpGet]
         public async Task<IActionResult> GetQueuesAsync()
         {
-            //var queues = await _queuesProvider.ListQueues();
-            //return Ok(queues);
-            return Ok("Hello!");
+            var queues = await _queuesProvider.ListQueues();
+            return Ok(queues);
+
         }
 
 
-        //[HttpPost]
-        //async Task<IActionResult> AddToQueueAsync()
-        //{
-        //    var result = await _queuesProvider.AddToQueueAsync(Guid.NewGuid(), "parisa");
-        //    if (!result.IsSuccess)
-        //    {
-        //        return NotFound();
-        //    }
-        //    return Ok();
-        //}
+        [HttpPost("{id}")]
+        public async Task<IActionResult> AddToQueueAsync(int id)
+        {
+            var result = await _queuesProvider.AddToQueueAsync(Guid.NewGuid(), "parisa");
+            if (!result.IsSuccess)
+            {
+                return NotFound();
+            }
+            return Ok();
+        }
 
     }
 }
