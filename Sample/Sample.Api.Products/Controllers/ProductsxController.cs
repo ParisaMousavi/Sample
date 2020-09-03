@@ -78,9 +78,7 @@ namespace Sample.Api.Products.Controllers
                 return NotFound(result.ErrorMessage);
             }
 
-            var filepath = product.ImageUrl;
-            var fileExtension = new System.IO.FileInfo(filepath).Extension;
-            var blobName = $"{result.Product.Id}.{fileExtension}";
+
 
             // upload image to storage container
             //----------------------------------------------

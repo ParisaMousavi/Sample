@@ -28,12 +28,14 @@ namespace Sample.Api.Products
         {
 
             services.AddScoped<Interfaces.IProductsProvider, Providers.ProductsProvider>();
+            services.AddScoped<Interfaces.IImagesService, Providers.ImagesService>();
             services.AddAutoMapper(typeof(Startup));
             services.AddDbContext<Db.ProductsDbContext>(options =>
             {
                 options.UseInMemoryDatabase("Products"); // Specify tha name of the database
             });
-            services.AddHttpClient("ImagesService" , config => {
+            services.AddHttpClient("ImagesService", config =>
+            {
                 config.BaseAddress = new Uri(Configuration["Services:Images"]);
             });
             services.AddControllers();

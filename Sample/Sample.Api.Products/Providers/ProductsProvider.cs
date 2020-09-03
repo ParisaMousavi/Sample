@@ -72,12 +72,23 @@ namespace Sample.Api.Products.Providers
             try
             {
                 product.Id = Guid.NewGuid();
+
+                var filepath = product.ImageUrl;
+                var fileExtension = new System.IO.FileInfo(filepath).Extension;
+                var blobName = $"{product.Id}{fileExtension}";
+
+                var resultUploadedImage = await _imagesService.UploadBlobAsync(filepath, blobName);
+                if(!resultUploadedImage.IsSuccess)
+                {
+                    throw new Exception(resultUploadedImage.ErrorMessage);
+                }
+
                 _dbContext.Products.Add(new Db.Product() { 
                     Id = product.Id , 
                     Name = product.Name , 
                     Price = product.Price , 
                     Inventory = product.Inventory ,
-                    ImageUrl = ""
+                    ImageUrl = $"https://sampleimagestorage.blob.core.windows.net/products/{blobName}"
                 });
                 _dbContext.SaveChanges();
 
