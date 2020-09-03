@@ -21,12 +21,14 @@ namespace Sample.Api.Products.Providers
     public class ProductsProvider : Interfaces.IProductsProvider
     {
         private readonly ProductsDbContext _dbContext;
+        private readonly IImagesService _imagesService;
         private readonly ILogger<ProductsProvider> _logger;
         private readonly IMapper _mapper;
 
-        public ProductsProvider(Db.ProductsDbContext dbContext, ILogger<ProductsProvider> logger, IMapper mapper)
+        public ProductsProvider(Db.ProductsDbContext dbContext, Interfaces.IImagesService imagesService , ILogger<ProductsProvider> logger, IMapper mapper)
         {
             this._dbContext = dbContext;
+            this._imagesService = imagesService;
             this._logger = logger;
             this._mapper = mapper;
 
