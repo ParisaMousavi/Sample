@@ -26,11 +26,12 @@ namespace Sample.Api.Images
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddControllers();
             services.AddSingleton(x => new BlobServiceClient(Configuration.GetValue<string>("AzureBlobStorageConnectionString")));
             services.AddSingleton(x => new QueueServiceClient(Configuration.GetValue<string>("AzureBlobStorageConnectionString")));
             services.AddScoped<Interfaces.IImagesProvider, Providers.ImagesProvider>();
-                       
+            services.AddScoped<Interfaces.IQueuesProvider, Providers.QueueProvider>();
+            services.AddControllers();
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

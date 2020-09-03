@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\P.Moosavinezhad\\source\\repos\\Sample\\Sample\\Sample.Api.Persistency\\Sample.Api.Persistency.csproj": {}
+    "C:\\Users\\P.Moosavinezhad\\Source\\Repos\\Sample\\Sample\\Sample.Api.Persistency\\Sample.Api.Persistency.csproj": {}
   },
   "projects": {
-    "C:\\Users\\P.Moosavinezhad\\source\\repos\\Sample\\Sample\\Sample.Api.Persistency\\Sample.Api.Persistency.csproj": {
+    "C:\\Users\\P.Moosavinezhad\\Source\\Repos\\Sample\\Sample\\Sample.Api.Persistency\\Sample.Api.Persistency.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\P.Moosavinezhad\\source\\repos\\Sample\\Sample\\Sample.Api.Persistency\\Sample.Api.Persistency.csproj",
+        "projectUniqueName": "C:\\Users\\P.Moosavinezhad\\Source\\Repos\\Sample\\Sample\\Sample.Api.Persistency\\Sample.Api.Persistency.csproj",
         "projectName": "Sample.Api.Persistency",
-        "projectPath": "C:\\Users\\P.Moosavinezhad\\source\\repos\\Sample\\Sample\\Sample.Api.Persistency\\Sample.Api.Persistency.csproj",
+        "projectPath": "C:\\Users\\P.Moosavinezhad\\Source\\Repos\\Sample\\Sample\\Sample.Api.Persistency\\Sample.Api.Persistency.csproj",
         "packagesPath": "C:\\Users\\P.Moosavinezhad\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\P.Moosavinezhad\\source\\repos\\Sample\\Sample\\Sample.Api.Persistency\\obj\\",
+        "outputPath": "C:\\Users\\P.Moosavinezhad\\Source\\Repos\\Sample\\Sample\\Sample.Api.Persistency\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"

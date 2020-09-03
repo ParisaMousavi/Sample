@@ -8,23 +8,32 @@ using System.Threading.Tasks;
 
 namespace Sample.Api.Products.Controllers
 {
+    [ApiController ]
+    [Route ("api/productsx")]
     public class ProductsxController : ControllerBase
     {
         private readonly IProductsProvider _productsProvider;
         private readonly IImagesProvider _imageProvider;
+        private readonly IQueuesProvider _queuesProvider;
 
-        public ProductsxController(IProductsProvider productsProvider, IImagesProvider imageProvider)
+        public ProductsxController(IProductsProvider productsProvider, IImagesProvider imageProvider, IQueuesProvider queuesProvider)
         {
             this._productsProvider = productsProvider;
             this._imageProvider = imageProvider;
+            this._queuesProvider = queuesProvider;
         }
 
         [HttpGet]
         public async Task<IActionResult> Index() //Get All
         {
-            var products = await _productsProvider.GetProductsAsync();
+            var result = await _productsProvider.GetProductsAsync();
 
-            return Ok(products);
+            if (result.IsSuccess)
+            {
+                return Ok(result.Products);
+            }
+            return NotFound();
+
             //return View(contacts);
         }
 
@@ -41,7 +50,7 @@ namespace Sample.Api.Products.Controllers
             return NotFound(product.ErrorMessage);
         }
 
-        [HttpPost("{product}")]
+        [HttpPost("{id}")]
         public async Task<IActionResult> Edit(Models.Product product)
         {
             var savedProduct = await _productsProvider.UpdateProductAsync(product);
@@ -50,7 +59,7 @@ namespace Sample.Api.Products.Controllers
             //return RedirectToAction("Details", new { id = savedProduct.Product.Id }); // for this output the mehod output must be Task<RedirectToActionResult>
         }
 
-        [HttpPost("{id}")]
+        [HttpDelete("{id}")]
         public async Task<IActionResult> Delete(Guid id)
         {
             var result = await _productsProvider.DeleteProductAsync(id);
@@ -62,29 +71,39 @@ namespace Sample.Api.Products.Controllers
             return NotFound(result.ErrorMessage);
         }
 
-
+        [HttpPost]
         public async Task<IActionResult> Add(Models.Product product)
         {
-            product.Id = Guid.NewGuid();
+            
+            // add product
+            //----------------------------------------------
+            var result = await _productsProvider.AddProductAsync(product);
+            if (!result.IsSuccess)
+            {
+                return NotFound(result.ErrorMessage);
+            }
+
             var filepath = product.ImageUrl;
             var fileExtension = new System.IO.FileInfo(filepath).Extension;
-            var blobName = $"{product.Id}.{fileExtension}";
+            var blobName = $"{result.Product.Id}.{fileExtension}";
 
-            var uploadedImage = await  _imageProvider.UploadBlobAsync(filepath, blobName);
-
+            // upload image to storage container
+            //----------------------------------------------
+            var uploadedImage = await _imageProvider.UploadBlobAsync(filepath, blobName);
             if (!uploadedImage.IsSuccess)
             {
                 return NotFound(uploadedImage.ErrorMessage);
             }
 
-            var result = await _productsProvider.AddProductAsync(product);
-            if (result.IsSuccess)
+            // add a message to queue for thumbnail
+            //----------------------------------------------
+            var queuedMessage = await _queuesProvider.AddToQueueAsync(product.Id, blobName);
+            if (!queuedMessage.IsSuccess )
             {
-                return NotFound(result.ErrorMessage);
+                return NotFound(queuedMessage.ErrorMessage);
             }
 
             return Ok(result);
-            
         }
 
     }

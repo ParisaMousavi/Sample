@@ -20,27 +20,27 @@ namespace Sample.Api.Products.Providers
     /// </summary>
     public class ProductsProvider : Interfaces.IProductsProvider
     {
-        private readonly ProductsDbContext dbContext;
-        private readonly ILogger<ProductsProvider> logger;
-        private readonly IMapper mapper;
+        private readonly ProductsDbContext _dbContext;
+        private readonly ILogger<ProductsProvider> _logger;
+        private readonly IMapper _mapper;
 
         public ProductsProvider(Db.ProductsDbContext dbContext, ILogger<ProductsProvider> logger, IMapper mapper)
         {
-            this.dbContext = dbContext;
-            this.logger = logger;
-            this.mapper = mapper;
+            this._dbContext = dbContext;
+            this._logger = logger;
+            this._mapper = mapper;
 
             SeedData();
         }
 
         private void SeedData()
         {
-            if (!dbContext.Products.Any())
+            if (!_dbContext.Products.Any())
             {
-                dbContext.Products.Add(new Db.Product() { Id = Guid.NewGuid(), Name = "Book", Price = 29, Inventory = 100 });
-                dbContext.Products.Add(new Db.Product() { Id = Guid.NewGuid(), Name = "Car", Price = 29000, Inventory = 3 });
-                dbContext.Products.Add(new Db.Product() { Id = Guid.NewGuid(), Name = "Lamp", Price = 12, Inventory = 450 });
-                dbContext.SaveChanges();
+                _dbContext.Products.Add(new Db.Product() { Id = Guid.NewGuid(), Name = "Book", Price = 29, Inventory = 100 });
+                _dbContext.Products.Add(new Db.Product() { Id = Guid.NewGuid(), Name = "Car", Price = 29000, Inventory = 3 });
+                _dbContext.Products.Add(new Db.Product() { Id = Guid.NewGuid(), Name = "Lamp", Price = 12, Inventory = 450 });
+                _dbContext.SaveChanges();
             }
 
         }
@@ -49,10 +49,10 @@ namespace Sample.Api.Products.Providers
         {
             try
             {
-                var products = await dbContext.Products.ToListAsync();
+                var products = await _dbContext.Products.ToListAsync();
                 if (products != null && products.Any())
                 {
-                    var result = mapper.Map<IEnumerable<Db.Product>, IEnumerable<Models.Product>>(products);
+                    var result = _mapper.Map<IEnumerable<Db.Product>, IEnumerable<Models.Product>>(products);
                     return (true, result, null);
                 }
                 return (false, null, "Not Found");
@@ -60,21 +60,31 @@ namespace Sample.Api.Products.Providers
             catch (Exception ex)
             {
 
-                logger?.LogError(ex.ToString());
+                _logger?.LogError(ex.ToString());
                 return (false, null, ex.Message);
             }
         }
 
-        async Task<(bool IsSuccess, string ErrorMessage)> IProductsProvider.AddProductAsync(Models.Product product)
+        async Task<(bool IsSuccess, Models.Product Product, string ErrorMessage)> IProductsProvider.AddProductAsync(Models.Product product)
         {
             try
             {
-                return (true, null);
+                product.Id = Guid.NewGuid();
+                _dbContext.Products.Add(new Db.Product() { 
+                    Id = product.Id , 
+                    Name = product.Name , 
+                    Price = product.Price , 
+                    Inventory = product.Inventory ,
+                    ImageUrl = ""
+                });
+                _dbContext.SaveChanges();
+
+                return (true, product, null);
             }
             catch (Exception ex)
             {
-                logger?.LogError(ex.ToString());
-                return (false, ex.Message);
+                _logger?.LogError(ex.ToString());
+                return (false, null, ex.Message);
             }
         }
 

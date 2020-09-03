@@ -18,8 +18,11 @@ namespace Sample.Api.Products.Interfaces
 
 
         Task<(bool IsSuccess, IEnumerable<Models.Product> Products, string ErrorMessage)> GetProductsAsync();
+
         Task<(bool IsSuccess, Models.Product Product, string ErrorMessage)> GetProductAsync(Guid id);
-        Task<(bool IsSuccess, string ErrorMessage)> AddProductAsync(Models.Product product);
+
+        Task<(bool IsSuccess, Models.Product Product, string ErrorMessage)> AddProductAsync(Models.Product product);
+
         Task<(bool IsSuccess, Models.Product Product, string ErrorMessage)> UpdateProductAsync(Models.Product product);
 
         Task<(bool IsSuccess, string ErrorMessage)> DeleteProductAsync(Guid id);
