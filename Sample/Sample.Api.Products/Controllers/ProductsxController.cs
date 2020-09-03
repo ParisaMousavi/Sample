@@ -1,5 +1,4 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Sample.Api.Images.Interfaces;
 using Sample.Api.Products.Interfaces;
 using System;
 using System.Collections.Generic;
@@ -13,14 +12,10 @@ namespace Sample.Api.Products.Controllers
     public class ProductsxController : ControllerBase
     {
         private readonly IProductsProvider _productsProvider;
-        private readonly IImagesProvider _imageProvider;
-        private readonly IQueuesProvider _queuesProvider;
 
-        public ProductsxController(IProductsProvider productsProvider, IImagesProvider imageProvider, IQueuesProvider queuesProvider)
+        public ProductsxController(IProductsProvider productsProvider)
         {
             this._productsProvider = productsProvider;
-            this._imageProvider = imageProvider;
-            this._queuesProvider = queuesProvider;
         }
 
         [HttpGet]
@@ -89,19 +84,19 @@ namespace Sample.Api.Products.Controllers
 
             // upload image to storage container
             //----------------------------------------------
-            var uploadedImage = await _imageProvider.UploadBlobAsync(filepath, blobName);
-            if (!uploadedImage.IsSuccess)
-            {
-                return NotFound(uploadedImage.ErrorMessage);
-            }
+            //var uploadedImage = await _imageProvider.UploadBlobAsync(filepath, blobName);
+            //if (!uploadedImage.IsSuccess)
+            //{
+            //    return NotFound(uploadedImage.ErrorMessage);
+            //}
 
-            // add a message to queue for thumbnail
-            //----------------------------------------------
-            var queuedMessage = await _queuesProvider.AddToQueueAsync(product.Id, blobName);
-            if (!queuedMessage.IsSuccess )
-            {
-                return NotFound(queuedMessage.ErrorMessage);
-            }
+            //// add a message to queue for thumbnail
+            ////----------------------------------------------
+            //var queuedMessage = await _queuesProvider.AddToQueueAsync(product.Id, blobName);
+            //if (!queuedMessage.IsSuccess )
+            //{
+            //    return NotFound(queuedMessage.ErrorMessage);
+            //}
 
             return Ok(result);
         }

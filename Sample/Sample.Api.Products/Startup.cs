@@ -11,7 +11,6 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
-using Sample.Api.Products;
 
 namespace Sample.Api.Products
 {
@@ -34,8 +33,9 @@ namespace Sample.Api.Products
             {
                 options.UseInMemoryDatabase("Products"); // Specify tha name of the database
             });
-            services.AddScoped<Sample.Api.Images.Interfaces.IImagesProvider, Sample.Api.Images.Providers.ImagesProvider>();
-            services.AddScoped<Sample.Api.Images.Interfaces.IQueuesProvider, Sample.Api.Images.Providers.QueueProvider>();
+            services.AddHttpClient("ImagesService" , config => {
+                config.BaseAddress = new Uri(Configuration["Services:Images"]);
+            });
             services.AddControllers();
         }
 
