@@ -30,7 +30,7 @@ namespace Sample.Api.Images.Providers
             throw new NotImplementedException();
         }
 
-        async Task<(Stream Content, string ContentType)> IImagesProvider.GetBlobAsync(string name)
+        async Task<(bool IsSuccess, Stream Content, string ContentType, string ErrorString)> IImagesProvider.GetBlobAsync(string name)
         {
             try
             {
@@ -42,17 +42,17 @@ namespace Sample.Api.Images.Providers
 
                 BlobDownloadInfo blobDownloadInfo = await blobClient.DownloadAsync();
 
-                return (blobDownloadInfo.Content, blobDownloadInfo.ContentType);
+                return (true, blobDownloadInfo.Content, blobDownloadInfo.ContentType, null);
 
             }
             catch (Exception ex)
             {
                 _logger?.LogError(ex.ToString());
-                return (null, null);
+                return (false, null, null, ex.Message);
             }
         }
 
-        async Task<IEnumerable<string>> IImagesProvider.ListBlobAsync()
+        async Task<(bool IsSuccess, IEnumerable<string> Blobs, string ErrorMessage)> IImagesProvider.ListBlobAsync()
         {
             try
             {
@@ -66,12 +66,12 @@ namespace Sample.Api.Images.Providers
                     items.Add(blobItem.Name);
                 }
 
-                return items;
+                return (true, items, null);
             }
             catch (Exception ex)
             {
                 _logger?.LogError(ex.ToString());
-                return (null);
+                return (false, null, ex.Message);
             }
 
         }
