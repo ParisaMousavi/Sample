@@ -78,7 +78,6 @@ namespace Sample.Api.Images.Providers
 
         async Task<(bool IsSuccess, string ImageUrl, string ErrorMessage)> IImagesProvider.UploadBlobAsync(string filePath, string blobName)
         {
-            filePath = @"C:\Users\P.Moosavinezhad\Pictures\MPI.png";
 
             // 1. Container Client
             var containerClient = _blobServiceClient.GetBlobContainerClient("products");

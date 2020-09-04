@@ -71,18 +71,23 @@ namespace Sample.Api.Products.Providers
         {
             try
             {
+                // Assign a unique ID toproduct
                 product.Id = Guid.NewGuid();
 
+                // create blob name
                 var filepath = product.ImageUrl;
                 var fileExtension = new System.IO.FileInfo(filepath).Extension;
                 var blobName = $"{product.Id}{fileExtension}";
 
+                // upload original image of the product
+                // upload adds a message to queue
                 var resultUploadedImage = await _imagesService.UploadBlobAsync(filepath, blobName);
                 if(!resultUploadedImage.IsSuccess)
                 {
                     throw new Exception(resultUploadedImage.ErrorMessage);
                 }
 
+                // add product
                 _dbContext.Products.Add(new Db.Product() { 
                     Id = product.Id , 
                     Name = product.Name , 
