@@ -27,24 +27,27 @@ namespace Sample.Api.Products.Providers
             throw new NotImplementedException();
         }
 
-        async Task<(bool IsSuccess, string ImageUrl, string ErrorMessage)> IImagesService.UploadBlobAsync(string filePath, string blobName)
+        async Task<(bool IsSuccess, string ImageUrl, string ErrorMessage)> IImagesService.UploadBlobAsync(Guid productId, string filePath)
         {
             try
             {
-                var uploadTerms = new Terms.Upload ();
-                uploadTerms.FilePath  = filePath;
-                uploadTerms.FileName   = blobName ;
+                var uploadTerms = new Terms.Upload();
+                uploadTerms.FilePath = filePath;
+                uploadTerms.ProductId = productId;
 
-                var json = JsonConvert.SerializeObject(uploadTerms );
+                var json = JsonConvert.SerializeObject(uploadTerms);
                 var data = new StringContent(json, Encoding.UTF8, "application/json");
 
                 var client = _httpClientFactory.CreateClient("ImagesService");
                 var response = await client.PostAsync($"api/images/upload", data);
-                if (response.IsSuccessStatusCode)
+              
+                if (!response.IsSuccessStatusCode)
                 {
-                    var content = await response.Content.ReadAsByteArrayAsync();
+                    throw new Exception($"Error {response.StatusCode } : { response.ReasonPhrase }");
                 }
-                return (true, ":)", null);
+                var contents = await response.Content.ReadAsStringAsync();
+
+                return (true, contents, null);
 
             }
             catch (Exception ex)
@@ -54,5 +57,6 @@ namespace Sample.Api.Products.Providers
                 return (false, null, ex.Message);
             }
         }
+
     }
 }

@@ -74,14 +74,10 @@ namespace Sample.Api.Products.Providers
                 // Assign a unique ID toproduct
                 product.Id = Guid.NewGuid();
 
-                // create blob name
-                var filepath = product.ImageUrl;
-                var fileExtension = new System.IO.FileInfo(filepath).Extension;
-                var blobName = $"{product.Id}{fileExtension}";
 
                 // upload original image of the product
                 // upload adds a message to queue
-                var resultUploadedImage = await _imagesService.UploadBlobAsync(filepath, blobName);
+                var resultUploadedImage = await _imagesService.UploadBlobAsync(product.Id , product.ImageUrl );
                 if(!resultUploadedImage.IsSuccess)
                 {
                     throw new Exception(resultUploadedImage.ErrorMessage);
@@ -93,7 +89,7 @@ namespace Sample.Api.Products.Providers
                     Name = product.Name , 
                     Price = product.Price , 
                     Inventory = product.Inventory ,
-                    ImageUrl = $"https://sampleimagestorage.blob.core.windows.net/products/{blobName}"
+                    ImageUrl = resultUploadedImage.ImageUrl 
                 });
                 _dbContext.SaveChanges();
 

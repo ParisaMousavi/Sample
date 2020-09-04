@@ -15,13 +15,13 @@ namespace Sample.Api.Images.Providers
     public class ImagesProvider : IImagesProvider
     {
         private readonly BlobServiceClient _blobServiceClient;
-        private readonly QueueServiceClient _queueServiceClient;
+        private readonly IQueuesProvider _queuesProvider;
         private readonly ILogger _logger;
 
-        public ImagesProvider(BlobServiceClient blobServiceClient, QueueServiceClient queueServiceClient, ILogger<ImagesProvider> logger)
+        public ImagesProvider(BlobServiceClient blobServiceClient, Interfaces.IQueuesProvider queuesProvider ,  ILogger<ImagesProvider> logger)
         {
             this._blobServiceClient = blobServiceClient;
-            this._queueServiceClient = queueServiceClient;
+            this._queuesProvider = queuesProvider;
             this._logger = logger;
         }
 
@@ -76,22 +76,44 @@ namespace Sample.Api.Images.Providers
 
         }
 
-        async Task<(bool IsSuccess, string ImageUrl, string ErrorMessage)> IImagesProvider.UploadBlobAsync(string filePath, string blobName)
+        async Task<(bool IsSuccess, string ImageUrl, string ErrorMessage)> IImagesProvider.UploadBlobAsync(Guid productId, string filePath)
         {
 
-            // 1. Container Client
-            var containerClient = _blobServiceClient.GetBlobContainerClient("products");
+            try
+            {
 
-            // 2. Blob Client
-            var blobClient = containerClient.GetBlobClient(blobName);
+                // create blob name
+                var fileExtension = new System.IO.FileInfo(filePath).Extension;
+                var blobName = $"{productId}{fileExtension}";
 
-            using FileStream uploadFileStream = File.OpenRead(filePath);
+                // Container Client
+                var containerClient = _blobServiceClient.GetBlobContainerClient("products");
 
-            var blobContentInfo = await blobClient.UploadAsync(uploadFileStream, true);
+                // Blob Client
+                var blobClient = containerClient.GetBlobClient(blobName);
 
-            uploadFileStream.Close();
+                using FileStream uploadFileStream = File.OpenRead(filePath);
 
-            return (true, blobContentInfo.Value.ToString(), null);
+                var blobContentInfo = await blobClient.UploadAsync(uploadFileStream, true);
+
+                uploadFileStream.Close();
+
+                if (blobContentInfo.GetRawResponse().Status != 201)
+                {
+                    throw new Exception($"Eorror {blobContentInfo.GetRawResponse().Status} : {blobContentInfo.GetRawResponse().ReasonPhrase} ");
+                }
+
+                // add message to queue
+                await _queuesProvider.AddToQueueAsync(productId , blobName);
+
+                return (true, $"https://sampleimagestorage.blob.core.windows.net/products/{blobName}", null);
+            }
+            catch (Exception ex)
+            {
+
+                _logger?.LogError(ex.ToString());
+                return (false, null ,ex.Message);
+            }
         }
 
     }

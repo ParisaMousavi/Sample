@@ -7,8 +7,8 @@ namespace Sample.Api.Images.Terms
 {
     public class Upload
     {
+        public Guid ProductId { get; set; }
         public string FilePath { get; set; }
 
-        public string FileName { get; set; }
     }
 }
