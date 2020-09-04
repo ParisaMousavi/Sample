@@ -25,10 +25,6 @@ namespace Sample.Api.Images.Providers
             this._logger = logger;
         }
 
-        async Task<(bool IsSuccess, string ThumbnailUrl, string ErrorMessage)> IImagesProvider.CreateThumbnailAsync(string filePath, string blobName)
-        {
-            throw new NotImplementedException();
-        }
 
         async Task<(bool IsSuccess, Stream Content, string ContentType, string ErrorString)> IImagesProvider.GetBlobAsync(string name)
         {

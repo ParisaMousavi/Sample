@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Sample.Api.Images.Models
+namespace Sample.Api.Images.Terms
 {
     public class Messages
     {

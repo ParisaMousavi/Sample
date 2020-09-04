@@ -1,10 +1,13 @@
 ﻿using Azure.Storage.Queues;
 using Azure.Storage.Queues.Models;
 using Microsoft.Extensions.Logging;
+using Newtonsoft.Json;
 using Sample.Api.Images.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Http;
+using System.Text;
 using System.Threading.Tasks;
 
 namespace Sample.Api.Images.Providers
@@ -25,15 +28,19 @@ namespace Sample.Api.Images.Providers
         {
             try
             {
-                var thumbnailCreationMessage = new Models.Messages()
+                var thumbnailCreationMessage = new Terms.Messages()
                 {
                     ProductId = productId,
                     ContainerName = "products",
                     ImageName = blobName
                 };
 
+
+                var json = JsonConvert.SerializeObject(thumbnailCreationMessage);
+                //var data = new StringContent(json, Encoding.UTF8, "application/json");
+
                 var queueClient = _queueServiceClient.GetQueueClient("products");
-                var sendReceipt = await queueClient.SendMessageAsync(thumbnailCreationMessage.ToString());
+                var sendReceipt = await queueClient.SendMessageAsync(json);
                 return (true, null);
 
             }
