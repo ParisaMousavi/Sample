@@ -37,10 +37,10 @@ namespace Sample.Api.Images.Providers
 
 
                 var json = JsonConvert.SerializeObject(thumbnailCreationMessage);
-                //var data = new StringContent(json, Encoding.UTF8, "application/json");
+                string base64EncodedExternalAccount = Convert.ToBase64String(Encoding.UTF8.GetBytes(json));
 
                 var queueClient = _queueServiceClient.GetQueueClient("products");
-                var sendReceipt = await queueClient.SendMessageAsync(json);
+                var sendReceipt = await queueClient.SendMessageAsync(base64EncodedExternalAccount);
                 return (true, null);
 
             }
