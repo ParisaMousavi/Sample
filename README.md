@@ -11,6 +11,9 @@ The following Azure resources are used in this project
 - Azure Function App
 - Cosmos DB
 
+### Project's cloud solution architecture
+![](./drawio/.png)
+
 ### Project's application architecture
 - Microservices project
 - Domain-Drive Development (DDD)
