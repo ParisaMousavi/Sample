@@ -68,7 +68,7 @@ namespace Sample.Api.Products
 
             app.UseSwagger();
 
-            app.UseSwaggerUI( c => { c.SwaggerEndpoint("/swagger/v1/swagger.json","Sample Project"); });
+            app.UseSwaggerUI( c => { c.SwaggerEndpoint("/swagger/v1/swagger.json","Sample Project"); } );
 
             app.UseRouting();
 
