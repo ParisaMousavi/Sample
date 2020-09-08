@@ -17,7 +17,7 @@ The following Azure resources are used in this project
 ### Project's application architecture
 - Microservices project
 - Domain-Drive Development (DDD)
-- Datbase per Service (Microservice Design Pattern) : as the project is developed DDD, each service can have a database for itself. It's important that based on the service requiremenst the database can be changed flexible.
+- Datbase per Service (Microservice Design Pattern) : as the project is developed DDD, each service can have a database for itself. It's important that based on the service requirements change, the database can be changed flexible.
 
 ### Project' application technologies
 - EntiryFrameworkCore
