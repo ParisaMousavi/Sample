@@ -12,6 +12,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using Microsoft.OpenApi.Models;
 
 namespace Sample.Api.Products
 {
@@ -50,6 +51,10 @@ namespace Sample.Api.Products
                 config.BaseAddress = new Uri(Configuration["Services:Images"]);
             });
             services.AddControllers();
+            services.AddSwaggerGen( c => {
+                c.SwaggerDoc("v1", new OpenApiInfo { Title = "Sample Project", Version = "1.0" , Description = "Product API"});
+            });
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -59,6 +64,11 @@ namespace Sample.Api.Products
             {
                 app.UseDeveloperExceptionPage();
             }
+
+
+            app.UseSwagger();
+
+            app.UseSwaggerUI( c => { c.SwaggerEndpoint("/swagger/v1/swagger.json","Sample Project"); });
 
             app.UseRouting();
 
