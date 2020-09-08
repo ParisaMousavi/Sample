@@ -6,7 +6,7 @@ This is a sample project
 ### Azure Resources
 The following Azure resources are used in this project
 
-- Bolb Storage
+- Blob Storage
 - Queue Storage
 - Azure Function App
 - Cosmos DB
