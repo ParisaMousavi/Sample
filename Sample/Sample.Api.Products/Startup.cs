@@ -13,6 +13,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
+using Polly;
 
 namespace Sample.Api.Products
 {
@@ -32,8 +33,8 @@ namespace Sample.Api.Products
             services.AddSingleton(x => new CosmosClient(Configuration.GetValue<string>("CosmosDbConnectionString")));
 
 
-            services.AddScoped<Interfaces.IProductsProvider, Providers.ProductsProvider>();
-            services.AddScoped<Interfaces.IImagesService, Providers.ImagesService>();
+            services.AddScoped<Interfaces.IProductsProvider, Services.ProductsProvider>();
+            services.AddScoped<Interfaces.IImagesService, Services.ImagesService>();
 
             services.AddAutoMapper(typeof(Startup));
             services.AddDbContext<Db.ProductsDbContext>(options =>
@@ -45,14 +46,19 @@ namespace Sample.Api.Products
             //    options => options.UseSqlServer(Configuration.GetConnectionString("ProductsDbConnection"))
             //    );
 
-
+            // Adding Resilience and Transient Fault handling to your .NET Core HttpClient with Polly
             services.AddHttpClient("ImagesService", config =>
             {
                 config.BaseAddress = new Uri(Configuration["Services:Images"]);
-            });
+            })
+                .AddTransientHttpErrorPolicy(policyBuilder => policyBuilder.CircuitBreakerAsync(handledEventsAllowedBeforeBreaking: 2, durationOfBreak: TimeSpan.FromMinutes(2)));
+            //.AddTransientHttpErrorPolicy(policyBuilder => policyBuilder.RetryAsync(2));
+            //.AddTransientHttpErrorPolicy(p => p.WaitAndRetryAsync(5, _ => TimeSpan.FromMilliseconds(500)));
+
             services.AddControllers();
-            services.AddSwaggerGen( c => {
-                c.SwaggerDoc("v1", new OpenApiInfo { Title = "Sample Project", Version = "1.0" , Description = "Product API"});
+            services.AddSwaggerGen(c =>
+            {
+                c.SwaggerDoc("v1", new OpenApiInfo { Title = "Sample Project", Version = "1.0", Description = "Product API" });
             });
 
         }
@@ -68,7 +74,7 @@ namespace Sample.Api.Products
 
             app.UseSwagger();
 
-            app.UseSwaggerUI( c => { c.SwaggerEndpoint("/swagger/v1/swagger.json","Sample Project"); } );
+            app.UseSwaggerUI(c => { c.SwaggerEndpoint("/swagger/v1/swagger.json", "Sample Project"); });
 
             app.UseRouting();
 

@@ -1,6 +1,12 @@
 {
   "ExpandedNodes": [
-    ""
+    "",
+    "\\drawio",
+    "\\Sample",
+    "\\Sample\\Sample.Api.Products",
+    "\\Sample\\Sample.Api.Products\\Controllers",
+    "\\Sample\\Sample.Api.Products\\Interfaces"
   ],
+  "SelectedNode": "\\README.md",
   "PreviewInSolutionExplorer": false
 }

@@ -9,7 +9,7 @@ using System.Text;
 using System.Text.Json;
 using System.Threading.Tasks;
 
-namespace Sample.Api.Products.Providers
+namespace Sample.Api.Products.Services
 {
     public class ImagesService : Interfaces.IImagesService
     {

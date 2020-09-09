@@ -25,6 +25,7 @@ The following Azure resources are used in this project
 - Azure Storage Model
 - Swaschbuckle.AspNetCore -> enhance the API project with Swagger API Documenation & Swagger UI
 - Microsoft.Extensions.Http.Polly -> for realising Break Circuit Design Pattern to have resilient Microservices
+- Microsoft.Azure.Cosmos.Table
 
 
 ## Create new project via commandline

@@ -9,7 +9,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Sample.Api.Products.Providers
+namespace Sample.Api.Products.Services
 {
     /// <summary>
     /// Interface contains all the methods that are called from Controllers.
@@ -21,13 +21,15 @@ namespace Sample.Api.Products.Providers
     public class ProductsProvider : Interfaces.IProductsProvider
     {
         private readonly ProductsDbContext _dbContext;
+        private readonly ICosmosDbService _cosmosDbService;
         private readonly IImagesService _imagesService;
         private readonly ILogger<ProductsProvider> _logger;
         private readonly IMapper _mapper;
 
-        public ProductsProvider(Db.ProductsDbContext dbContext, Interfaces.IImagesService imagesService , ILogger<ProductsProvider> logger, IMapper mapper)
+        public ProductsProvider(Db.ProductsDbContext dbContext, Interfaces.ICosmosDbService  cosmosDbService , Interfaces.IImagesService imagesService , ILogger<ProductsProvider> logger, IMapper mapper)
         {
             this._dbContext = dbContext;
+            this._cosmosDbService = cosmosDbService;
             this._imagesService = imagesService;
             this._logger = logger;
             this._mapper = mapper;
