@@ -12,6 +12,11 @@ The following Azure resources are used in this project
 - Cosmos DB
 
 ### Project's cloud solution architecture
+Applied Architecture Design pattern
+- Asynchronous Request-Reply 
+![alt](drawio/Asynchronous-request-reply-pattern.png)
+
+Solution Architecture Diagram
 ![alt](drawio/Sample-software-and-solution-architecture-Solution.png)
 
 ### Project's application architecture
