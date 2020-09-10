@@ -31,7 +31,7 @@ namespace Sample.Api.Products
         public void ConfigureServices(IServiceCollection services)
         {
 
-            services.AddSingleton(x => new CosmosClient(Configuration.GetValue<string>("DBUri"), Configuration.GetValue<string>("DBKey")));
+            // Configure CosmosDB Service 
             var docClient = new DocumentClient(
                 new Uri(Configuration.GetValue<string>("DBUri")),
                 Configuration.GetValue<string>("DBKey"));
@@ -47,9 +47,6 @@ namespace Sample.Api.Products
                 options.UseInMemoryDatabase("Products"); // Specify tha name of the database
             });
 
-            //services.AddDbContextPool<Db.ProductsDbContext>(
-            //    options => options.UseSqlServer(Configuration.GetConnectionString("ProductsDbConnection"))
-            //    );
 
             // Adding Resilience and Transient Fault handling to your .NET Core HttpClient with Polly
             services.AddHttpClient("ImagesService", config =>
@@ -57,8 +54,7 @@ namespace Sample.Api.Products
                 config.BaseAddress = new Uri(Configuration["Services:Images"]);
             })
                 .AddTransientHttpErrorPolicy(policyBuilder => policyBuilder.CircuitBreakerAsync(handledEventsAllowedBeforeBreaking: 2, durationOfBreak: TimeSpan.FromMinutes(2)));
-            //.AddTransientHttpErrorPolicy(policyBuilder => policyBuilder.RetryAsync(2));
-            //.AddTransientHttpErrorPolicy(p => p.WaitAndRetryAsync(5, _ => TimeSpan.FromMilliseconds(500)));
+
 
             services.AddControllers();
             services.AddSwaggerGen(c =>

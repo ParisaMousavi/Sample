@@ -21,22 +21,6 @@ namespace Sample.Api.Products.Services
             _productCollectionUri = UriFactory.CreateDocumentCollectionUri("Products", "products");
         }
 
-        //async Task<(bool IsSuccess, string ErrorMessage)> ICosmosDbService.AddProductAsync(Models.Product product)
-        //{
-        //    try
-        //    {
-        //        var dbResponse = await _documentClient.CreateDocumentAsync(_productCollectionUri, product);
-        //        var result = (dynamic)dbResponse.Resource;
-        //        return (true, null);
-
-        //    }
-        //    catch (Exception ex)
-        //    {
-
-        //        _logger?.LogError(ex.Message);
-        //        return (false, ex.Message);
-        //    }
-        //}
 
         async Task<(bool IsSuccess, T result, string ErrorMessage)> ICosmosDbService.AddProductAsync<T>(T product)
         {
