@@ -5,10 +5,10 @@ using System.Threading.Tasks;
 
 namespace Sample.Api.Products.Interfaces
 {
-    public interface  ICosmosDbService
+    public interface ICosmosDbService
     {
 
-        Task<(bool IsSuccess , string ErrorMessage)> AddProductAsync();
+        Task<(bool IsSuccess, T result, string ErrorMessage)> AddProductAsync<T>(T product);
 
     }
 }

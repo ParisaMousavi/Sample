@@ -26,7 +26,7 @@ namespace Sample.Api.Products.Services
         private readonly ILogger<ProductsProvider> _logger;
         private readonly IMapper _mapper;
 
-        public ProductsProvider(Db.ProductsDbContext dbContext, Interfaces.ICosmosDbService  cosmosDbService , Interfaces.IImagesService imagesService , ILogger<ProductsProvider> logger, IMapper mapper)
+        public ProductsProvider(Db.ProductsDbContext dbContext, Interfaces.ICosmosDbService cosmosDbService, Interfaces.IImagesService imagesService, ILogger<ProductsProvider> logger, IMapper mapper)
         {
             this._dbContext = dbContext;
             this._cosmosDbService = cosmosDbService;
@@ -79,23 +79,28 @@ namespace Sample.Api.Products.Services
 
                 // upload original image of the product
                 // upload adds a message to queue
-                var resultUploadedImage = await _imagesService.UploadBlobAsync(product.Id , product.ImageUrl );
-                if(!resultUploadedImage.IsSuccess)
+                var resultUploadedImage = await _imagesService.UploadBlobAsync(product.Id, product.ImageUrl);
+                if (!resultUploadedImage.IsSuccess)
                 {
                     throw new Exception(resultUploadedImage.ErrorMessage);
                 }
 
                 // add product
-                _dbContext.Products.Add(new Db.Product() { 
-                    Id = product.Id , 
-                    Name = product.Name , 
-                    Price = product.Price , 
-                    Inventory = product.Inventory ,
-                    ImageUrl = resultUploadedImage.ImageUrl 
+                product.ImageUrl = resultUploadedImage.ImageUrl;
+                _dbContext.Products.Add(new Db.Product()
+                {
+                    Id = product.Id,
+                    Name = product.Name,
+                    Price = product.Price,
+                    Inventory = product.Inventory,
+                    ImageUrl = resultUploadedImage.ImageUrl
                 });
                 _dbContext.SaveChanges();
 
-                return (true, product, null);
+                var newProduct = await _cosmosDbService.AddProductAsync<Models.Product>(product);
+                if (!newProduct.IsSuccess) throw new Exception(newProduct.ErrorMessage);
+
+                return (true, (dynamic)newProduct.result, null);
             }
             catch (Exception ex)
             {

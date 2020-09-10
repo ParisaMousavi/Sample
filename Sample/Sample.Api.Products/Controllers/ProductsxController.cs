@@ -7,8 +7,8 @@ using System.Threading.Tasks;
 
 namespace Sample.Api.Products.Controllers
 {
-    [ApiController ]
-    [Route ("api/productsx")]
+    [ApiController]
+    [Route("api/productsx")]
     public class ProductsxController : ControllerBase
     {
         private readonly IProductsProvider _productsProvider;
@@ -69,7 +69,7 @@ namespace Sample.Api.Products.Controllers
         [HttpPost]
         public async Task<IActionResult> Add(Models.Product product)
         {
-            
+
             // add product
             //----------------------------------------------
             var result = await _productsProvider.AddProductAsync(product);
@@ -78,25 +78,7 @@ namespace Sample.Api.Products.Controllers
                 return NotFound(result.ErrorMessage);
             }
 
-
-
-            // upload image to storage container
-            //----------------------------------------------
-            //var uploadedImage = await _imageProvider.UploadBlobAsync(filepath, blobName);
-            //if (!uploadedImage.IsSuccess)
-            //{
-            //    return NotFound(uploadedImage.ErrorMessage);
-            //}
-
-            //// add a message to queue for thumbnail
-            ////----------------------------------------------
-            //var queuedMessage = await _queuesProvider.AddToQueueAsync(product.Id, blobName);
-            //if (!queuedMessage.IsSuccess )
-            //{
-            //    return NotFound(queuedMessage.ErrorMessage);
-            //}
-
-            return Ok(result);
+            return Ok(new JsonResult(result.Product));
         }
 
     }

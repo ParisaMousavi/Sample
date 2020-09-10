@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Azure.Cosmos;
+using Microsoft.Azure.Documents.Client;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -30,11 +31,15 @@ namespace Sample.Api.Products
         public void ConfigureServices(IServiceCollection services)
         {
 
-            services.AddSingleton(x => new CosmosClient(Configuration.GetValue<string>("CosmosDbConnectionString")));
-
+            services.AddSingleton(x => new CosmosClient(Configuration.GetValue<string>("DBUri"), Configuration.GetValue<string>("DBKey")));
+            var docClient = new DocumentClient(
+                new Uri(Configuration.GetValue<string>("DBUri")),
+                Configuration.GetValue<string>("DBKey"));
+            services.AddSingleton<DocumentClient>(docClient);
 
             services.AddScoped<Interfaces.IProductsProvider, Services.ProductsProvider>();
             services.AddScoped<Interfaces.IImagesService, Services.ImagesService>();
+            services.AddScoped<Interfaces.ICosmosDbService, Services.CosmosDbService>();
 
             services.AddAutoMapper(typeof(Startup));
             services.AddDbContext<Db.ProductsDbContext>(options =>
