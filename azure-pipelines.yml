@@ -95,7 +95,8 @@ stages:
                       # Write your PowerShell commands here.
                       
                       Write-Host "Hello World"
-                      ls
+                      Write-Host $(System.DefaultWorkingDirectory)
+                      ls 
 
                 - task: TerraformTaskV1@0
                   displayName: 'plan'
