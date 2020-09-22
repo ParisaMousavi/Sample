@@ -59,6 +59,7 @@ stages:
             inputs:
               provider: 'azurerm'
               command: 'validate'
+              workingDirectory: '$(System.DefaultWorkingDirectory)/terraform'
 
   - stage: CD
     jobs:
@@ -79,6 +80,7 @@ stages:
                   inputs:
                     provider: 'azurerm'
                     command: 'init'
+                    workingDirectory: '$(System.DefaultWorkingDirectory)/terraform'
                     backendServiceArm: 'connect-spn'
                     backendAzureRmResourceGroupName: 'sample-terraform-rg'
                     backendAzureRmStorageAccountName: 'sampleterraform'
@@ -100,10 +102,12 @@ stages:
                   inputs:
                     provider: 'azurerm'
                     command: 'plan'
+                    workingDirectory: '$(System.DefaultWorkingDirectory)/terraform'
                     environmentServiceNameAzureRM: 'connect-spn'
                 - task: TerraformTaskV1@0
                   displayName: 'apply'
                   inputs:
                     provider: 'azurerm'
                     command: 'apply'
+                    workingDirectory: '$(System.DefaultWorkingDirectory)/terraform'
                     environmentServiceNameAzureRM: 'connect-spn'
