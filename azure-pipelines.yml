@@ -3,8 +3,8 @@
 # Add steps that publish symbols, save build artifacts, deploy, and more:
 # https://docs.microsoft.com/azure/devops/pipelines/apps/aspnet/build-aspnet-4
 
-# trigger:
-# - master
+trigger:
+- master
 
 pool:
   vmImage: 'windows-latest'
@@ -42,7 +42,7 @@ stages:
             displayName: 'install'
             inputs:
               terraformVersion: '0.13.2'
-              
+
           - task: TerraformTaskV1@0
             displayName: 'init'
             inputs:
