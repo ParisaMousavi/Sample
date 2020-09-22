@@ -17,7 +17,7 @@ variables:
 stages:
   - stage: CI
     jobs:
-      - job: build .net core project
+      - job: build_dot_net_project
         continueOnError: false
         steps:
           - task: NuGetToolInstaller@1
