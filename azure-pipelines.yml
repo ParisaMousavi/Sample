@@ -43,6 +43,17 @@ stages:
             inputs:
               terraformVersion: '0.13.2'
 
+          - task: PowerShell@2
+            inputs:
+              targetType: 'inline'
+              script: |
+                # Write your PowerShell commands here.
+                
+                Write-Host "Hello World"
+                write-host $(System.DefaultWorkingDirectory)
+                cd $(System.DefaultWorkingDirectory)
+                ls 
+
           - task: TerraformTaskV1@0
             displayName: 'init'
             inputs:
@@ -59,7 +70,7 @@ stages:
             inputs:
               provider: 'azurerm'
               command: 'validate'
-              workingDirectory: '$(System.DefaultWorkingDirectory)/terraform'
+              workingDirectory: '$(System.DefaultWorkingDirectory)'
 
   - stage: CD
     jobs:
