@@ -14,21 +14,82 @@ variables:
   buildPlatform: 'Any CPU'
   buildConfiguration: 'Release'
 
-steps:
-- task: NuGetToolInstaller@1
+stages:
+  - stage: CI
+    jobs:
+      -job: build .net core project
+      continueOnError: false
+      steps:
+        - task: NuGetToolInstaller@1
 
-- task: NuGetCommand@2
-  inputs:
-    restoreSolution: '$(solution)'
+        - task: NuGetCommand@2
+          inputs:
+            restoreSolution: '$(solution)'
 
-- task: VSBuild@1
-  inputs:
-    solution: '$(solution)'
-    msbuildArgs: '/p:DeployOnBuild=true /p:WebPublishMethod=Package /p:PackageAsSingleFile=true /p:SkipInvalidConfigurations=true /p:PackageLocation="$(build.artifactStagingDirectory)"'
-    platform: '$(buildPlatform)'
-    configuration: '$(buildConfiguration)'
+        - task: VSBuild@1
+          inputs:
+            solution: '$(solution)'
+            msbuildArgs: '/p:DeployOnBuild=true /p:WebPublishMethod=Package /p:PackageAsSingleFile=true /p:SkipInvalidConfigurations=true /p:PackageLocation="$(build.artifactStagingDirectory)"'
+            platform: '$(buildPlatform)'
+            configuration: '$(buildConfiguration)'
 
-- task: VSTest@2
-  inputs:
-    platform: '$(buildPlatform)'
-    configuration: '$(buildConfiguration)'
+        - task: VSTest@2
+          inputs:
+            platform: '$(buildPlatform)'
+            configuration: '$(buildConfiguration)'
+
+        - task: TerraformInstaller@0
+          inputs:
+            terraformVersion: '0.13.2'
+
+        - task: TerraformTaskV1@0
+          inputs:
+            provider: 'azurerm'
+            command: 'init'
+            backendServiceArm: 'connect-spn'
+            backendAzureRmResourceGroupName: 'sample-terraform-rg'
+            backendAzureRmStorageAccountName: 'sampleterraform'
+            backendAzureRmContainerName: 'terrform'
+            backendAzureRmKey: 'development.terraform.tfstate'
+
+        - task: TerraformTaskV1@0
+          inputs:
+            provider: 'azurerm'
+            command: 'validate'
+
+  - stage: CD
+    jobs:
+      - deployment: deploy_terraform
+        continueOnError: false
+        environment : 'Development'
+        strategy:
+          runOnce:
+            deploy:
+              steps:
+                - checkout: self
+                - task: TerraformInstaller@0
+                  displayName: "install"
+                  inputs:
+                    terraformVersion: '0.13.2'
+                - task: TerraformTaskV1@0
+                  displayName: 'init'
+                  inputs:
+                    provider: 'azurerm'
+                    command: 'init'
+                    backendServiceArm: 'connect-spn'
+                    backendAzureRmResourceGroupName: 'sample-terraform-rg'
+                    backendAzureRmStorageAccountName: 'sampleterraform'
+                    backendAzureRmContainerName: 'terrform'
+                    backendAzureRmKey: 'development.terraform.tfstate'
+                - task: TerraformTaskV1@0
+                  displayName: 'plan'
+                  inputs:
+                    provider: 'azurerm'
+                    command: 'plan'
+                    environmentServiceNameAzureRM: 'connect-spn'
+                - task: TerraformTaskV1@0
+                  displayName: 'apply'
+                  inputs:
+                    provider: 'azurerm'
+                    command: 'apply'
+                    environmentServiceNameAzureRM: 'connect-spn'
