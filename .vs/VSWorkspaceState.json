@@ -1,12 +1,11 @@
 {
   "ExpandedNodes": [
     "",
-    "\\drawio",
-    "\\Sample",
     "\\Sample\\Sample.Api.Products",
     "\\Sample\\Sample.Api.Products\\Controllers",
-    "\\Sample\\Sample.Api.Products\\Interfaces"
+    "\\Sample\\Sample.Api.Products\\Interfaces",
+    "\\terraform"
   ],
-  "SelectedNode": "\\drawio\\Asynchronous-request-reply-pattern.png",
+  "SelectedNode": "\\terraform\\main.tf",
   "PreviewInSolutionExplorer": false
 }
