@@ -84,6 +84,17 @@ stages:
                     backendAzureRmStorageAccountName: 'sampleterraform'
                     backendAzureRmContainerName: 'terrform'
                     backendAzureRmKey: 'development.terraform.tfstate'
+                
+                - task: PowerShell@2
+                  displayName: 'list file and folders'
+                  inputs:
+                    targetType: 'inline'
+                    script: |
+                      # Write your PowerShell commands here.
+                      
+                      Write-Host "Hello World"
+                      ls
+
                 - task: TerraformTaskV1@0
                   displayName: 'plan'
                   inputs:
