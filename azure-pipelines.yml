@@ -87,6 +87,15 @@ stages:
                     backendAzureRmContainerName: 'terrform'
                     backendAzureRmKey: 'development.terraform.tfstate'
                 
+                - task: PowerShell@2
+                  inputs:
+                    targetType: 'inline'
+                    script: |
+                      # Write your PowerShell commands here.
+                      
+                      Write-Host "Hello World"
+                      cd $(System.DefaultWorkingDirectory)/terraform
+
                 - task: TerraformTaskV1@0
                   displayName: 'plan'
                   inputs:
