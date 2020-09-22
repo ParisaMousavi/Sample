@@ -93,7 +93,7 @@ stages:
                     script: |
                       # Write your PowerShell commands here.
                       
-                      Write-Host "Hello World"
+                      Write-Host "Change directory"
                       cd $(System.DefaultWorkingDirectory)/terraform
 
                 - task: TerraformTaskV1@0
