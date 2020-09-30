@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+
+<!-- Bootstraper for view elements : https://getbootstrap.com/-->
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
+    integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
+
+<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script> <!-- for using the json response -->
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+
+
+<div id="app">
+    <div id="container" class="m-5">
+        <h2>Products list</h2>
+        <table class="table table-striped ">
+            <thead class="thead-dark">
+                <td>#</td>
+                <td>Image</td>
+                <td>Add to card</td>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Id</td>
+                    <td>Image</td>
+                    <td>Add to card</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+
+<script>
+    var vm = new Vue({
+        el: '#app',
+        data: {
+            products: [],
+            res:''
+        },
+        computed: {
+        },
+        created: function () {
+            var apikey = '';
+            var url = 'http://localhost:13002/api/products' + apikey;
+            axios.get(url)
+                .then(function (res) {
+                    vm.res = res ;
+                });
+        },
+        methods: {
+        }
+    });
+
+</script>

@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Cors;
+using Microsoft.AspNetCore.Mvc;
 using Sample.Api.Products.Interfaces;
 using System;
 using System.Collections.Generic;
@@ -11,6 +12,8 @@ namespace Sample.Api.Products.Controllers
     /// The methods that are defined in interfaces and implemented in providers can be called here.
     /// No business logic is allowed to be defined in controller.
     /// </summary>
+    /// 
+
     [ApiController]
     [Route("api/products")]
     public class ProductsController : ControllerBase // from MVC

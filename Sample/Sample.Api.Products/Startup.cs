@@ -37,6 +37,13 @@ namespace Sample.Api.Products
                 Configuration.GetValue<string>("DBKey"));
             services.AddSingleton<DocumentClient>(docClient);
 
+            //-------------CORS Policy------------------------------
+            services.AddCors(options => {
+                options.AddPolicy("AllowAllOrigins", builder => builder.AllowAnyOrigin());
+            });
+            //-------------------------------------------
+
+
             services.AddScoped<Interfaces.IProductsProvider, Services.ProductsProvider>();
             services.AddScoped<Interfaces.IImagesService, Services.ImagesService>();
             services.AddScoped<Interfaces.ICosmosDbService, Services.CosmosDbService>();
@@ -72,6 +79,7 @@ namespace Sample.Api.Products
                 app.UseDeveloperExceptionPage();
             }
 
+            app.UseCors();
 
             app.UseSwagger();
 

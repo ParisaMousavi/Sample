@@ -26,6 +26,14 @@ namespace Sample.Api.Images
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            //-------------CORS Policy------------------------------
+            // https://www.infoworld.com/article/3327562/how-to-enable-cors-in-aspnet-core.html
+            // https://docs.microsoft.com/de-de/aspnet/core/security/cors?view=aspnetcore-3.1
+            services.AddCors(options => {
+                options.AddPolicy("AllowAllOrigins", builder => builder.AllowAnyOrigin());
+            });
+            //-------------------------------------------
+
             services.AddSingleton(x => new BlobServiceClient(Configuration.GetValue<string>("AzureBlobStorageConnectionString")));
             services.AddSingleton(x => new QueueServiceClient(Configuration.GetValue<string>("AzureBlobStorageConnectionString")));
             services.AddScoped<Interfaces.IImagesProvider, Providers.ImagesProvider>();
@@ -41,6 +49,8 @@ namespace Sample.Api.Images
             {
                 app.UseDeveloperExceptionPage();
             }
+
+            
 
             app.UseRouting();
 
