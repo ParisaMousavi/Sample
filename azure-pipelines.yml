@@ -87,6 +87,16 @@ stages:
                     backendAzureRmContainerName: 'terrform'
                     backendAzureRmKey: 'development.terraform.tfstate'
                 
+                - task: PowerShell@2
+                  inputs:
+                    targetType: 'inline'
+                    script: |
+                      # Write your PowerShell commands here.
+                      
+                      Write-Host "Change directory"
+                      cd $(System.DefaultWorkingDirectory)/terraform
+                      ls
+
                 - task: TerraformTaskV1@0
                   displayName: 'plan'
                   inputs:
