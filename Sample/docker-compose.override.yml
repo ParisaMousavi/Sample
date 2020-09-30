@@ -1,0 +1,18 @@
+version: '3.4'
+
+services:
+  sample.api.products:
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - Services__Products=http://sample.api.images
+    ports:
+      - "7001:80"
+    volumes:
+      - ${APPDATA}/Microsoft/UserSecrets:C:\Users\ContainerUser\AppData\Roaming\Microsoft\UserSecrets:ro
+  sample.api.images:
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+    ports:
+      - "7002:80"
+    volumes:
+      - ${APPDATA}/Microsoft/UserSecrets:C:\Users\ContainerUser\AppData\Roaming\Microsoft\UserSecrets:ro

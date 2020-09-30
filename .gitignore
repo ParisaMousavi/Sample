@@ -14,3 +14,5 @@
 /Sample/Sample.Api.Catalog/bin/Debug/netcoreapp3.1
 /Sample/Sample.Api.Catalog/obj
 /Sample/.vs/Sample/DesignTimeBuild
+/Sample/obj
+/Sample/bin/Debug
