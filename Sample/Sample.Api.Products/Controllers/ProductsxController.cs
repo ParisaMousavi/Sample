@@ -10,7 +10,7 @@ namespace Sample.Api.Products.Controllers
 {
 
     [ApiController]
-    [Route("api/productsx")]
+    [Route("api/products")]
     public class ProductsxController : ControllerBase
     {
         private readonly IProductsProvider _productsProvider;

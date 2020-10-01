@@ -20,12 +20,14 @@ namespace Sample.Api.Products
 {
     public class Startup
     {
+
+        public IConfiguration Configuration { get; }
+
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
         }
 
-        public IConfiguration Configuration { get; }
 
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
@@ -36,13 +38,6 @@ namespace Sample.Api.Products
                 new Uri(Configuration.GetValue<string>("DBUri")),
                 Configuration.GetValue<string>("DBKey"));
             services.AddSingleton<DocumentClient>(docClient);
-
-            //-------------CORS Policy------------------------------
-            services.AddCors(options => {
-                options.AddPolicy("AllowAllOrigins", builder => builder.AllowAnyOrigin());
-            });
-            //-------------------------------------------
-
 
             services.AddScoped<Interfaces.IProductsProvider, Services.ProductsProvider>();
             services.AddScoped<Interfaces.IImagesService, Services.ImagesService>();
@@ -79,13 +74,25 @@ namespace Sample.Api.Products
                 app.UseDeveloperExceptionPage();
             }
 
-            app.UseCors();
-
+            
+            
             app.UseSwagger();
 
             app.UseSwaggerUI(c => { c.SwaggerEndpoint("/swagger/v1/swagger.json", "Sample Project"); });
 
             app.UseRouting();
+
+            // CORS middleware have to be after Routing Middleware and before Authorization middleware
+            // middleware order : https://docs.microsoft.com/en-us/aspnet/core/fundamentals/middleware/?view=aspnetcore-3.1#middleware-order
+            // https://www.infoworld.com/article/3327562/how-to-enable-cors-in-aspnet-core.html
+            // https://docs.microsoft.com/de-de/aspnet/core/security/cors?view=aspnetcore-3.1
+
+            app.UseCors(builder =>
+            {
+                builder.AllowAnyOrigin();
+                builder.AllowAnyMethod();
+                builder.AllowAnyHeader();
+            });
 
             app.UseAuthorization();
 

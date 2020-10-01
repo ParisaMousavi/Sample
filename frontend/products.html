@@ -34,16 +34,19 @@
         el: '#app',
         data: {
             products: [],
-            res:''
+            res: ''
         },
         computed: {
         },
         created: function () {
             var apikey = '';
-            var url = 'http://localhost:13002/api/products' + apikey;
-            axios.get(url)
+            var url = 'http://localhost:7001/api/products' + apikey;
+            var config = {
+                headers: { 'Access-Control-Allow-Origin': '*' }
+            };
+            axios.get(url , config)
                 .then(function (res) {
-                    vm.res = res ;
+                    vm.res = res;
                 });
         },
         methods: {
