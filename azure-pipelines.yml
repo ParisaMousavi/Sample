@@ -50,12 +50,18 @@ stages:
               containerRegistry: 'connect-acr-2'
               command: 'login'
 
+          # - task: Docker@2
+          #   inputs:
+          #     containerRegistry: 'connect-acr-2'
+          #     repository: 'azuresampleacr.azurecr.io'
+          #     command: 'build'
+          #     Dockerfile: '**/Dockerfile'
+            
           - task: Docker@2
             inputs:
               containerRegistry: 'connect-acr-2'
-              repository: 'azuresampleacr'
-              command: 'build'
-              Dockerfile: '**/Dockerfile'
+              repository: 'azuresampleacr.azurecr.io'
+              command: 'push'
 
           # - task: Docker@2
           #   displayName: 'Build container image'
