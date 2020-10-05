@@ -51,8 +51,8 @@ stages:
               script: |
                 # Write your PowerShell commands here.
                 Write-Host "Hello World"
-                ls
                 cd sample
+                ls
 
           # - task: CopyFiles@2
           #   inputs:
@@ -66,25 +66,25 @@ stages:
           #     PathtoPublish: '$(Build.ArtifactStagingDirectory)'
           #     ArtifactName: 'drop'
           #     publishLocation: 'Container'
-          - task: Docker@2
-            inputs:
-              containerRegistry: 'connect-acr-2'
-              repository: 'azuresampleacr'
-              command: 'buildAndPush'
-              Dockerfile: '**/Dockerfile'
-              
-          # - task: Docker@2
-          #   displayName: 'Login to ACR'
-          #   inputs:
-          #     containerRegistry: 'connect-acr-2'
-          #     command: 'login'
-
           # - task: Docker@2
           #   inputs:
           #     containerRegistry: 'connect-acr-2'
           #     repository: 'azuresampleacr'
-          #     command: 'build'
+          #     command: 'buildAndPush'
           #     Dockerfile: '**/Dockerfile'
+              
+          - task: Docker@2
+            displayName: 'Login to ACR'
+            inputs:
+              containerRegistry: 'connect-acr-2'
+              command: 'login'
+
+          - task: Docker@2
+            inputs:
+              containerRegistry: 'connect-acr-2'
+              repository: 'azuresampleacr'
+              command: 'build'
+              Dockerfile: '**/Dockerfile'
             
           # - task: Docker@2
           #   inputs:
