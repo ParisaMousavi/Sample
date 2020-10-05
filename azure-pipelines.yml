@@ -52,6 +52,7 @@ stages:
                 # Write your PowerShell commands here.
                 Write-Host "Hello World"
                 ls
+                cd sample
 
           # - task: CopyFiles@2
           #   inputs:
