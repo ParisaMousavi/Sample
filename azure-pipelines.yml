@@ -48,7 +48,7 @@ stages:
             inputs:
               provider: 'azurerm'
               command: 'init'
-              backendServiceArm: 'connect-spn'
+              backendServiceArm: 'connect-spn-2'
               backendAzureRmResourceGroupName: 'sample-terraform-rg'
               backendAzureRmStorageAccountName: 'sampleterraform'
               backendAzureRmContainerName: 'terrform'
@@ -81,7 +81,7 @@ stages:
                     provider: 'azurerm'
                     command: 'init'
                     workingDirectory: '$(System.DefaultWorkingDirectory)/terraform'
-                    backendServiceArm: 'connect-spn'
+                    backendServiceArm: 'connect-spn-2'
                     backendAzureRmResourceGroupName: 'sample-terraform-rg'
                     backendAzureRmStorageAccountName: 'sampleterraform'
                     backendAzureRmContainerName: 'terrform'
@@ -103,11 +103,11 @@ stages:
                     provider: 'azurerm'
                     command: 'plan'
                     workingDirectory: '$(System.DefaultWorkingDirectory)/terraform'
-                    environmentServiceNameAzureRM: 'connect-spn'
+                    environmentServiceNameAzureRM: 'connect-spn-2'
                 - task: TerraformTaskV1@0
                   displayName: 'apply'
                   inputs:
                     provider: 'azurerm'
                     command: 'apply'
                     workingDirectory: '$(System.DefaultWorkingDirectory)/terraform'
-                    environmentServiceNameAzureRM: 'connect-spn'
+                    environmentServiceNameAzureRM: 'connect-spn-2'
