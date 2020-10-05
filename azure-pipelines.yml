@@ -50,8 +50,9 @@ stages:
               targetType: 'inline'
               script: |
                 # Write your PowerShell commands here.
-                mv ${dockerfilePath} ../Dockerfile
-                cd sample
+                cd Sample/Sample.Api.Images
+                mv Dockerfile ../Dockerfile
+                cd..
                 ls
 
           # - task: CopyFiles@2
