@@ -17,7 +17,7 @@ data "azurerm_client_config" "current" {}
 
 resource "azurerm_resource_group" "rg" {
     name = "sample-rg"
-    location = "west europa"
+    location = "West Europe"
 
     tags = {
         environment = "staging",

@@ -14,14 +14,18 @@
         <table class="table table-striped ">
             <thead class="thead-dark">
                 <td>#</td>
-                <td>Image</td>
+                <td></td>
+                <td>Product</td>
+                <td>Inventory</td>
                 <td>Add to card</td>
             </thead>
             <tbody>
-                <tr>
-                    <td>Id</td>
-                    <td>Image</td>
-                    <td>Add to card</td>
+                <tr v-for="(p , index ) in products" :key="p.id" :imgsrc="p.imageUrl">
+                    <td>{{index +1}}</td>
+                    <td><img src=""></td>
+                    <td>{{p.name}}</td>
+                    <td>{{p.inventory}}</td>
+                    <td><button class="btn btn-primary" > Add to card</button></td>
                 </tr>
             </tbody>
         </table>
@@ -46,7 +50,7 @@
             };
             axios.get(url , config)
                 .then(function (res) {
-                    vm.res = res;
+                    vm.products = res.data;
                 });
         },
         methods: {

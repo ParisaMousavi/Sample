@@ -74,25 +74,21 @@ namespace Sample.Api.Products
                 app.UseDeveloperExceptionPage();
             }
 
-            
-            
+
+
             app.UseSwagger();
 
             app.UseSwaggerUI(c => { c.SwaggerEndpoint("/swagger/v1/swagger.json", "Sample Project"); });
 
             app.UseRouting();
 
-            // CORS middleware have to be after Routing Middleware and before Authorization middleware
-            // middleware order : https://docs.microsoft.com/en-us/aspnet/core/fundamentals/middleware/?view=aspnetcore-3.1#middleware-order
-            // https://www.infoworld.com/article/3327562/how-to-enable-cors-in-aspnet-core.html
-            // https://docs.microsoft.com/de-de/aspnet/core/security/cors?view=aspnetcore-3.1
-
-            app.UseCors(builder =>
-            {
+            //CORS
+            app.UseCors(builder => {
                 builder.AllowAnyOrigin();
-                builder.AllowAnyMethod();
                 builder.AllowAnyHeader();
+                builder.AllowAnyMethod();
             });
+
 
             app.UseAuthorization();
 
