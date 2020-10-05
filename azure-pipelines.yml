@@ -50,11 +50,13 @@ stages:
               targetType: 'inline'
               script: |
                 # Write your PowerShell commands here.
-                cd Sample/Sample.Api.Images
+
+                cd D:\a\1\s\Sample\Sample.Api.Images
                 mv Dockerfile ../Dockerfile
-                cd..
-                cd Sample/Sample.Api.Products
+
+                cd D:\a\1\s\Sample\Sample.Api.Products
                 mv Dockerfile ../Dockerfile
+
                 cd..
                 ls
 
