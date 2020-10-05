@@ -50,11 +50,24 @@ stages:
               Contents: '**'
               TargetFolder: '$(build.artifactstagingdirectory)'
               CleanTargetFolder: true
+              
+          - task: PublishBuildArtifacts@1
+            inputs:
+              PathtoPublish: '$(Build.ArtifactStagingDirectory)'
+              ArtifactName: 'drop'
+              publishLocation: 'Container'
           - task: Docker@2
-            displayName: 'Login to ACR'
             inputs:
               containerRegistry: 'connect-acr-2'
-              command: 'login'
+              repository: 'azuresampleacr'
+              command: 'buildAndPush'
+              Dockerfile: '**/Dockerfile'
+              
+          # - task: Docker@2
+          #   displayName: 'Login to ACR'
+          #   inputs:
+          #     containerRegistry: 'connect-acr-2'
+          #     command: 'login'
 
           # - task: Docker@2
           #   inputs:
@@ -63,11 +76,11 @@ stages:
           #     command: 'build'
           #     Dockerfile: '**/Dockerfile'
             
-          - task: Docker@2
-            inputs:
-              containerRegistry: 'connect-acr-2'
-              repository: 'azuresampleacr'
-              command: 'push'
+          # - task: Docker@2
+          #   inputs:
+          #     containerRegistry: 'connect-acr-2'
+          #     repository: 'azuresampleacr'
+          #     command: 'push'
 
           # - task: Docker@2
           #   displayName: 'Build container image'
