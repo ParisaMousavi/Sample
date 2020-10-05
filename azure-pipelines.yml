@@ -44,15 +44,15 @@ stages:
           #     platform: '$(buildPlatform)'
           #     configuration: '$(buildConfiguration)'
 
-          - task: PowerShell@2
-            displayName: 'Check container images'
-            inputs:
-              targetType: 'inline'
-              script: |
-                # Write your PowerShell commands here.
-                Write-Host "Hello World"
-                cd Sample/Sample.Api.Images
-                ls
+          # - task: PowerShell@2
+          #   displayName: 'Check container images'
+          #   inputs:
+          #     targetType: 'inline'
+          #     script: |
+          #       # Write your PowerShell commands here.
+          #       Write-Host "Hello World"
+          #       cd Sample/Sample.Api.Images
+          #       ls
 
           # - task: CopyFiles@2
           #   inputs:
@@ -70,9 +70,9 @@ stages:
           - task: Docker@2
             inputs:
               containerRegistry: 'connect-acr-2'
-              repository: 'azuresampleacr'
+              repository: 'sampleapiimage'
               command: 'buildAndPush'
-              Dockerfile: '${dockerfilePath}' #'**/Dockerfile'  # 
+              Dockerfile: ${dockerfilePath} 
               
           # - task: Docker@2
           #   displayName: 'Login to ACR'
