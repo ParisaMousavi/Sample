@@ -44,21 +44,28 @@ stages:
               platform: '$(buildPlatform)'
               configuration: '$(buildConfiguration)'
 
+
+          - task: Docker@2
+            displayName: 'Login to ACR'
+            inputs:
+              command: login
+              containerRegistry: '${acrHostName}'
+
           # - task: Docker@2
           #   displayName: 'Build container image'
           #   inputs:
           #     containerRegistry: 'azuresampleacr'
           #     command: 'buildAndPush'
           #     Dockerfile: '**/Dockerfile'
-          - task: Docker@1
-            displayName: 'Build container image'
-            inputs:
-              azureSubscriptionEndpoint: 'connect-spn-2'
-              azureContainerRegistry: '${acrHostName}'
-              imageName: '$(Build.Repository.Name):$(Build.BuildId)'
-              useDefaultContext: false
-              dockerFile: '**/Dockerfile' # '${dockerfilePath}'
-              #buildContext: '${System.DefaultWorkingDirectory}/PublishedWebApp'
+          # - task: Docker@1
+          #   displayName: 'Build container image'
+          #   inputs:
+          #     azureSubscriptionEndpoint: 'connect-spn-2'
+          #     azureContainerRegistry: '${acrHostName}'
+          #     imageName: '$(Build.Repository.Name):$(Build.BuildId)'
+          #     useDefaultContext: false
+          #     dockerFile: '**/Dockerfile' # '${dockerfilePath}'
+          #     buildContext: '${System.DefaultWorkingDirectory}/PublishedWebApp'
           # - task: Docker@1
           #   displayName: 'Push container image'   
           #   inputs:
