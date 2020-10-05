@@ -2,13 +2,13 @@ version: '3.4'
 
 services:
   sample.api.products:
-    image: ${DOCKER_REGISTRY-}sampleapiproducts:${Build.BuildId}
+    image: ${DOCKER_REGISTRY-}sampleapiproducts
     build:
       context: .
       dockerfile: Sample.Api.Products\Dockerfile
 
   sample.api.images:
-    image: ${DOCKER_REGISTRY-}sampleapiimages:${Build.BuildId}
+    image: ${DOCKER_REGISTRY-}sampleapiimages
     build:
       context: .
       dockerfile: Sample.Api.Images\Dockerfile
