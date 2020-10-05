@@ -44,6 +44,15 @@ stages:
               platform: '$(buildPlatform)'
               configuration: '$(buildConfiguration)'
 
+          - task: PowerShell@2
+            displayName: 'Check container images'
+            inputs:
+              targetType: 'inline'
+              script: |
+                # Write your PowerShell commands here.
+                Write-Host "Hello World"
+                ls
+
           # - task: CopyFiles@2
           #   inputs:
           #     SourceFolder: '$(agent.builddirectory)'
@@ -111,7 +120,6 @@ stages:
               targetType: 'inline'
               script: |
                 # Write your PowerShell commands here.
-                
                 Write-Host "Hello World"
                 docker image ls
           # - task: TerraformInstaller@0
