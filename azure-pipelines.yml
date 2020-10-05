@@ -44,6 +44,12 @@ stages:
               platform: '$(buildPlatform)'
               configuration: '$(buildConfiguration)'
 
+          - task: CopyFiles@2
+            inputs:
+              SourceFolder: '$(agent.builddirectory)'
+              Contents: '**'
+              TargetFolder: '$(build.artifactstagingdirectory)'
+              CleanTargetFolder: true
           - task: Docker@2
             displayName: 'Login to ACR'
             inputs:
