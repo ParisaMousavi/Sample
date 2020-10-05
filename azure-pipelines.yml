@@ -54,9 +54,6 @@ stages:
                 cd D:\a\1\s\Sample\Sample.Api.Images
                 mv Dockerfile ../Dockerfile
 
-                cd D:\a\1\s\Sample\Sample.Api.Products
-                mv Dockerfile ../Dockerfile
-
                 cd..
                 ls
 
