@@ -53,6 +53,9 @@ stages:
                 cd Sample/Sample.Api.Images
                 mv Dockerfile ../Dockerfile
                 cd..
+                cd Sample/Sample.Api.Products
+                mv Dockerfile ../Dockerfile
+                cd..
                 ls
 
           # - task: CopyFiles@2
@@ -81,12 +84,12 @@ stages:
           #     containerRegistry: 'connect-acr-2'
           #     command: 'login'
 
-          # - task: Docker@2
-          #   inputs:
-          #     containerRegistry: 'connect-acr-2'
-          #     repository: 'azuresampleacr'
-          #     command: 'build'
-          #     Dockerfile: '**/Dockerfile'
+          - task: Docker@2
+            inputs:
+              containerRegistry: 'connect-acr-2'
+              repository: 'azuresampleacr'
+              command: 'build'
+              Dockerfile: '**/Dockerfile'
             
           # - task: Docker@2
           #   inputs:
