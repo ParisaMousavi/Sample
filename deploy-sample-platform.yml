@@ -18,5 +18,9 @@ steps:
     scriptType: 'bash'
     scriptLocation: 'inlineScript'
     inlineScript: |
-      az acr create --name azuresampleacr --resource-group azure-sample-rg --sku standard --admin-enabled true
+      notAvailable=$(az acr check-name --name 'azuresampleacr' --query nameAvailable)
+      if $notAvailable   ; 
+        then az acr create --name azuresampleacr --resource-group azure-sample-rg --sku standard --admin-enabled true; 
+        else az acr show --resource-group 'azure-sample-rg' --name 'azuresampleacr' --query loginServeracr ; 
+      fi
       
