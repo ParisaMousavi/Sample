@@ -61,7 +61,6 @@ resource "azurerm_container_group" "azure-sample" {
   location            = azurerm_resource_group.rg.location
   resource_group_name = azurerm_resource_group.rg.name
   ip_address_type     = "public"
-  dns_name_label      = "azure-sample"
   os_type             = "Windows"
 
   image_registry_credential {
@@ -80,7 +79,6 @@ resource "azurerm_container_group" "azure-sample" {
       DBUri = var.db_uri,
       DBKey = var.db_key
     }
-
     ports {
       port     = 80
       protocol = "TCP"
