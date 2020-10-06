@@ -1,0 +1,27 @@
+# ASP.NET
+# Build and test ASP.NET projects.
+# Add steps that publish symbols, save build artifacts, deploy, and more:
+# https://docs.microsoft.com/azure/devops/pipelines/apps/aspnet/build-aspnet-4
+
+trigger: none
+# trigger:
+# - master
+
+pool:
+  vmImage: 'windows-latest'
+
+steps:
+
+- task: AzureCLI@2
+  inputs:
+    azureSubscription: 'connect-spn-2'
+    scriptType: 'bash'
+    scriptLocation: 'inlineScript'
+    inlineScript: |
+      notAvailable=$(az acr check-name --name 'azuresampleacr' --query nameAvailable)
+      echo $notAvailable
+      if $notAvailable   ; 
+        then az acr create --name azuresampleacr --resource-group azure-sample-rg --sku standard --admin-enabled true; 
+        else az acr show --resource-group 'azure-sample-rg' --name 'azuresampleacr' --query loginServer ; 
+      fi
+      
