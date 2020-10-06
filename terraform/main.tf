@@ -57,7 +57,7 @@ resource "azurerm_container_group" "azure-sample" {
 
   container {
     name   = "sample-products"
-    image  = "azuresampleacr.azurecr.io/sampleapiproducts:latest"
+    image  = "azuresampleacr.azurecr.io/sampleapiproducts:229"
     cpu    = "0.5"
     memory = "1.5"
     secure_environment_variables = {
