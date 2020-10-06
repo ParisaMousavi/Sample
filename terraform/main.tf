@@ -65,8 +65,8 @@ resource "azurerm_container_group" "azure-sample" {
     cpu    = "0.5"
     memory = "1.5"
     secure_environment_variables = {
-      DBUri = ${DBURI},
-      DBKey = ${DBKEY}
+      DBUri = ${DBURI-},
+      DBKey = ${DBKEY-}
     }
 
     ports {
