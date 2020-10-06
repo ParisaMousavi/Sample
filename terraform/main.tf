@@ -61,7 +61,7 @@ resource "azurerm_container_group" "azure-sample" {
   location            = azurerm_resource_group.rg.location
   resource_group_name = azurerm_resource_group.rg.name
   ip_address_type     = "public"
-  os_type             = "Windows"
+  os_type             = "Linux"
 
   image_registry_credential {
     server   = "azuresampleacr.azurecr.io"
@@ -72,7 +72,7 @@ resource "azurerm_container_group" "azure-sample" {
 
   container {
     name   = "sample-products"
-    image  = "azuresampleacr.azurecr.io/sampleapiproducts"
+    image  = "microsoft/aci-wordcount:latest"
     cpu    = "0.5"
     memory = "1.5"
     secure_environment_variables = {
