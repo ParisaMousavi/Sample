@@ -4,6 +4,15 @@ provider "azurerm" {
   features {}
 }
 
+variable "db_uri" {
+  type = string
+}
+
+variable "db_key" {
+  type = string
+}
+
+
 terraform{
     backend "azurerm" {
         resource_group_name = "sample-terraform-rg"
@@ -65,8 +74,8 @@ resource "azurerm_container_group" "azure-sample" {
     cpu    = "0.5"
     memory = "1.5"
     secure_environment_variables = {
-      DBUri = ${DBURI-},
-      DBKey = ${DBKEY-}
+      DBUri = var.db_uri,
+      DBKey = var.db_key
     }
 
     ports {
