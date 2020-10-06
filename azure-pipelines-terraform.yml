@@ -86,6 +86,7 @@ stages:
                     provider: 'azurerm'
                     command: 'plan'
                     workingDirectory: '$(System.DefaultWorkingDirectory)/terraform'
+                    commandOptions: '-var="db_uri=$(DBURI),db_key=$(DBKEY)"'
                     environmentServiceNameAzureRM: 'connect-spn-2'
                 - task: TerraformTaskV1@0
                   displayName: 'apply'
@@ -93,4 +94,5 @@ stages:
                     provider: 'azurerm'
                     command: 'apply'
                     workingDirectory: '$(System.DefaultWorkingDirectory)/terraform'
+                    commandOptions: '''-var="db_uri=$(DBURI),db_key=$(DBKEY)"'''
                     environmentServiceNameAzureRM: 'connect-spn-2'
