@@ -50,3 +50,33 @@ resource "azurerm_container_registry" "acr" {
     project = "sample"
   }
 }
+
+resource "azurerm_container_group" "azure-sample" {
+  name                = "azure-sample"
+  location            = azurerm_resource_group.rg.location
+  resource_group_name = azurerm_resource_group.rg.name
+  ip_address_type     = "public"
+  dns_name_label      = "azure-sample"
+  os_type             = "Windows"
+
+  container {
+    name   = "sample-products"
+    image  = "azuresampleacr.azurecr.io/sampleapiproducts:217"
+    cpu    = "0.5"
+    memory = "1.5"
+    secure_environment_variables = {
+      DBUri = ${DBUri},
+      DBKey = ${DBKey}
+    }
+
+    ports {
+      port     = 80
+      protocol = "TCP"
+    }
+  }
+
+  tags = {
+    environment = "staging",
+    project = "sample"
+  }
+}
