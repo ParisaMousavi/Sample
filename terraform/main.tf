@@ -12,6 +12,15 @@ variable "db_key" {
   type = string
 }
 
+variable "acr_user" {
+  type = string
+}
+
+variable "acr_pass" {
+  type = string
+}
+
+
 
 terraform{
     backend "azurerm" {
@@ -55,9 +64,16 @@ resource "azurerm_container_group" "azure-sample" {
   dns_name_label      = "azure-sample"
   os_type             = "Windows"
 
+  image_registry_credential {
+    server   = "azuresampleacr.azurecr.io"
+    username = var.acr_user
+    password = var.acr_pass
+  }
+
+
   container {
     name   = "sample-products"
-    image  = "azuresampleacr.azurecr.io/sampleapiproducts:229"
+    image  = "azuresampleacr.azurecr.io/sampleapiproducts"
     cpu    = "0.5"
     memory = "1.5"
     secure_environment_variables = {
