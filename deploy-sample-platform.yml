@@ -17,4 +17,6 @@ steps:
     azureSubscription: 'connect-spn-2'
     scriptType: 'bash'
     scriptLocation: 'inlineScript'
-    inlineScript: 'az login'
+    inlineScript: |
+      az acr create --name azuresampleacr --resource-group azure-sample-rg --sku standard --admin-enabled true
+      
