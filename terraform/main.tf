@@ -47,19 +47,6 @@ resource "azurerm_storage_account" "storage" {
   }
 }
 
-resource "azurerm_container_registry" "acr" {
-  name                     = "azuresampleacr"
-  resource_group_name      = azurerm_resource_group.rg.name
-  location                 = azurerm_resource_group.rg.location
-  sku                      = "Standard"
-  admin_enabled            = true
-
-  tags = {
-    environment = "staging",
-    project = "sample"
-  }
-}
-
 resource "azurerm_container_group" "azure-sample" {
   name                = "azure-sample"
   location            = azurerm_resource_group.rg.location
