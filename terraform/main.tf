@@ -55,15 +55,15 @@ resource "random_integer" "ri" {
 }
 
 resource "azurerm_container_group" "vote-aci" {
-  name                = "vote-aci"
+  name                = "vote-aci-parisa"
   location            = azurerm_resource_group.vote-resource-group.location
   resource_group_name = azurerm_resource_group.vote-resource-group.name
   ip_address_type     = "public"
-  dns_name_label      = "vote-aci"
+  dns_name_label      = "vote-aci-parisa"
   os_type             = "linux"
 
   container {
-    name   = "vote-aci"
+    name   = "vote-aci-parisa"
     image  = "microsoft/azure-vote-front:cosmosdb"
     cpu    = "0.5"
     memory = "1.5"
