@@ -83,6 +83,30 @@ resource "azurerm_container_group" "vote-aci" {
 }
 
 
+resource "azurerm_container_group" "azure-sample" {
+  name                = "azure-sample"
+  location            = azurerm_resource_group.rg.location
+  resource_group_name = azurerm_resource_group.rg.name
+  ip_address_type     = "public"
+  dns_name_label      = "azure-sample"
+
+  image_registry_credential {
+    server   = "azuresampleacr.azurecr.io"
+    username = var.acr_user
+    password = var.acr_pass
+  }
+
+  container {
+    name   = "azure-sample"
+    image  = "azuresampleacr.azurecr.io/sampleapiproducts"
+    cpu    = "0.5"
+    memory = "1.5"
+    ports {
+      port     = 80
+      protocol = "TCP"
+    }
+  }
+}
 
 
 resource "azurerm_cosmosdb_account" "vote-cosmos-db" {
