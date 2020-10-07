@@ -83,7 +83,13 @@ resource "azurerm_container_group" "vote-aci" {
 }
 
 
-resource "azurerm_container_group" "azure-sample" {
+data "azurerm_container_registry" "azure-sample-acr" {
+  name                = "azuresampleacr"
+  resource_group_name = "azure-sample-rg"
+}
+
+
+resource "azurerm_container_group" "azure-sample-aci" {
   name                = "azure-sample"
   location            = azurerm_resource_group.rg.location
   resource_group_name = azurerm_resource_group.rg.name
@@ -92,9 +98,9 @@ resource "azurerm_container_group" "azure-sample" {
   os_type             = "Windows"
 
   image_registry_credential {
-    server   = "azuresampleacr.azurecr.io"
-    username = var.acr_user
-    password = var.acr_pass
+    server   = data.azurerm_container_registry.azure-sample-acr.login_server
+    username = data.azurerm_container_registry.azure-sample-acr.admin_username
+    password = data.azurerm_container_registry.azure-sample-acr.admin_password 
   }
 
   container {
