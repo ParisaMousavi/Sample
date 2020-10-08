@@ -34,7 +34,7 @@ namespace Sample.Api.Products.Services
             this._logger = logger;
             this._mapper = mapper;
 
-            SeedData();
+            //SeedData();
         }
 
         private void SeedData()
@@ -110,9 +110,24 @@ namespace Sample.Api.Products.Services
         }
 
 
-        Task<(bool IsSuccess, Models.Product Product, string ErrorMessage)> IProductsProvider.GetProductAsync(Guid id)
+        async Task<(bool IsSuccess, Models.Product Product, string ErrorMessage)> IProductsProvider.GetProductAsync(Guid id)
         {
-            throw new NotImplementedException();
+            try
+            {
+                var product = _dbContext.Products.FirstOrDefaultAsync(p => p.Id == id);
+                if(product != null)
+                {
+                    //var result = _mapper.Map<Db.Product, Models.Product>(product);
+                    return (true, null , null);
+                }
+                return (false, null, "Not Found");
+            }
+            catch (Exception ex)
+            {
+
+                _logger?.LogError(ex.ToString());
+                return (false, null, ex.Message);
+            }
         }
 
         Task<(bool IsSuccess, Models.Product Product, string ErrorMessage)> IProductsProvider.UpdateProductAsync(Models.Product product)

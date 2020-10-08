@@ -11,17 +11,17 @@ namespace Sample.Api.Products.Controllers
 
     [ApiController]
     [Route("api/products")]
-    public class ProductsxController : ControllerBase
+    public class ProductsController : ControllerBase
     {
         private readonly IProductsProvider _productsProvider;
 
-        public ProductsxController(IProductsProvider productsProvider)
+        public ProductsController(IProductsProvider productsProvider)
         {
             this._productsProvider = productsProvider;
         }
 
         [HttpGet]
-        public async Task<IActionResult> Index() //Get All
+        public async Task<IActionResult> GetProductsAsync() 
         {
             var result = await _productsProvider.GetProductsAsync();
 
@@ -31,11 +31,10 @@ namespace Sample.Api.Products.Controllers
             }
             return NotFound();
 
-            //return View(contacts);
         }
 
         [HttpGet("{id}")]
-        public async Task<IActionResult> Details(Guid id) //Get one Product
+        public async Task<IActionResult> GetProductAsync(Guid id)
         {
             var product = await _productsProvider.GetProductAsync(id);
 
@@ -44,11 +43,11 @@ namespace Sample.Api.Products.Controllers
                 return Ok(product.Product);
             }
 
-            return NotFound(product.ErrorMessage);
+            return NotFound();
         }
 
         [HttpPost("{id}")]
-        public async Task<IActionResult> Edit(Models.Product product)
+        public async Task<IActionResult> UpdateProductAsync(Models.Product product)
         {
             var savedProduct = await _productsProvider.UpdateProductAsync(product);
 
@@ -57,7 +56,7 @@ namespace Sample.Api.Products.Controllers
         }
 
         [HttpDelete("{id}")]
-        public async Task<IActionResult> Delete(Guid id)
+        public async Task<IActionResult> DeleteProductAsync(Guid id)
         {
             var result = await _productsProvider.DeleteProductAsync(id);
 
@@ -69,7 +68,7 @@ namespace Sample.Api.Products.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Add(Models.Product product)
+        public async Task<IActionResult> AddProductAsync(Models.Product product)
         {
 
             // add product
