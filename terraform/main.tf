@@ -105,7 +105,7 @@ resource "azurerm_container_group" "azure-sample-aci" {
 
   container {
     name   = "azure-sample"
-    image  = "azuresampleacr.azurecr.io/sampleapiproducts"
+    image  = "${data.azurerm_container_registry.azure-sample-acr.login_server}/sampleapiproducts:229"
     cpu    = "0.5"
     memory = "1.5"
     ports {
