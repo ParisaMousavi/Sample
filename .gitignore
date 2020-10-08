@@ -16,3 +16,5 @@
 /Sample/.vs/Sample/DesignTimeBuild
 /Sample/obj
 /Sample/bin/Debug
+/Sample.Api.Persistency.SQL/obj
+/Sample.Api.Persistency.SQL/bin/Debug/netcoreapp3.1

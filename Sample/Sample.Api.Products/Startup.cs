@@ -49,16 +49,34 @@ namespace Sample.Api.Products
                 options.UseInMemoryDatabase("Products"); // Specify tha name of the database
             });
 
-
-            // Adding Resilience and Transient Fault handling to your .NET Core HttpClient with Polly
+            //---------------------------------------------------------------
+            // Add Image Service 
+            //---------------------------------------------------------------
             services.AddHttpClient("ImagesService", config =>
             {
                 config.BaseAddress = new Uri(Configuration["Services:Images"]);
             })
                 .AddTransientHttpErrorPolicy(policyBuilder => policyBuilder.CircuitBreakerAsync(handledEventsAllowedBeforeBreaking: 2, durationOfBreak: TimeSpan.FromMinutes(2)));
+            // Adding Resilience and Transient Fault handling to your .NET Core HttpClient with Polly
+            
+
+            //---------------------------------------------------------------
+            // Add SQL Persistency Service 
+            //---------------------------------------------------------------
+            services.AddHttpClient("SQLPersistencyService", config =>
+            {
+                config.BaseAddress = new Uri(Configuration["Services:SQL"]);
+            })
+                .AddTransientHttpErrorPolicy(policyBuilder => policyBuilder.CircuitBreakerAsync(handledEventsAllowedBeforeBreaking: 2, durationOfBreak: TimeSpan.FromMinutes(2)));
+            // Adding Resilience and Transient Fault handling to your .NET Core HttpClient with Polly
 
 
             services.AddControllers();
+
+
+            //---------------------------------------------------------------
+            // Add Swagger 
+            //---------------------------------------------------------------
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "Sample Project", Version = "1.0", Description = "Product API" });
@@ -74,16 +92,16 @@ namespace Sample.Api.Products
                 app.UseDeveloperExceptionPage();
             }
 
-
-
+            // Swagger middleware
             app.UseSwagger();
 
             app.UseSwaggerUI(c => { c.SwaggerEndpoint("/swagger/v1/swagger.json", "Sample Project"); });
 
             app.UseRouting();
 
-            //CORS
-            app.UseCors(builder => {
+            // CORS Policy middleware (order is important Routing-Cors-Authorization)
+            app.UseCors(builder =>
+            {
                 builder.AllowAnyOrigin();
                 builder.AllowAnyHeader();
                 builder.AllowAnyMethod();
