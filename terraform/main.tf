@@ -88,6 +88,11 @@ data "azurerm_container_registry" "azure-sample-acr" {
   resource_group_name = "azure-sample-rg"
 }
 
+data "azurerm_cosmosdb_account" "azure-sample-cosmosdb-account" {
+  name                = "sample-cosmosdb-sql-weu"
+  resource_group_name = "sample-rg"
+}
+
 
 resource "azurerm_container_group" "azure-sample-aci" {
   name                = "azure-sample"
@@ -112,6 +117,10 @@ resource "azurerm_container_group" "azure-sample-aci" {
       port     = 80
       protocol = "TCP"
     }
+    secure_environment_variables = {
+      DBUri = data.azurerm_cosmosdb_account.azure-sample-cosmosdb-account.endpoint,
+      DBKey =  data.azurerm_cosmosdb_account.azure-sample-cosmosdb-account.primary_key,
+    }    
   }
 }
 
