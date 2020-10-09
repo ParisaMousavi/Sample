@@ -100,12 +100,12 @@ namespace Sample.Api.Products
             //---------------------------------------------------------------
             // Add SQL Persistency Service 
             //---------------------------------------------------------------
-            services.AddHttpClient("SQLPersistencyService", config =>
-            {
-                config.BaseAddress = new Uri(Configuration["Services:SQL"]);
-            })
-                .AddTransientHttpErrorPolicy(policyBuilder => policyBuilder.CircuitBreakerAsync(handledEventsAllowedBeforeBreaking: 2, durationOfBreak: TimeSpan.FromMinutes(2)));
-            // Adding Resilience and Transient Fault handling to your .NET Core HttpClient with Polly
+            //services.AddHttpClient("SQLPersistencyService", config =>
+            //{
+            //    config.BaseAddress = new Uri(Configuration["Services:SQL"]);
+            //})
+            //    .AddTransientHttpErrorPolicy(policyBuilder => policyBuilder.CircuitBreakerAsync(handledEventsAllowedBeforeBreaking: 2, durationOfBreak: TimeSpan.FromMinutes(2)));
+            //// Adding Resilience and Transient Fault handling to your .NET Core HttpClient with Polly
 
 
             services.AddControllers();
