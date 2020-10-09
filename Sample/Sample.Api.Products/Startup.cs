@@ -51,7 +51,7 @@ namespace Sample.Api.Products
             services.AddAutoMapper(typeof(Startup));
 
             //---------------------------------------------------------------
-            // In memory database
+            // SQL Database
             //---------------------------------------------------------------
             // https://docs.microsoft.com/en-us/dotnet/architecture/microservices/multi-container-microservice-net-applications/data-driven-crud-microservice
             // Microsoft.EntityFrameworkCore.SqlServer 3.1.7/3.1.6
@@ -76,7 +76,6 @@ namespace Sample.Api.Products
                 options.ConfigureWarnings(warnings => warnings.Throw(
                     RelationalEventId.QueryClientEvaluationWarning));
             });
-
 
 
             //---------------------------------------------------------------

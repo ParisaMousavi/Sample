@@ -11,7 +11,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Sample.Function.Thumbnails"
 EndProject
 Project("{E53339B2-1760-4266-BCC7-CA923CBCF16C}") = "docker-compose", "docker-compose.dcproj", "{254E0B93-5ED3-4F5B-8506-E90E76BC83BD}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sample.Api.Persistency.SQL", "..\Sample.Api.Persistency.SQL\Sample.Api.Persistency.SQL.csproj", "{A9971356-F81F-4246-B070-FA60983EC7DE}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sample.Api.Orders", "Sample.Api.Orders\Sample.Api.Orders.csproj", "{9885B7BA-23BD-43C9-BD3B-3708BBE0A301}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -35,10 +35,10 @@ Global
 		{254E0B93-5ED3-4F5B-8506-E90E76BC83BD}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{254E0B93-5ED3-4F5B-8506-E90E76BC83BD}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{254E0B93-5ED3-4F5B-8506-E90E76BC83BD}.Release|Any CPU.Build.0 = Release|Any CPU
-		{A9971356-F81F-4246-B070-FA60983EC7DE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{A9971356-F81F-4246-B070-FA60983EC7DE}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{A9971356-F81F-4246-B070-FA60983EC7DE}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{A9971356-F81F-4246-B070-FA60983EC7DE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9885B7BA-23BD-43C9-BD3B-3708BBE0A301}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9885B7BA-23BD-43C9-BD3B-3708BBE0A301}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9885B7BA-23BD-43C9-BD3B-3708BBE0A301}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9885B7BA-23BD-43C9-BD3B-3708BBE0A301}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -18,3 +18,5 @@
 /Sample/bin/Debug
 /Sample.Api.Persistency.SQL/obj
 /Sample.Api.Persistency.SQL/bin/Debug/netcoreapp3.1
+/Sample/Sample.Api.Orders/bin/Debug/netcoreapp3.1
+/Sample/Sample.Api.Orders/obj

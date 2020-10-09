@@ -16,5 +16,7 @@ namespace Sample.Api.Products.Db
         public int Inventory { get; set; }
 
         public string ImageUrl { get; set; }
+
+        public string Color { get; set; }
     }
 }
