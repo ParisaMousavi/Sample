@@ -2,11 +2,9 @@
   "ExpandedNodes": [
     "",
     "\\Sample",
+    "\\Sample\\Sample.Api.Orders",
     "\\Sample\\Sample.Api.Products",
-    "\\Sample\\Sample.Api.Products\\Controllers",
-    "\\Sample\\Sample.Api.Products\\Interfaces",
-    "\\terraform"
+    "\\Sample\\Sample.Api.Products\\Interfaces"
   ],
-  "SelectedNode": "\\Sample\\Sample.sln",
   "PreviewInSolutionExplorer": false
 }
