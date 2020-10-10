@@ -44,7 +44,7 @@ namespace Sample.Api.Orders
             // Microsoft.EntityFrameworkCore.SqlServer 3.1.7/3.1.6 because of UseSqlServer
             services.AddDbContext<Db.OrdersDbContext>(options =>
             {
-                options.UseSqlServer(Configuration.GetValue<string>("ConnectionString"),
+                options.UseSqlServer(Configuration.GetValue<string>("OrderDBConnectionString"),
                 sqlServerOptionsAction: sqlOptions =>
                 {
                     sqlOptions.MigrationsAssembly(

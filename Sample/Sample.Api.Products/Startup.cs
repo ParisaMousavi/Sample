@@ -61,7 +61,7 @@ namespace Sample.Api.Products
             // Microsoft.EntityFrameworkCore.SqlServer 3.1.7/3.1.6
             services.AddDbContext<Db.ProductsDbContext>(options =>
             {
-                options.UseSqlServer(Configuration.GetValue<string>("ConnectionString"),
+                options.UseSqlServer(Configuration.GetValue<string>("ProductDBConnectionString"),
                 sqlServerOptionsAction: sqlOptions =>
                 {
                     sqlOptions.MigrationsAssembly(
