@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using Sample.Api.Orders.Db;
 using Sample.Api.Orders.Interfaces;
@@ -12,13 +13,13 @@ namespace Sample.Api.Orders.Services
 {
     public class OrdersProvider : Interfaces.IOrdersProvider
     {
-        private readonly OrdersDbContext _ordersDbContext;
+        private readonly OrdersDbContext _dbContext;
         private readonly ILogger<OrdersProvider> _logger;
         private readonly IMapper _mapper;
 
         public OrdersProvider(Db.OrdersDbContext ordersDbContext, ILogger<OrdersProvider> logger, IMapper mapper)
         {
-            this._ordersDbContext = ordersDbContext;
+            this._dbContext = ordersDbContext;
             this._logger = logger;
             this._mapper = mapper;
         }
@@ -38,9 +39,24 @@ namespace Sample.Api.Orders.Services
             throw new NotImplementedException();
         }
 
-        Task<(bool IsSuccess, IEnumerable<Models.Order> Orders, string ErrorMessage)> IOrdersProvider.GetOrdersAsync()
+     async   Task<(bool IsSuccess, IEnumerable<Models.Order> Orders, string ErrorMessage)> IOrdersProvider.GetOrdersAsync()
         {
-            throw new NotImplementedException();
+            try
+            {
+                var orders = await _dbContext.Orders.ToListAsync();
+                if (orders != null && orders.Any())
+                {
+                    var result = _mapper.Map<IEnumerable<Db.Order>, IEnumerable<Models.Order>>(orders);
+                    return (true, result, null);
+                }
+                return (false, null, "Not Found");
+            }
+            catch (Exception ex)
+            {
+
+                _logger?.LogError(ex.ToString());
+                return (false, null, ex.Message);
+            }
         }
 
         Task<(bool IsSuccess, Models.Order Order, string ErrorMessage)> IOrdersProvider.UpdateOrderAsync(Models.Order order)
