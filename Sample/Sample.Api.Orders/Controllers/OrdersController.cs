@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 namespace Sample.Api.Orders.Controllers
 {
     [ApiController]
-    [Route("api/orders") ]
+    [Route("api/orders")]
     public class OrdersController : ControllerBase
     {
         private readonly IOrdersProvider _ordersProvider;
@@ -18,8 +18,15 @@ namespace Sample.Api.Orders.Controllers
             this._ordersProvider = ordersProvider;
         }
 
+        [HttpGet]
         public async Task<IActionResult> GetOrdersAsync()
         {
+            var result = await _ordersProvider.GetOrdersAsync();
+
+            if (result.IsSuccess)
+            {
+                return Ok(result.Orders);
+            }
             return NotFound();
         }
 
