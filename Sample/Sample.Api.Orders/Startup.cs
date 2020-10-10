@@ -29,13 +29,15 @@ namespace Sample.Api.Orders
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddAutoMapper(typeof(Startup));
+            
 
 
             //---------------------------------------------------------------
             // Service injection
             //---------------------------------------------------------------
             services.AddScoped<Interfaces.IOrdersProvider, Services.OrdersProvider>();
+
+            services.AddAutoMapper(typeof(Startup));
 
             //---------------------------------------------------------------
             // SQL Database

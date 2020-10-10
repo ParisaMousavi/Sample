@@ -44,6 +44,7 @@ namespace Sample.Api.Orders.Services
             try
             {
                 var orders = await _dbContext.Orders.ToListAsync();
+                var orderitems = await _dbContext.OrderItems.ToListAsync();
                 if (orders != null && orders.Any())
                 {
                     var result = _mapper.Map<IEnumerable<Db.Order>, IEnumerable<Models.Order>>(orders);

@@ -10,6 +10,7 @@ namespace Sample.Api.Orders.Db
     {
 
         public DbSet<Db.Order> Orders { get; set; }
+        public DbSet<Db.OrderItem> OrderItems { get; set; }
 
         public OrdersDbContext(DbContextOptions options) : base(options)
         {
