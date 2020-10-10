@@ -17,6 +17,5 @@ namespace Sample.Api.Products.Db
 
         public string ImageUrl { get; set; }
 
-        public string Color { get; set; }
     }
 }
