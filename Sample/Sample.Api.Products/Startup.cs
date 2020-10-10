@@ -44,7 +44,11 @@ namespace Sample.Api.Products
                 Configuration.GetValue<string>("DBKey"));
             services.AddSingleton<DocumentClient>(docClient);
 
+            //---------------------------------------------------------------
+            // Service injection
+            //---------------------------------------------------------------
             services.AddScoped<Interfaces.IProductsProvider, Services.ProductsProvider>();
+            services.AddScoped<Interfaces.IOrdersService, Services.OrdersService>();
             services.AddScoped<Interfaces.IImagesService, Services.ImagesService>();
             services.AddScoped<Interfaces.ICosmosDbService, Services.CosmosDbService>();
 
@@ -95,7 +99,13 @@ namespace Sample.Api.Products
             })
                 .AddTransientHttpErrorPolicy(policyBuilder => policyBuilder.CircuitBreakerAsync(handledEventsAllowedBeforeBreaking: 2, durationOfBreak: TimeSpan.FromMinutes(2)));
             // Adding Resilience and Transient Fault handling to your .NET Core HttpClient with Polly
-            
+
+
+            services.AddHttpClient("OrdersService", config =>
+            {
+                config.BaseAddress = new Uri(Configuration["Services:Orders"]);
+            })
+                .AddTransientHttpErrorPolicy(policyBuilder => policyBuilder.CircuitBreakerAsync(handledEventsAllowedBeforeBreaking: 2, durationOfBreak: TimeSpan.FromMinutes(2)));
 
             //---------------------------------------------------------------
             // Add SQL Persistency Service 

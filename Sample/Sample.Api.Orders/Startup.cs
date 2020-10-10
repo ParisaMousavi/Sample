@@ -31,6 +31,12 @@ namespace Sample.Api.Orders
         {
             services.AddAutoMapper(typeof(Startup));
 
+
+            //---------------------------------------------------------------
+            // Service injection
+            //---------------------------------------------------------------
+            services.AddScoped<Interfaces.IOrdersProvider, Services.OrdersProvider>();
+
             //---------------------------------------------------------------
             // SQL Database
             //---------------------------------------------------------------
