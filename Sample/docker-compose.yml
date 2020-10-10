@@ -13,3 +13,9 @@ services:
       context: .
       dockerfile: Sample.Api.Images\Dockerfile
 
+  sample.api.orders:
+    image: ${DOCKER_REGISTRY-}sampleapiorders
+    build:
+      context: .
+      dockerfile: Sample.Api.Orders\Dockerfile
+

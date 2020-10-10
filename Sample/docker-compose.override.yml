@@ -5,6 +5,7 @@ services:
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
       - Services__Products=http://sample.api.images
+      - Services__Orders=http://sample.api.orders
     ports:
       - "7001:80"
     volumes:
@@ -14,5 +15,12 @@ services:
       - ASPNETCORE_ENVIRONMENT=Development
     ports:
       - "7002:80"
+    volumes:
+      - ${APPDATA}/Microsoft/UserSecrets:C:\Users\ContainerUser\AppData\Roaming\Microsoft\UserSecrets:ro
+  sample.api.orders:
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+    ports:
+      - "7003:80"
     volumes:
       - ${APPDATA}/Microsoft/UserSecrets:C:\Users\ContainerUser\AppData\Roaming\Microsoft\UserSecrets:ro
