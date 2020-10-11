@@ -8,26 +8,58 @@
 <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
 
 
-<div id="app">
+<div id="app" class="d-flex">
+
+    <nav class="navbar navbar-light bg-light fixed-top">
+        <div class="navbar-text ml-auto">
+            <b>cart:</b>
+            <span class="badge badge-pill badge-success">{{cart.length}}</span>
+        </div>
+    </nav>
+
     <div id="container" class="m-5">
         <h2>Products list</h2>
         <table class="table table-striped ">
             <thead class="thead-dark">
-                <td>#</td>
                 <td></td>
                 <td>Product</td>
-                <td>Inventory</td>
-                <td>Add to card</td>
+                <td>Price</td>
+                <td>Add to cart</td>
             </thead>
             <tbody>
-                <tr v-for="(p , index ) in products" :key="p.id" :imgsrc="p.imageUrl">
-                    <td>{{index +1}}</td>
-                    <td><img src=""></td>
+                <tr v-for="(p , index ) in products" :key="p.id">
+                    <td><img v-bind="{src : products[index].imageUrl, alt : products[index].name }"
+                            style="width: 70px; height: 70px;"></td>
                     <td>{{p.name}}</td>
-                    <td>{{p.inventory}}</td>
-                    <td><button class="btn btn-primary" > Add to card</button></td>
+                    <td>{{p.price | currency}}</td>
+                    <td><button class="btn btn-primary" v-on:click="addToCart(p)"> Add to cart</button></td>
                 </tr>
             </tbody>
+        </table>
+    </div>
+
+    <div id="cart" class="m-5">
+        <h2>Your shopping</h2>
+        <table class="table table-striped ">
+            <thead class="thead-dark">
+                <td>Product</td>
+                <td>Quantity</td>
+                <td>Price</td>
+                <td></td>
+            </thead>
+            <tbody>
+                <tr v-for="(c , index ) in cart" :key="index">
+                    <td>{{c.product.name}}</td>
+                    <td>{{c.qty}}</td>
+                    <td>{{c.product.price | currency}}</td>
+                    <td><button class="btn btn-primary" v-on:click="removeFromCart(c)"> - </button></td>
+                </tr>
+            </tbody>
+            <tfoot class="font-weight-bold" v-if="calculateTotalSum() > 0" >
+                <td colspan="2">Total Sum</td>
+                <td >{{calculateTotalSum() | currency}}</td>
+                <td></td>
+            </tfoot>
         </table>
     </div>
 </div>
@@ -38,6 +70,7 @@
         el: '#app',
         data: {
             products: [],
+            cart: [],
             res: ''
         },
         computed: {
@@ -48,12 +81,55 @@
             var config = {
                 headers: { 'Access-Control-Allow-Origin': '*' }
             };
-            axios.get(url , config)
+            axios.get(url, config)
                 .then(function (res) {
                     vm.products = res.data;
                 });
         },
         methods: {
+            getImageUrl: function (imageurl) {
+                return imageurl;
+            },
+            addToCart: function (product) {
+                var existingIndex = -1;
+                var existing = this.cart.filter(function(item, index){
+                    if(item.product.id == product.id){
+                        existingIndex = index;
+                        return true;
+                    }else{
+                        return false;
+                    }
+                });
+
+                if(existing.length>0){
+                    this.cart[existingIndex].qty++;
+                    
+                }else{
+                    this.cart.push({product: product , qty : 1});
+                }
+            },
+            removeFromCart: function(cartproduct){
+
+                if(cartproduct.qty>1){
+                    cartproduct.qty--;
+                    
+                }else{
+                    this.cart.splice(this.cart.indexOf(cartproduct), 1);
+                }
+
+            },
+            calculateTotalSum: function (){
+                var totalSum = 0
+                this.cart.filter(function(item){
+                    totalSum = totalSum + (item.qty * item.product.price);
+                });
+                return totalSum;
+            }
+        },
+        filters: {
+            currency: function (value) {
+                return '€' + Number.parseFloat(value).toFixed(2);
+            }
         }
     });
 
