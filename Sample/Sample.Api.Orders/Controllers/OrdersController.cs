@@ -35,9 +35,16 @@ namespace Sample.Api.Orders.Controllers
             return NotFound();
         }
 
-        public async Task<IActionResult> AddOrderAsync()
+        [HttpPost]
+        public async Task<IActionResult> AddOrderAsync(Models.Order order)
         {
-            return NotFound();
+            var result = await _ordersProvider.AddOrderAsync(order);
+
+            if (result.IsSuccess)
+            {
+                return Ok(result.Order);
+            }
+            return NotFound(result.ErrorMessage);
         }
 
         public async Task<IActionResult> UpdateOrderAsync()

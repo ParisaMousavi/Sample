@@ -17,16 +17,52 @@ namespace Sample.Api.Orders.Services
         private readonly ILogger<OrdersProvider> _logger;
         private readonly IMapper _mapper;
 
-        public OrdersProvider(Db.OrdersDbContext ordersDbContext, ILogger<OrdersProvider> logger, IMapper mapper)
+        public OrdersProvider(Db.OrdersDbContext dbContext, ILogger<OrdersProvider> logger, IMapper mapper)
         {
-            this._dbContext = ordersDbContext;
+            this._dbContext = dbContext;
             this._logger = logger;
             this._mapper = mapper;
         }
 
-        Task<(bool IsSuccess, Models.Order Order, string ErrorMessage)> IOrdersProvider.AddOrderAsync(Models.Order order)
+        async Task<(bool IsSuccess, string Order, string ErrorMessage)> IOrdersProvider.AddOrderAsync(Models.Order order)
         {
-            throw new NotImplementedException();
+            try
+            {
+
+                order.Id = Guid.NewGuid();
+
+                var ios = new List<Db.OrderItem>();
+                foreach (Models.OrderItem oi in order.Items)
+                {
+                    ios.Add(new Db.OrderItem()
+                    {
+                        Id = Guid.NewGuid(),
+                        OrderId = order.Id,
+                        Name = oi.Name,
+                        Price = oi.Price,
+                        Quantity = oi.Quantity
+                    }); ; ;
+                }
+
+                await _dbContext.Orders.AddAsync(new Db.Order()
+                {
+                    Id = order.Id,
+                    Fullname = order.Fullname,
+                    OrderDate = order.OrderDate,
+                    Items = ios
+                });
+
+                await _dbContext.SaveChangesAsync();
+
+
+                return (true, "Link to see the order", null);
+            }
+            catch (Exception ex)
+            {
+
+                _logger?.LogError(ex.ToString());
+                return (false, null, ex.Message);
+            }
         }
 
         Task<(bool IsSuccess, string ErrorMessage)> IOrdersProvider.DeleteOrderAsync(Guid id)
@@ -39,7 +75,7 @@ namespace Sample.Api.Orders.Services
             throw new NotImplementedException();
         }
 
-     async   Task<(bool IsSuccess, IEnumerable<Models.Order> Orders, string ErrorMessage)> IOrdersProvider.GetOrdersAsync()
+        async Task<(bool IsSuccess, IEnumerable<Models.Order> Orders, string ErrorMessage)> IOrdersProvider.GetOrdersAsync()
         {
             try
             {

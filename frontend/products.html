@@ -36,6 +36,7 @@
                 </tr>
             </tbody>
         </table>
+        <button class="btn btn-primary" v-on:click="addProduct()"> Add Product</button>
     </div>
 
     <div id="cart" class="m-5">
@@ -55,9 +56,9 @@
                     <td><button class="btn btn-primary" v-on:click="removeFromCart(c)"> - </button></td>
                 </tr>
             </tbody>
-            <tfoot class="font-weight-bold" v-if="calculateTotalSum() > 0" >
+            <tfoot class="font-weight-bold" v-if="calculateTotalSum() > 0">
                 <td colspan="2">Total Sum</td>
-                <td >{{calculateTotalSum() | currency}}</td>
+                <td>{{calculateTotalSum() | currency}}</td>
                 <td></td>
             </tfoot>
         </table>
@@ -92,38 +93,57 @@
             },
             addToCart: function (product) {
                 var existingIndex = -1;
-                var existing = this.cart.filter(function(item, index){
-                    if(item.product.id == product.id){
+                var existing = this.cart.filter(function (item, index) {
+                    if (item.product.id == product.id) {
                         existingIndex = index;
                         return true;
-                    }else{
+                    } else {
                         return false;
                     }
                 });
 
-                if(existing.length>0){
+                if (existing.length > 0) {
                     this.cart[existingIndex].qty++;
-                    
-                }else{
-                    this.cart.push({product: product , qty : 1});
+
+                } else {
+                    this.cart.push({ product: product, qty: 1 });
                 }
             },
-            removeFromCart: function(cartproduct){
+            removeFromCart: function (cartproduct) {
 
-                if(cartproduct.qty>1){
+                if (cartproduct.qty > 1) {
                     cartproduct.qty--;
-                    
-                }else{
+
+                } else {
                     this.cart.splice(this.cart.indexOf(cartproduct), 1);
                 }
 
             },
-            calculateTotalSum: function (){
+            calculateTotalSum: function () {
                 var totalSum = 0
-                this.cart.filter(function(item){
+                this.cart.filter(function (item) {
                     totalSum = totalSum + (item.qty * item.product.price);
                 });
                 return totalSum;
+            },
+            addProduct: function () {
+                var apikey = '';
+                var url = 'http://localhost:7001/api/products' + apikey;
+                var config = {
+                    headers: { 'Access-Control-Allow-Origin': '*' }
+                };
+                // Send a POST request
+                // axios({
+                // method: 'post',
+                // url: 'http://localhost:7001/api/products',
+                // data: {
+                //     Name: 'New Product',
+                //     Price: '12.42',
+                //     Inventory: '90',
+                //     ImageUrl: 'C:\Users\P.Moosavinezhad\Pictures\lattenrost.png'
+                // }
+                // });
+                console.log(uuid())
             }
         },
         filters: {

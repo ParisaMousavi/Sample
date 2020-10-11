@@ -33,7 +33,7 @@ namespace Sample.Api.Images.Controllers
 
 
         [HttpPost("upload")]
-        public async Task<IActionResult> UploadBlobAsync([FromBody] Terms.Upload request)
+        public async Task<IActionResult> UploadBlobAsync(Terms.Upload request)
         {
             var result = await imagesProvider.UploadBlobAsync(request.ProductId, request.FilePath);
             return Ok(result.ImageUrl );

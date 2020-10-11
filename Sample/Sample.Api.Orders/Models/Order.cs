@@ -10,6 +10,6 @@ namespace Sample.Api.Orders.Models
         public Guid Id { get; set; }
         public string Fullname { get; set; }
         public DateTime OrderDate { get; set; }
-        public ICollection<Db.OrderItem> Items { get; set; } //= new List<Db.OrderItem>();
+        public virtual ICollection<Models.OrderItem> Items { get; set; } //= new List<Db.OrderItem>();
     }
 }
