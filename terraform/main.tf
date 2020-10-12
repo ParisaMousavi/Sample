@@ -147,7 +147,6 @@ resource "azurerm_sql_database" "products-db" {
   server_name           = azurerm_sql_server.products-db-srv.name
   collation             = "SQL_Latin1_General_CP1_CI_AS"
   create_mode           = "Default"
-  edition               = "Basic"
 
   tags = {
     environment = "staging",
