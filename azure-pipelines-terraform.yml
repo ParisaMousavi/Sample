@@ -108,7 +108,6 @@ stages:
                         USE [products]
                         GO
 
-                        /****** Object: Table [dbo].[Products] Script Date: 12.10.2020 21:29:35 ******/
                         SET ANSI_NULLS ON
                         GO
 
