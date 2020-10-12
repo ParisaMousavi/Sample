@@ -161,3 +161,39 @@ resource "azurerm_sql_firewall_rule" "products-db-fr" {
   start_ip_address    = azurerm_container_group.products-aci.ip_address
   end_ip_address      = azurerm_container_group.products-aci.ip_address
 }
+
+resource "azurerm_sql_server" "orders-db-srv" {
+  name                         = "orders-db-srv"
+  resource_group_name          = azurerm_resource_group.rg.name
+  location                     = azurerm_resource_group.rg.location
+  version                      = "12.0"
+  administrator_login          = "azureuser"
+  administrator_login_password = "P@risa2018#1"
+
+  tags = {
+    environment = "staging",
+    project = "sample"
+  }
+}
+
+resource "azurerm_sql_database" "orders-db" {
+  name                  = "orders"
+  resource_group_name   = azurerm_resource_group.rg.name
+  location              = azurerm_resource_group.rg.location
+  server_name           = azurerm_sql_server.orders-db-srv.name
+  collation             = "SQL_Latin1_General_CP1_CI_AS"
+  create_mode           = "Default"
+
+  tags = {
+    environment = "staging",
+    project = "sample"
+  }
+}
+
+resource "azurerm_sql_firewall_rule" "orders-db-fr" {
+  name                = "orders-service-aci"
+  resource_group_name = azurerm_resource_group.rg.name
+  server_name         = azurerm_sql_server.orders-db-srv.name
+  start_ip_address    = azurerm_container_group.orders-aci.ip_address
+  end_ip_address      = azurerm_container_group.orders-aci.ip_address
+}
