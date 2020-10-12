@@ -78,7 +78,7 @@
         },
         created: function () {
             var apikey = '';
-            var url = 'http://products-sample.westeurope.azurecontainer.io/api/products' + apikey;
+            var url = 'http://products-service.westeurope.azurecontainer.io/api/products' + apikey;
             // var config = {
             //     headers: { 'Access-Control-Allow-Origin': '*' }
             // };
@@ -128,7 +128,7 @@
             },
             addProduct: function () {
                 var apikey = '';
-                var url = 'http://localhost:7003/api/orders' + apikey;
+                var url = 'http://orders-service.westeurope.azurecontainer.io/api/orders' + apikey;
                 var data = {
                     "Fullname": "Test chaharom",
                     "OrderDate": "2020-10-22",
