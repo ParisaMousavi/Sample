@@ -156,7 +156,6 @@ stages:
                   inputs:
                     SourcePath: '$(System.DefaultWorkingDirectory)/frontend/products.html'
                     azureSubscription: 'connect-spn-2'
-                    resourceGroup: 'azure-sample-rg'
                     Destination: 'AzureBlob'
                     storage: 'azuresampleimagestorage'
                     ContainerName: '$web'
