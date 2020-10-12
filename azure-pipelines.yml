@@ -131,6 +131,8 @@ stages:
                       Write-Host "Change directory"
                       cd $(System.DefaultWorkingDirectory)/terraform
                       ls
+                      cd $(System.DefaultWorkingDirectory)/frontend
+                      ls
 
                 - task: TerraformTaskV1@0
                   displayName: 'plan'
