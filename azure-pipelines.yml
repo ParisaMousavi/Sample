@@ -19,6 +19,7 @@ variables:
   acrHostName: 'azuresampleacr.azurecr.io'
   imagesdockerfilePath: '$(Build.SourcesDirectory)/Sample/Dockerfile.images'
   productsdockerfilePath: '$(Build.SourcesDirectory)/Sample/Dockerfile.products'
+  ordersdockerfilePath: '$(Build.SourcesDirectory)/Sample/Dockerfile.orders'
   tag: '$(Build.BuildId)'
 
 stages:
@@ -42,6 +43,9 @@ stages:
                 cd D:\a\1\s\Sample\Sample.Api.Products
                 mv Dockerfile ../Dockerfile.products
 
+                cd D:\a\1\s\Sample\Sample.Api.Orders
+                mv Dockerfile ../Dockerfile.orders
+
                 cd..
                 ls
 
@@ -60,6 +64,14 @@ stages:
               repository: 'sampleapiproducts'
               command: 'buildAndPush'
               Dockerfile: $(productsdockerfilePath)
+
+          - task: Docker@2
+            displayName: 'Build docker image for Orders Service'
+            inputs:
+              containerRegistry: 'connect-acr-2'
+              repository: 'sampleapiorders'
+              command: 'buildAndPush'
+              Dockerfile: $(ordersdockerfilePath)
 
           - task: TerraformInstaller@0
             displayName: 'install'
