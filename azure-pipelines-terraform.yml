@@ -127,10 +127,10 @@ stages:
                         )
                         GO 
 
-                        Insert into Products (Id, Name, Price, Inventory )
+                        Insert into Products (Id, Name, Price, Inventory, ImageUrl )
                         values(NEWID(), 'Book', 12, 200, 'https://sampleimagestorage.blob.core.windows.net/products/azure-app-service-erd.png')
 
-                        Insert into Products (Id, Name, Price, Inventory )
+                        Insert into Products (Id, Name, Price, Inventory, ImageUrl )
                         values(NEWID(), 'Product2', 14, 240, 'https://sampleimagestorage.blob.core.windows.net/products/azure-app-service-erd.png')
 
                     IpDetectionMethod: 'AutoDetect'
