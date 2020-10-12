@@ -43,11 +43,11 @@ data "azurerm_cosmosdb_account" "sample-cosmosdb" {
 
 
 resource "azurerm_container_group" "products-aci" {
-  name                = "products-sample"
+  name                = "products-service"
   location            = azurerm_resource_group.rg.location
   resource_group_name = azurerm_resource_group.rg.name
   ip_address_type     = "public"
-  dns_name_label      = "products-sample"
+  dns_name_label      = "products-service"
   os_type             = "Windows"
 
   image_registry_credential {
@@ -57,7 +57,7 @@ resource "azurerm_container_group" "products-aci" {
   }
 
   container {
-    name   = "products"
+    name   = "products-service"
     image  = "${data.azurerm_container_registry.azure-sample-acr.login_server}/sampleapiproducts:${var.image-tag}"
     cpu    = "0.5"
     memory = "1.5"
@@ -76,11 +76,11 @@ resource "azurerm_container_group" "products-aci" {
 
 
 resource "azurerm_container_group" "orders-aci" {
-  name                = "orders-sample"
+  name                = "orders-service"
   location            = azurerm_resource_group.rg.location
   resource_group_name = azurerm_resource_group.rg.name
   ip_address_type     = "public"
-  dns_name_label      = "orders-sample"
+  dns_name_label      = "orders-service"
   os_type             = "Windows"
 
   image_registry_credential {
@@ -90,7 +90,7 @@ resource "azurerm_container_group" "orders-aci" {
   }
 
   container {
-    name   = "orders"
+    name   = "orders-service"
     image  = "${data.azurerm_container_registry.azure-sample-acr.login_server}/sampleapiorders:${var.image-tag}"
     cpu    = "0.5"
     memory = "1.5"
@@ -147,7 +147,7 @@ resource "azurerm_sql_database" "products-db" {
   server_name           = azurerm_sql_server.products-db-srv.name
   collation             = "SQL_Latin1_General_CP1_CI_AS"
   create_mode           = "Default"
-
+  edition               = "Basic"
 
   tags = {
     environment = "staging",
@@ -155,3 +155,10 @@ resource "azurerm_sql_database" "products-db" {
   }
 }
 
+resource "azurerm_sql_firewall_rule" "products-db-fr" {
+  name                = "products-service-aci"
+  resource_group_name = azurerm_resource_group.rg.name
+  server_name         = azurerm_sql_server.rg.name
+  start_ip_address    = azurerm_container_group.products-aci.ip_address
+  end_ip_address      = azurerm_container_group.products-aci.ip_address
+}
