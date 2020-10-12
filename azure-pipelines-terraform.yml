@@ -96,3 +96,23 @@ stages:
                     workingDirectory: '$(System.DefaultWorkingDirectory)/terraform'
                     commandOptions: '-var image-tag="260"'
                     environmentServiceNameAzureRM: 'connect-spn-2'
+                    
+                - task: SqlAzureDacpacDeployment@1
+                  inputs:
+                    azureSubscription: 'connect-spn-2'
+                    AuthenticationType: 'server'
+                    ServerName: 'products-db-srv.database.windows.net,1433'
+                    DatabaseName: 'products'
+                    SqlUsername: 'azureuser'
+                    SqlPassword: '$(PASSWORD)'
+                    deployType: 'InlineSqlTask'
+                    SqlInline: |
+                      CREATE TABLE [dbo].[Products] (
+                          [Id]        UNIQUEIDENTIFIER NOT NULL,
+                          [Name]      NVARCHAR (50)    NULL,
+                          [Price]     DECIMAL (18)     NULL,
+                          [Inventory] INT              NULL,
+                          [ImageUrl]  NVARCHAR (MAX)   NULL,
+                          PRIMARY KEY CLUSTERED ([Id] ASC)
+                      )
+                    IpDetectionMethod: 'AutoDetect'                    
