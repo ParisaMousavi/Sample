@@ -163,21 +163,80 @@ stages:
                     ContainerName: '$web'
 
                 - task: SqlAzureDacpacDeployment@1
+                  displayName: 'Products table'
                   inputs:
                     azureSubscription: 'connect-spn-2'
-                    AuthenticationType: 'server'
-                    ServerName: 'products-db-srv.database.windows.net,1433'
-                    DatabaseName: 'products'
-                    SqlUsername: 'azureuser'
-                    SqlPassword: '$(PASSWORD)'
+                    AuthenticationType: 'connectionString'
+                    ConnectionString: 'Server=tcp:products-db-srv.database.windows.net,1433;Initial Catalog=products;Persist Security Info=False;User ID=azureuser;Password=$(PASSWORD);MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;'
                     deployType: 'InlineSqlTask'
                     SqlInline: |
-                      CREATE TABLE [dbo].[Products] (
+                        USE [products]
+                        GO
+
+                        SET ANSI_NULLS ON
+                        GO
+
+                        SET QUOTED_IDENTIFIER ON
+                        GO
+
+                        DROP TABLE [dbo].[Products];
+                        GO
+
+                        CREATE TABLE [dbo].[Products] (
+                            [Id]        UNIQUEIDENTIFIER NOT NULL,
+                            [Name]      NVARCHAR (50)    NULL,
+                            [Price]     DECIMAL (18)     NULL,
+                            [Inventory] INT              NULL,
+                            [ImageUrl]  NVARCHAR (MAX)   NULL
+                        )
+                        GO 
+
+                        Insert into Products (Id, Name, Price, Inventory, ImageUrl )
+                        values(NEWID(), 'Book', 12, 200, 'https://sampleimagestorage.blob.core.windows.net/products/azure-app-service-erd.png')
+
+                        Insert into Products (Id, Name, Price, Inventory, ImageUrl )
+                        values(NEWID(), 'Product2', 14, 240, 'https://sampleimagestorage.blob.core.windows.net/products/azure-app-service-erd.png')
+
+                    IpDetectionMethod: 'AutoDetect'
+
+                - task: SqlAzureDacpacDeployment@1
+                  displayName: 'Order and OrderItems table'
+                  inputs:
+                    azureSubscription: 'connect-spn-2'
+                    AuthenticationType: 'connectionString'
+                    ConnectionString: 'Server=tcp:orders-db-srv.database.windows.net,1433;Initial Catalog=orders;Persist Security Info=False;User ID=azureuser;Password=$(PASSWORD);MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;'
+                    deployType: 'InlineSqlTask'
+                    SqlInline: |
+                      USE [orders]
+                      GO
+                      
+                      SET ANSI_NULLS ON
+                      GO
+                      
+                      SET QUOTED_IDENTIFIER ON
+                      GO
+
+                      #DROP TABLE [dbo].[OrderItems];
+                      #GO    
+
+                      #DROP TABLE [dbo].[Orders];
+                      #GO
+                      
+                      CREATE TABLE [dbo].[Orders] (
                           [Id]        UNIQUEIDENTIFIER NOT NULL,
-                          [Name]      NVARCHAR (50)    NULL,
-                          [Price]     DECIMAL (18)     NULL,
-                          [Inventory] INT              NULL,
-                          [ImageUrl]  NVARCHAR (MAX)   NULL,
+                          [Fullname]  NVARCHAR (100)   NULL,
+                          [OrderDate] SMALLDATETIME    NULL,
                           PRIMARY KEY CLUSTERED ([Id] ASC)
                       )
+                      GO                        
+                      
+                      CREATE TABLE [dbo].[OrderItems](
+                          [Id] INT NOT NULL PRIMARY KEY, 
+                          [OrderId] UNIQUEIDENTIFIER NULL, 
+                          [Name] NVARCHAR(50) NULL, 
+                          [Price] DECIMAL NULL, 
+                          [Quantity] INT NULL, 
+                          CONSTRAINT [FK_OrderOrderItem] FOREIGN KEY ([OrderId]) REFERENCES [Orders]([Id])
+                      )
+                      GO
                     IpDetectionMethod: 'AutoDetect'
