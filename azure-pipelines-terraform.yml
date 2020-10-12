@@ -105,47 +105,60 @@ stages:
                     ConnectionString: 'Server=tcp:products-db-srv.database.windows.net,1433;Initial Catalog=products;Persist Security Info=False;User ID=azureuser;Password=P@risa2018#1;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;'
                     deployType: 'InlineSqlTask'
                     SqlInline: |
-                      CREATE TABLE [dbo].[Products] (
-                          [Id]        UNIQUEIDENTIFIER NOT NULL,
-                          [Name]      NVARCHAR (50)    NULL,
-                          [Price]     DECIMAL (18)     NULL,
-                          [Inventory] INT              NULL,
-                          [ImageUrl]  NVARCHAR (MAX)   NULL,
-                          PRIMARY KEY CLUSTERED ([Id] ASC)
-                      )
+                        USE [products]
+                        GO
+
+                        /****** Object: Table [dbo].[Products] Script Date: 12.10.2020 21:29:35 ******/
+                        SET ANSI_NULLS ON
+                        GO
+
+                        SET QUOTED_IDENTIFIER ON
+                        GO
+
+                        CREATE TABLE [dbo].[Products] (
+                            [Id]        UNIQUEIDENTIFIER NOT NULL,
+                            [Name]      NVARCHAR (50)    NULL,
+                            [Price]     DECIMAL (18)     NULL,
+                            [Inventory] INT              NULL,
+                            [ImageUrl]  NVARCHAR (MAX)   NULL
+                        )
                     IpDetectionMethod: 'AutoDetect'
 
                 - task: SqlAzureDacpacDeployment@1
-                  displayName: 'Orders table'
+                  displayName: 'Order and OrderItems table'
                   inputs:
                     azureSubscription: 'connect-spn-2'
                     AuthenticationType: 'connectionString'
-                    ConnectionString: 'Server=tcp:products-db-srv.database.windows.net,1433;Initial Catalog=products;Persist Security Info=False;User ID=azureuser;Password=P@risa2018#1;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;'
+                    ConnectionString: 'Server=tcp:orders-db-srv.database.windows.net,1433;Initial Catalog=orders;Persist Security Info=False;User ID=azureuser;Password=P@risa2018#1;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;'
                     deployType: 'InlineSqlTask'
                     SqlInline: |
-                      CREATE TABLE [dbo].[Orders] (
-                          [Id]        UNIQUEIDENTIFIER NOT NULL,
-                          [Fullname]  NVARCHAR (100)   NULL,
-                          [OrderDate] SMALLDATETIME    NULL,
-                          PRIMARY KEY CLUSTERED ([Id] ASC)
-                      )
-                    IpDetectionMethod: 'AutoDetect'
+                        USE [orders]
+                        GO
 
-                - task: SqlAzureDacpacDeployment@1
-                  displayName: 'OrderItems table'
-                  inputs:
-                    azureSubscription: 'connect-spn-2'
-                    AuthenticationType: 'connectionString'
-                    ConnectionString: 'Server=tcp:products-db-srv.database.windows.net,1433;Initial Catalog=products;Persist Security Info=False;User ID=azureuser;Password=P@risa2018#1;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;'
-                    deployType: 'InlineSqlTask'
-                    SqlInline: |
-                      CREATE TABLE [dbo].[OrderItems]
-                      (
-                        [Id] INT NOT NULL PRIMARY KEY, 
-                          [OrderId] UNIQUEIDENTIFIER NULL, 
-                          [Name] NVARCHAR(50) NULL, 
-                          [Price] DECIMAL NULL, 
-                          [Quantity] INT NULL, 
-                          CONSTRAINT [FK_OrderOrderItem] FOREIGN KEY ([OrderId]) REFERENCES [Orders]([Id])
-                      )
+                        SET ANSI_NULLS ON
+                        GO
+
+                        SET QUOTED_IDENTIFIER ON
+                        GO
+
+                        DROP TABLE [dbo].[Orders];
+                        GO
+
+                        DROP TABLE [dbo].[OrderItems];
+                        GO
+
+                        CREATE TABLE [dbo].[Orders] (
+                            [Id]        UNIQUEIDENTIFIER NOT NULL,
+                            [Fullname]  NVARCHAR (100)   NULL,
+                            [OrderDate] SMALLDATETIME    NULL
+                        )                        
+
+                        CREATE TABLE [dbo].[OrderItems] (
+                            [Id]       UNIQUEIDENTIFIER NOT NULL,
+                            [OrderId]  UNIQUEIDENTIFIER NULL,
+                            [Name]     NVARCHAR (50)    NULL,
+                            [Price]    DECIMAL (18)     NULL,
+                            [Quantity] INT              NULL
+                        )
+
                     IpDetectionMethod: 'AutoDetect'
