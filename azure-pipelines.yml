@@ -128,11 +128,13 @@ stages:
                     script: |
                       # Write your PowerShell commands here.
                       
+                      Write-Host $(PASSWORD)
                       Write-Host "Change directory"
                       cd $(System.DefaultWorkingDirectory)/terraform
                       ls
                       cd $(System.DefaultWorkingDirectory)/frontend
                       ls
+                      
 
                 - task: TerraformTaskV1@0
                   displayName: 'plan'
@@ -159,3 +161,23 @@ stages:
                     Destination: 'AzureBlob'
                     storage: 'azuresampleimagestorage'
                     ContainerName: '$web'
+
+                - task: SqlAzureDacpacDeployment@1
+                  inputs:
+                    azureSubscription: 'connect-spn-2'
+                    AuthenticationType: 'server'
+                    ServerName: ':products-db-srv.database.windows.net,1433'
+                    DatabaseName: 'products'
+                    SqlUsername: 'azureuser'
+                    SqlPassword: '$(PASSWORD)'
+                    deployType: 'InlineSqlTask'
+                    SqlInline: |
+                      CREATE TABLE [dbo].[Products] (
+                          [Id]        UNIQUEIDENTIFIER NOT NULL,
+                          [Name]      NVARCHAR (50)    NULL,
+                          [Price]     DECIMAL (18)     NULL,
+                          [Inventory] INT              NULL,
+                          [ImageUrl]  NVARCHAR (MAX)   NULL,
+                          PRIMARY KEY CLUSTERED ([Id] ASC)
+                      )
+                    IpDetectionMethod: 'AutoDetect'
