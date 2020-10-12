@@ -150,11 +150,11 @@ stages:
                       
                       SET QUOTED_IDENTIFIER ON
                       GO
-                      
-                      DROP TABLE [dbo].[Orders];
-                      GO
-                      
+
                       DROP TABLE [dbo].[OrderItems];
+                      GO    
+
+                      DROP TABLE [dbo].[Orders];
                       GO
                       
                       CREATE TABLE [dbo].[Orders] (
