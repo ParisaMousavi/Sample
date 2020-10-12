@@ -68,6 +68,9 @@ resource "azurerm_container_group" "azure-sample-aci" {
     secure_environment_variables = {
       DBUri = data.azurerm_cosmosdb_account.sample-cosmosdb.endpoint,
       DBKey =  data.azurerm_cosmosdb_account.sample-cosmosdb.primary_master_key
+      ProductDBConnectionString = "Server=tcp:${azurerm_sql_server.products-db-srv.fully_qualified_domain_name},1433;Initial Catalog=${azurerm_sql_database.products-db.name};Persist Security Info=False;User ID=${azurerm_sql_server.products-db-srv.administrator_login};Password=${azurerm_sql_server.products-db-srv.administrator_login_password};MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;"
+      }
+
     }    
   }
 
@@ -81,8 +84,7 @@ resource "azurerm_container_group" "azure-sample-aci" {
       protocol = "TCP"
     }
     secure_environment_variables = {
-      DBUri = data.azurerm_cosmosdb_account.sample-cosmosdb.endpoint,
-      DBKey =  data.azurerm_cosmosdb_account.sample-cosmosdb.primary_master_key
+      OrderDBConnectionString = "Server=tcp:${azurerm_sql_server.products-db-srv.fully_qualified_domain_name},1433;Initial Catalog=${azurerm_sql_database.products-db.name};Persist Security Info=False;User ID=${azurerm_sql_server.products-db-srv.administrator_login};Password=${azurerm_sql_server.products-db-srv.administrator_login_password};MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;"
     }    
   }
 
@@ -117,7 +119,7 @@ resource "azurerm_storage_account" "storage" {
 }
 
 
-resource "azurerm_mssql_server" "products-db-srv" {
+resource "azurerm_sql_server" "products-db-srv" {
   name                         = "products-db-srv"
   resource_group_name          = azurerm_resource_group.rg.name
   location                     = azurerm_resource_group.rg.location
@@ -131,48 +133,14 @@ resource "azurerm_mssql_server" "products-db-srv" {
   }
 }
 
-esource "azurerm_mssql_database" "products-db" {
-  name           = "products"
-  server_id      = azurerm_sql_server.products-db-srv.id
-  collation      = "SQL_Latin1_General_CP1_CI_AS"
-  license_type   = "LicenseIncluded"
-  max_size_gb    = 4
-  read_scale     = true
-  sku_name       = "BC_Gen5_2"
-  zone_redundant = true
-
-
-
-  tags = {
-    environment = "staging",
-    project = "sample"
-  }
-}
-
-resource "azurerm_mssql_server" "orders-db-srv" {
-  name                         = "orders-db-srv"
-  resource_group_name          = azurerm_resource_group.rg.name
-  location                     = azurerm_resource_group.rg.location
-  version                      = "12.0"
-  administrator_login          = "azureuser"
-  administrator_login_password = "P@risa2018#1"
-
-  tags = {
-    environment = "staging",
-    project = "sample"
-  }
-}
-
-esource "azurerm_mssql_database" "orders-db" {
-  name           = "orders"
-  server_id      = azurerm_sql_server.orders-db-srv.id
-  collation      = "SQL_Latin1_General_CP1_CI_AS"
-  license_type   = "LicenseIncluded"
-  max_size_gb    = 4
-  read_scale     = true
-  sku_name       = "BC_Gen5_2"
-  zone_redundant = true
-
+esource "azurerm_sql_database" "products-db" {
+  name                  = "products"
+  resource_group_name   = azurerm_resource_group.rg.name
+  location              = azurerm_resource_group.rg.location
+  server_name           = azurerm_sql_server.products-db-srv.name
+  collation             = "SQL_Latin1_General_CP1_CI_AS"
+  license_type          = "LicenseIncluded"
+  create_mode           = "Default"
 
 
   tags = {
@@ -180,3 +148,4 @@ esource "azurerm_mssql_database" "orders-db" {
     project = "sample"
   }
 }
+
