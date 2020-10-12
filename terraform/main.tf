@@ -58,7 +58,7 @@ resource "azurerm_container_group" "azure-sample-aci" {
 
   container {
     name   = "products"
-    image  = "${data.azurerm_container_registry.azure-sample-acr.login_server}/sampleapiproducts:229"
+    image  = "${data.azurerm_container_registry.azure-sample-acr.login_server}/sampleapiproducts:${var.image-tag}"
     cpu    = "0.5"
     memory = "1.5"
     ports {
@@ -76,7 +76,7 @@ resource "azurerm_container_group" "azure-sample-aci" {
 
   container {
     name   = "orders"
-    image  = "${data.azurerm_container_registry.azure-sample-acr.login_server}/sampleapiorders:229"
+    image  = "${data.azurerm_container_registry.azure-sample-acr.login_server}/sampleapiorders:${var.image-tag}"
     cpu    = "0.5"
     memory = "1.5"
     ports {
