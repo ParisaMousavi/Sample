@@ -137,6 +137,7 @@ stages:
                   inputs:
                     provider: 'azurerm'
                     command: 'plan'
+                    commandOptions: '-var image-tag="$(Build.BuildId)"'
                     workingDirectory: '$(System.DefaultWorkingDirectory)/terraform'
                     environmentServiceNameAzureRM: 'connect-spn-2'
                 - task: TerraformTaskV1@0
@@ -144,5 +145,6 @@ stages:
                   inputs:
                     provider: 'azurerm'
                     command: 'apply'
+                    commandOptions: '-var image-tag="$(Build.BuildId)"'
                     workingDirectory: '$(System.DefaultWorkingDirectory)/terraform'
                     environmentServiceNameAzureRM: 'connect-spn-2'
