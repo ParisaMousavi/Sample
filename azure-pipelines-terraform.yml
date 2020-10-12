@@ -86,7 +86,7 @@ stages:
                     provider: 'azurerm'
                     command: 'plan'
                     workingDirectory: '$(System.DefaultWorkingDirectory)/terraform'
-                    commandOptions: '-var db_uri="$(DBURI)" -var db_key="$(DBKEY)" -var acr_user="$(ACRUSER)" -var acr_pass="$(ACRPASS)"'
+                    commandOptions: '-var image-tag="$(DBURI)"'
                     environmentServiceNameAzureRM: 'connect-spn-2'
                 - task: TerraformTaskV1@0
                   displayName: 'apply'
@@ -94,5 +94,5 @@ stages:
                     provider: 'azurerm'
                     command: 'apply'
                     workingDirectory: '$(System.DefaultWorkingDirectory)/terraform'
-                    commandOptions: '-var db_uri="$(DBURI)" -var db_key="$(DBKEY)" -var acr_user="$(ACRUSER)" -var acr_pass="$(ACRPASS)"'
+                    commandOptions: '-var image-tag="$(DBURI)"'
                     environmentServiceNameAzureRM: 'connect-spn-2'
