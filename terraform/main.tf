@@ -134,10 +134,3 @@ resource "azurerm_mssql_server" "sql" {
 }
 
 
-
-
-
-
-output "dns" {
-  value = azurerm_container_group.vote-aci.fqdn
-}
