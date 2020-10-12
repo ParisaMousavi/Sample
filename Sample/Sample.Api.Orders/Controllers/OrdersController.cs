@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Cors;
+using Microsoft.AspNetCore.Mvc;
 using Sample.Api.Orders.Interfaces;
 using System;
 using System.Collections.Generic;
@@ -30,13 +31,15 @@ namespace Sample.Api.Orders.Controllers
             return NotFound();
         }
 
-        public async Task<IActionResult> GetOrderAsync()
+        [HttpGet("{id}")]
+        public async Task<IActionResult> GetOrderAsync(Guid id)
         {
             return NotFound();
         }
 
+        [DisableCors]
         [HttpPost]
-        public async Task<IActionResult> AddOrderAsync(Models.Order order)
+        public async Task<IActionResult> AddOrderAsync([FromBody]Models.Order order)
         {
             var result = await _ordersProvider.AddOrderAsync(order);
 
@@ -47,12 +50,14 @@ namespace Sample.Api.Orders.Controllers
             return NotFound(result.ErrorMessage);
         }
 
-        public async Task<IActionResult> UpdateOrderAsync()
+        [HttpPost("{id}")]
+        public async Task<IActionResult> UpdateOrderAsync(Models.Order order )
         {
             return NotFound();
         }
 
-        public async Task<IActionResult> DeleteOrderAsync()
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> DeleteOrderAsync(Guid id)
         {
             return NotFound();
         }

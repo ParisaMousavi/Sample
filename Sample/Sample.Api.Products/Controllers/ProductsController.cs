@@ -1,4 +1,4 @@
-﻿using Microsoft.AspNetCore.Cors;
+﻿
 using Microsoft.AspNetCore.Mvc;
 using Sample.Api.Products.Interfaces;
 using System;
@@ -68,7 +68,7 @@ namespace Sample.Api.Products.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> AddProductAsync(Models.Product product)
+        public async Task<IActionResult> AddProductAsync([FromBody]Models.Product product)
         {
 
             // add product

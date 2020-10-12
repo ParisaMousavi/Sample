@@ -79,10 +79,10 @@
         created: function () {
             var apikey = '';
             var url = 'http://localhost:7001/api/products' + apikey;
-            var config = {
-                headers: { 'Access-Control-Allow-Origin': '*' }
-            };
-            axios.get(url, config)
+            // var config = {
+            //     headers: { 'Access-Control-Allow-Origin': '*' }
+            // };
+            axios.get(url)
                 .then(function (res) {
                     vm.products = res.data;
                 });
@@ -128,22 +128,49 @@
             },
             addProduct: function () {
                 var apikey = '';
-                var url = 'http://localhost:7001/api/products' + apikey;
-                var config = {
-                    headers: { 'Access-Control-Allow-Origin': '*' }
+                var url = 'http://localhost:7003/api/orders' + apikey;
+                var data = {
+                    "Fullname": "Test chaharom",
+                    "OrderDate": "2020-10-22",
+                    "Items": [
+                        {
+                            "name": "mahsoole 1",
+                            "price": 6,
+                            "quantity": 10
+                        },
+                        {
+                            "name": "mahsoole 2",
+                            "price": 6,
+                            "quantity": 4
+                        }
+                    ]
                 };
-                // Send a POST request
+                var config = {
+                    headers: { 
+                            'Content-Type': 'application/json',
+                            'Access-Control-Allow-Origin': '*',
+                            'Access-Control-Allow-Methods': 'GET, POST, PATCH, PUT, DELETE, OPTIONS',
+                            'Access-Control-Allow-Headers': 'Origin, Content-Type, X-Auth-Token'
+                        }
+                };
+
+                axios.post(url,data,config )
+                .then(function (res) {
+                    console.log(res);
+                });
+
+                //Send a POST request
                 // axios({
-                // method: 'post',
-                // url: 'http://localhost:7001/api/products',
-                // data: {
-                //     Name: 'New Product',
-                //     Price: '12.42',
-                //     Inventory: '90',
-                //     ImageUrl: 'C:\Users\P.Moosavinezhad\Pictures\lattenrost.png'
-                // }
+                //     method: 'post',
+                //     url: 'http://localhost:7003/api/orders',
+                //     headers: {
+                //         'Content-Type': 'application/json',
+                //         'Access-Control-Allow-Origin': '*',
+                //         'Access-Control-Allow-Methods': 'GET, POST, PATCH, PUT, DELETE, OPTIONS',
+                //         'Access-Control-Allow-Headers': 'Origin, Content-Type, X-Auth-Token'
+                //     },
+                //     data: data
                 // });
-                console.log(uuid())
             }
         },
         filters: {

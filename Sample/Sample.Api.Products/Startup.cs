@@ -52,6 +52,8 @@ namespace Sample.Api.Products
             services.AddScoped<Interfaces.IImagesService, Services.ImagesService>();
             services.AddScoped<Interfaces.ICosmosDbService, Services.CosmosDbService>();
 
+            services.AddCors();
+
             services.AddAutoMapper(typeof(Startup));
 
             //---------------------------------------------------------------
@@ -152,6 +154,7 @@ namespace Sample.Api.Products
                 builder.AllowAnyOrigin();
                 builder.AllowAnyHeader();
                 builder.AllowAnyMethod();
+
             });
 
 

@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+
+<!-- Bootstraper for view elements : https://getbootstrap.com/-->
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
+    integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
+
+<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script> <!-- for using the json response -->
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+
+
+<div id="app" class="d-flex">
+
+    <!-- <div id="container" class="m-5">
+        <h2>Products list</h2>
+        <table class="table table-striped ">
+            <thead class="thead-dark">
+                <td></td>
+                <td>Product</td>
+                <td>Price</td>
+                <td>Add to cart</td>
+            </thead>
+            <tbody>
+                <tr v-for="(p , index ) in order.items" :key="p.id">
+                    <td><img v-bind="{src : products[index].imageUrl, alt : products[index].name }"
+                            style="width: 70px; height: 70px;"></td>
+                    <td>{{p.name}}</td>
+                    <td>{{p.price | currency}}</td>
+                    <td><button class="btn btn-primary" v-on:click="addToCart(p)"> Add to cart</button></td>
+                </tr>
+            </tbody>
+        </table>
+        <button class="btn btn-primary" v-on:click="addProduct()"> Add Product</button>
+    </div> -->
+</div>
+
+
+<script>
+    var vm = new Vue({
+        el: '#app',
+        data: {
+            orders : []
+        },
+        computed: {
+        },
+        created: function () {
+            var apikey = '';
+            var url = 'http://localhost:7003/api/orders' + apikey;
+            axios.get(url)
+                .then(function (res) {
+                    vm.orders = res.data;
+                });
+        },
+        methods: {
+        },
+        filters: {
+            currency: function (value) {
+                return '€' + Number.parseFloat(value).toFixed(2);
+            }
+        }
+    });
+
+</script>

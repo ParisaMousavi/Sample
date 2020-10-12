@@ -96,7 +96,7 @@ namespace Sample.Api.Orders
             // CORS Policy middleware (order is important Routing-Cors-Authorization)
             app.UseCors(builder =>
             {
-                builder.AllowAnyOrigin();
+                builder.AllowAnyHeader();
                 builder.AllowAnyHeader();
                 builder.AllowAnyMethod();
             });
