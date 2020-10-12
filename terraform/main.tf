@@ -117,14 +117,30 @@ resource "azurerm_storage_account" "storage" {
 }
 
 
-resource "azurerm_mssql_server" "sql" {
-  name                         = "mssqlserver"
+resource "azurerm_mssql_server" "products-db-srv" {
+  name                         = "products-db-srv"
   resource_group_name          = azurerm_resource_group.rg.name
   location                     = azurerm_resource_group.rg.location
   version                      = "12.0"
   administrator_login          = "azureuser"
   administrator_login_password = "P@risa2018#1"
-  minimum_tls_version          = "1.2"
+
+  tags = {
+    environment = "staging",
+    project = "sample"
+  }
+}
+
+esource "azurerm_mssql_database" "products-db" {
+  name           = "products"
+  server_id      = azurerm_sql_server.products-db-srv.id
+  collation      = "SQL_Latin1_General_CP1_CI_AS"
+  license_type   = "LicenseIncluded"
+  max_size_gb    = 4
+  read_scale     = true
+  sku_name       = "BC_Gen5_2"
+  zone_redundant = true
+
 
 
   tags = {
@@ -133,4 +149,34 @@ resource "azurerm_mssql_server" "sql" {
   }
 }
 
+resource "azurerm_mssql_server" "orders-db-srv" {
+  name                         = "orders-db-srv"
+  resource_group_name          = azurerm_resource_group.rg.name
+  location                     = azurerm_resource_group.rg.location
+  version                      = "12.0"
+  administrator_login          = "azureuser"
+  administrator_login_password = "P@risa2018#1"
 
+  tags = {
+    environment = "staging",
+    project = "sample"
+  }
+}
+
+esource "azurerm_mssql_database" "orders-db" {
+  name           = "orders"
+  server_id      = azurerm_sql_server.orders-db-srv.id
+  collation      = "SQL_Latin1_General_CP1_CI_AS"
+  license_type   = "LicenseIncluded"
+  max_size_gb    = 4
+  read_scale     = true
+  sku_name       = "BC_Gen5_2"
+  zone_redundant = true
+
+
+
+  tags = {
+    environment = "staging",
+    project = "sample"
+  }
+}
