@@ -120,7 +120,7 @@ stages:
                   inputs:
                     azureSubscription: 'connect-spn-2'
                     AuthenticationType: 'connectionString'
-                    ConnectionString: 'Server=tcp:orders-db-srv.database.windows.net,1433;Initial Catalog=orders;Persist Security Info=False;User ID=azureuser;Password=P@risa2018#1;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;'
+                    ConnectionString: 'Server=tcp:products-db-srv.database.windows.net,1433;Initial Catalog=products;Persist Security Info=False;User ID=azureuser;Password=P@risa2018#1;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;'
                     deployType: 'InlineSqlTask'
                     SqlInline: |
                       CREATE TABLE [dbo].[Orders] (
@@ -136,7 +136,7 @@ stages:
                   inputs:
                     azureSubscription: 'connect-spn-2'
                     AuthenticationType: 'connectionString'
-                    ConnectionString: 'Server=tcp:orders-db-srv.database.windows.net,1433;Initial Catalog=orders;Persist Security Info=False;User ID=azureuser;Password=P@risa2018#1;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;'
+                    ConnectionString: 'Server=tcp:products-db-srv.database.windows.net,1433;Initial Catalog=products;Persist Security Info=False;User ID=azureuser;Password=P@risa2018#1;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;'
                     deployType: 'InlineSqlTask'
                     SqlInline: |
                       CREATE TABLE [dbo].[OrderItems]
