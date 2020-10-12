@@ -95,6 +95,10 @@ resource "azurerm_storage_account" "storage" {
   account_tier             = "Standard"
   account_replication_type = "LRS"
 
+  static_website {
+    index_document = "products.html"
+  }
+
   tags = {
     environment = "staging",
     project = "sample"
@@ -122,7 +126,6 @@ resource "azurerm_sql_database" "products-db" {
   location              = azurerm_resource_group.rg.location
   server_name           = azurerm_sql_server.products-db-srv.name
   collation             = "SQL_Latin1_General_CP1_CI_AS"
-  license_type          = "LicenseIncluded"
   create_mode           = "Default"
 
 
