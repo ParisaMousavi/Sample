@@ -158,7 +158,7 @@ resource "azurerm_sql_database" "products-db" {
 resource "azurerm_sql_firewall_rule" "products-db-fr" {
   name                = "products-service-aci"
   resource_group_name = azurerm_resource_group.rg.name
-  server_name         = azurerm_sql_server.rg.name
+  server_name         = azurerm_sql_server.products-db-srv.name
   start_ip_address    = azurerm_container_group.products-aci.ip_address
   end_ip_address      = azurerm_container_group.products-aci.ip_address
 }
