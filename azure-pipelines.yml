@@ -166,7 +166,7 @@ stages:
                   inputs:
                     azureSubscription: 'connect-spn-2'
                     AuthenticationType: 'server'
-                    ServerName: ':products-db-srv.database.windows.net,1433'
+                    ServerName: 'products-db-srv.database.windows.net,1433'
                     DatabaseName: 'products'
                     SqlUsername: 'azureuser'
                     SqlPassword: '$(PASSWORD)'
