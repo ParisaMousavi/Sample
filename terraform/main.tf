@@ -70,9 +70,7 @@ resource "azurerm_container_group" "azure-sample-aci" {
       DBKey =  data.azurerm_cosmosdb_account.sample-cosmosdb.primary_master_key
       ProductDBConnectionString = "Server=tcp:${azurerm_sql_server.products-db-srv.fully_qualified_domain_name},1433;Initial Catalog=${azurerm_sql_database.products-db.name};Persist Security Info=False;User ID=${azurerm_sql_server.products-db-srv.administrator_login};Password=${azurerm_sql_server.products-db-srv.administrator_login_password};MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;"
       }
-
-    }    
-  }
+    }  
 
   container {
     name   = "orders"
@@ -85,25 +83,10 @@ resource "azurerm_container_group" "azure-sample-aci" {
     }
     secure_environment_variables = {
       OrderDBConnectionString = "Server=tcp:${azurerm_sql_server.products-db-srv.fully_qualified_domain_name},1433;Initial Catalog=${azurerm_sql_database.products-db.name};Persist Security Info=False;User ID=${azurerm_sql_server.products-db-srv.administrator_login};Password=${azurerm_sql_server.products-db-srv.administrator_login_password};MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;"
-    }    
-  }
-
-  container {
-    name   = "images"
-    image  = "${data.azurerm_container_registry.azure-sample-acr.login_server}/sampleapiimages:${var.image-tag}"
-    cpu    = "0.5"
-    memory = "1.5"
-    ports {
-      port     = 80
-      protocol = "TCP"
+      }    
     }
-    secure_environment_variables = {
-      AzureBlobStorageConnectionString = azurerm_storage_account.storage.primary_connection_string,
-    }    
   }
 
-
-}
 
 resource "azurerm_storage_account" "storage" {
   name                     = "azuresampleimagestorage"
