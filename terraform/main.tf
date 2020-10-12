@@ -42,12 +42,12 @@ data "azurerm_cosmosdb_account" "sample-cosmosdb" {
 }
 
 
-resource "azurerm_container_group" "azure-sample-aci" {
-  name                = "azure-sample"
+resource "azurerm_container_group" "products-aci" {
+  name                = "products-sample"
   location            = azurerm_resource_group.rg.location
   resource_group_name = azurerm_resource_group.rg.name
   ip_address_type     = "public"
-  dns_name_label      = "azure-sample"
+  dns_name_label      = "products-sample"
   os_type             = "Windows"
 
   image_registry_credential {
@@ -72,6 +72,23 @@ resource "azurerm_container_group" "azure-sample-aci" {
       }
     }  
 
+  }
+
+
+resource "azurerm_container_group" "orders-aci" {
+  name                = "orders-sample"
+  location            = azurerm_resource_group.rg.location
+  resource_group_name = azurerm_resource_group.rg.name
+  ip_address_type     = "public"
+  dns_name_label      = "orders-sample"
+  os_type             = "Windows"
+
+  image_registry_credential {
+    server   = data.azurerm_container_registry.azure-sample-acr.login_server
+    username = data.azurerm_container_registry.azure-sample-acr.admin_username
+    password = data.azurerm_container_registry.azure-sample-acr.admin_password 
+  }
+
   container {
     name   = "orders"
     image  = "${data.azurerm_container_registry.azure-sample-acr.login_server}/sampleapiorders:${var.image-tag}"
@@ -86,6 +103,9 @@ resource "azurerm_container_group" "azure-sample-aci" {
       }    
     }
   }
+
+
+
 
 
 resource "azurerm_storage_account" "storage" {
