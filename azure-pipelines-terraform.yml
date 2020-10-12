@@ -115,6 +115,9 @@ stages:
                         SET QUOTED_IDENTIFIER ON
                         GO
 
+                        DROP TABLE [dbo].[Products];
+                        GO
+
                         CREATE TABLE [dbo].[Products] (
                             [Id]        UNIQUEIDENTIFIER NOT NULL,
                             [Name]      NVARCHAR (50)    NULL,
@@ -122,6 +125,14 @@ stages:
                             [Inventory] INT              NULL,
                             [ImageUrl]  NVARCHAR (MAX)   NULL
                         )
+                        GO 
+
+                        Insert into Products (Id, Name, Price, Inventory )
+                        values(NEWID(), 'Book', 12, 200, 'https://sampleimagestorage.blob.core.windows.net/products/azure-app-service-erd.png')
+
+                        Insert into Products (Id, Name, Price, Inventory )
+                        values(NEWID(), 'Product2', 14, 240, 'https://sampleimagestorage.blob.core.windows.net/products/azure-app-service-erd.png')
+
                     IpDetectionMethod: 'AutoDetect'
 
                 - task: SqlAzureDacpacDeployment@1
@@ -151,7 +162,8 @@ stages:
                             [Id]        UNIQUEIDENTIFIER NOT NULL,
                             [Fullname]  NVARCHAR (100)   NULL,
                             [OrderDate] SMALLDATETIME    NULL
-                        )                        
+                        )
+                        GO                        
 
                         CREATE TABLE [dbo].[OrderItems] (
                             [Id]       UNIQUEIDENTIFIER NOT NULL,
@@ -160,5 +172,6 @@ stages:
                             [Price]    DECIMAL (18)     NULL,
                             [Quantity] INT              NULL
                         )
+                        GO
 
                     IpDetectionMethod: 'AutoDetect'
