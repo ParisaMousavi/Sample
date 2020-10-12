@@ -116,7 +116,7 @@ resource "azurerm_sql_server" "products-db-srv" {
   }
 }
 
-esource "azurerm_sql_database" "products-db" {
+resource "azurerm_sql_database" "products-db" {
   name                  = "products"
   resource_group_name   = azurerm_resource_group.rg.name
   location              = azurerm_resource_group.rg.location
