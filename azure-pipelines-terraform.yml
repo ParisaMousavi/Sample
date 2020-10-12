@@ -98,6 +98,7 @@ stages:
                     environmentServiceNameAzureRM: 'connect-spn-2'
                     
                 - task: SqlAzureDacpacDeployment@1
+                  displayName: 'Products table'
                   inputs:
                     azureSubscription: 'connect-spn-2'
                     AuthenticationType: 'connectionString'
@@ -114,3 +115,37 @@ stages:
                       )
                     IpDetectionMethod: 'AutoDetect'
 
+                - task: SqlAzureDacpacDeployment@1
+                  displayName: 'Orders table'
+                  inputs:
+                    azureSubscription: 'connect-spn-2'
+                    AuthenticationType: 'connectionString'
+                    ConnectionString: 'Server=tcp:orders-db-srv.database.windows.net,1433;Initial Catalog=orders;Persist Security Info=False;User ID=azureuser;Password=P@risa2018#1;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;'
+                    deployType: 'InlineSqlTask'
+                    SqlInline: |
+                      CREATE TABLE [dbo].[Orders] (
+                          [Id]        UNIQUEIDENTIFIER NOT NULL,
+                          [Fullname]  NVARCHAR (100)   NULL,
+                          [OrderDate] SMALLDATETIME    NULL,
+                          PRIMARY KEY CLUSTERED ([Id] ASC)
+                      )
+                    IpDetectionMethod: 'AutoDetect'
+
+                - task: SqlAzureDacpacDeployment@1
+                  displayName: 'OrderItems table'
+                  inputs:
+                    azureSubscription: 'connect-spn-2'
+                    AuthenticationType: 'connectionString'
+                    ConnectionString: 'Server=tcp:orders-db-srv.database.windows.net,1433;Initial Catalog=orders;Persist Security Info=False;User ID=azureuser;Password=P@risa2018#1;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;'
+                    deployType: 'InlineSqlTask'
+                    SqlInline: |
+                      CREATE TABLE [dbo].[OrderItems]
+                      (
+                        [Id] INT NOT NULL PRIMARY KEY, 
+                          [OrderId] UNIQUEIDENTIFIER NULL, 
+                          [Name] NVARCHAR(50) NULL, 
+                          [Price] DECIMAL NULL, 
+                          [Quantity] INT NULL, 
+                          CONSTRAINT [FK_OrderOrderItem] FOREIGN KEY ([OrderId]) REFERENCES [Orders]([Id])
+                      )
+                    IpDetectionMethod: 'AutoDetect'
