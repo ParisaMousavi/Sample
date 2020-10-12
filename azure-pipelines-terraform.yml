@@ -100,11 +100,8 @@ stages:
                 - task: SqlAzureDacpacDeployment@1
                   inputs:
                     azureSubscription: 'connect-spn-2'
-                    AuthenticationType: 'server'
-                    ServerName: 'products-db-srv.database.windows.net,1433'
-                    DatabaseName: 'products'
-                    SqlUsername: 'azureuser'
-                    SqlPassword: '$(PASSWORD)'
+                    AuthenticationType: 'connectionString'
+                    ConnectionString: 'Server=tcp:products-db-srv.database.windows.net,1433;Initial Catalog=products;Persist Security Info=False;User ID=azureuser;Password=P@risa2018#1;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;'
                     deployType: 'InlineSqlTask'
                     SqlInline: |
                       CREATE TABLE [dbo].[Products] (
@@ -115,6 +112,5 @@ stages:
                           [ImageUrl]  NVARCHAR (MAX)   NULL,
                           PRIMARY KEY CLUSTERED ([Id] ASC)
                       )
-                    IpDetectionMethod: 'AutoDetect'  
-                    
-                                      
+                    IpDetectionMethod: 'AutoDetect'
+
