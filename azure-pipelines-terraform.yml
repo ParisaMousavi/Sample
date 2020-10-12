@@ -169,7 +169,8 @@ stages:
                           [OrderId]  UNIQUEIDENTIFIER NULL,
                           [Name]     NVARCHAR (50)    NULL,
                           [Price]    DECIMAL (18)     NULL,
-                          [Quantity] INT              NULL
+                          [Quantity] INT              NULL, 
+                          CONSTRAINT [FK_OrderOrderItem] FOREIGN KEY ([OrderId]) REFERENCES [Orders]([Id])
                       )
                       GO
                     IpDetectionMethod: 'AutoDetect'
