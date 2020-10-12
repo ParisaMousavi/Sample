@@ -4,23 +4,10 @@ provider "azurerm" {
   features {}
 }
 
-variable "db_uri" {
+variable "image-tag" {
   type = string
+  description = "The Build-Id is the image tag."
 }
-
-variable "db_key" {
-  type = string
-}
-
-variable "acr_user" {
-  type = string
-}
-
-variable "acr_pass" {
-  type = string
-}
-
-
 
 terraform{
     backend "azurerm" {
@@ -41,45 +28,6 @@ resource "azurerm_resource_group" "rg" {
         environment = "staging",
         project = "sample"
     }
-}
-
-
-resource "azurerm_resource_group" "vote-resource-group" {
-  name     = "vote-resource-group"
-  location = "westus"
-}
-
-resource "random_integer" "ri" {
-  min = 10000
-  max = 99999
-}
-
-resource "azurerm_container_group" "vote-aci" {
-  name                = "vote-aci-parisa"
-  location            = azurerm_resource_group.vote-resource-group.location
-  resource_group_name = azurerm_resource_group.vote-resource-group.name
-  ip_address_type     = "public"
-  dns_name_label      = "vote-aci-parisa"
-  os_type             = "linux"
-
-  container {
-    name   = "vote-aci-parisa"
-    image  = "microsoft/azure-vote-front:cosmosdb"
-    cpu    = "0.5"
-    memory = "1.5"
-    ports {
-      port     = 80
-      protocol = "TCP"
-    }
-
-    secure_environment_variables = {
-      "COSMOS_DB_ENDPOINT"  = azurerm_cosmosdb_account.vote-cosmos-db.endpoint
-      "COSMOS_DB_MASTERKEY" = azurerm_cosmosdb_account.vote-cosmos-db.primary_master_key
-      "TITLE"               = "Azure Voting App"
-      "VOTE1VALUE"          = "Cats"
-      "VOTE2VALUE"          = "Dogs"
-    }
-  }
 }
 
 
@@ -109,7 +57,7 @@ resource "azurerm_container_group" "azure-sample-aci" {
   }
 
   container {
-    name   = "azure-sample"
+    name   = "products"
     image  = "${data.azurerm_container_registry.azure-sample-acr.login_server}/sampleapiproducts:229"
     cpu    = "0.5"
     memory = "1.5"
@@ -122,28 +70,38 @@ resource "azurerm_container_group" "azure-sample-aci" {
       DBKey =  data.azurerm_cosmosdb_account.sample-cosmosdb.primary_master_key
     }    
   }
-}
 
-
-resource "azurerm_cosmosdb_account" "vote-cosmos-db" {
-  name                = "tfex-cosmos-db-${random_integer.ri.result}"
-  location            = azurerm_resource_group.vote-resource-group.location
-  resource_group_name = azurerm_resource_group.vote-resource-group.name
-  offer_type          = "Standard"
-  kind                = "GlobalDocumentDB"
-
-  consistency_policy {
-    consistency_level       = "BoundedStaleness"
-    max_interval_in_seconds = 10
-    max_staleness_prefix    = 200
+  container {
+    name   = "orders"
+    image  = "${data.azurerm_container_registry.azure-sample-acr.login_server}/sampleapiorders:229"
+    cpu    = "0.5"
+    memory = "1.5"
+    ports {
+      port     = 80
+      protocol = "TCP"
+    }
+    secure_environment_variables = {
+      DBUri = data.azurerm_cosmosdb_account.sample-cosmosdb.endpoint,
+      DBKey =  data.azurerm_cosmosdb_account.sample-cosmosdb.primary_master_key
+    }    
   }
 
-  geo_location {
-    location          = "westus"
-    failover_priority = 0
+  container {
+    name   = "images"
+    image  = "${data.azurerm_container_registry.azure-sample-acr.login_server}/sampleapiimages:${var.image-tag}"
+    cpu    = "0.5"
+    memory = "1.5"
+    ports {
+      port     = 80
+      protocol = "TCP"
+    }
+    secure_environment_variables = {
+      AzureBlobStorageConnectionString = azurerm_storage_account.storage.primary_connection_string,
+    }    
   }
-}
 
+
+}
 
 resource "azurerm_storage_account" "storage" {
   name                     = "azuresampleimagestorage"
@@ -157,6 +115,28 @@ resource "azurerm_storage_account" "storage" {
     project = "sample"
   }
 }
+
+
+resource "azurerm_mssql_server" "sql" {
+  name                         = "mssqlserver"
+  resource_group_name          = azurerm_resource_group.rg.name
+  location                     = azurerm_resource_group.rg.location
+  version                      = "12.0"
+  administrator_login          = "azureuser"
+  administrator_login_password = "P@risa2018#1"
+  minimum_tls_version          = "1.2"
+
+
+  tags = {
+    environment = "staging",
+    project = "sample"
+  }
+}
+
+
+
+
+
 
 output "dns" {
   value = azurerm_container_group.vote-aci.fqdn
