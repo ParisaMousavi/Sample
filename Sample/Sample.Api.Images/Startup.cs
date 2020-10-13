@@ -50,7 +50,7 @@ namespace Sample.Api.Images
             // CORS Policy middleware (order is important Routing-Cors-Authorization)
             app.UseCors(builder =>
             {
-                builder.AllowAnyHeader();
+                builder.AllowAnyOrigin();
                 builder.AllowAnyHeader();
                 builder.AllowAnyMethod();
             });

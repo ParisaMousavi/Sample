@@ -9,7 +9,6 @@
 
 
 <div id="app" class="d-flex">
-
     <nav class="navbar navbar-light bg-light fixed-top">
         <div class="navbar-text ml-auto">
             <b>cart:</b>
@@ -36,7 +35,10 @@
                 </tr>
             </tbody>
         </table>
-        <button class="btn btn-primary" v-on:click="addProduct()"> Add Product</button>
+        <button class="btn btn-primary" v-on:click="addProduct()"> Send Order</button>
+        <p>Test for see the one order</p>
+        <a href="order.html">test</a>
+
     </div>
 
     <div id="cart" class="m-5">
@@ -130,17 +132,17 @@
                 var apikey = '';
                 var url = 'http://orders-service.westeurope.azurecontainer.io/api/orders' + apikey;
                 var data = {
-                    "Fullname": "Test chaharom",
+                    "Fullname": "Test h",
                     "OrderDate": "2020-10-22",
                     "Items": [
                         {
                             "name": "mahsoole 1",
-                            "price": 6,
+                            "price": 64,
                             "quantity": 10
                         },
                         {
                             "name": "mahsoole 2",
-                            "price": 6,
+                            "price": 44,
                             "quantity": 4
                         }
                     ]

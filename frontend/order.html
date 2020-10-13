@@ -10,27 +10,30 @@
 
 <div id="app" class="d-flex">
 
-    <!-- <div id="container" class="m-5">
-        <h2>Products list</h2>
+    <div id="container" class="m-5">
+        <h2>Order Items of {{orders.fullname}}</h2>
         <table class="table table-striped ">
             <thead class="thead-dark">
-                <td></td>
+                <td>#</td>
                 <td>Product</td>
+                <td>Quantity</td>
                 <td>Price</td>
-                <td>Add to cart</td>
             </thead>
             <tbody>
-                <tr v-for="(p , index ) in order.items" :key="p.id">
-                    <td><img v-bind="{src : products[index].imageUrl, alt : products[index].name }"
-                            style="width: 70px; height: 70px;"></td>
-                    <td>{{p.name}}</td>
-                    <td>{{p.price | currency}}</td>
-                    <td><button class="btn btn-primary" v-on:click="addToCart(p)"> Add to cart</button></td>
+                <tr v-for="(oi , index ) in orders.items" :key="oi.id">
+                    <td>{{index+1}}</td>
+                    <td>{{oi.name}}</td>
+                    <td>{{oi.quantity}}</td>
+                    <td>{{oi.price | currency}}</td>
                 </tr>
             </tbody>
+            <tfoot class="font-weight-bold" v-if="calculateTotalSum() > 0">
+                <td colspan="3">Total Sum</td>
+                <td>{{calculateTotalSum() | currency}}</td>
+            </tfoot>
+            <button v-on:click="getOrderId()" >get order id</button>
         </table>
-        <button class="btn btn-primary" v-on:click="addProduct()"> Add Product</button>
-    </div> -->
+    </div>
 </div>
 
 
@@ -38,19 +41,33 @@
     var vm = new Vue({
         el: '#app',
         data: {
-            orders : []
+            orders: []
         },
         computed: {
         },
         created: function () {
             var apikey = '';
-            var url = 'http://localhost:7003/api/orders/8711c1cb-8bd9-4ebc-89c8-15cdb97e5dc5' + apikey;
-            axios.get(url)
+            var url = 'orders-service.westeurope.azurecontainer.io/api/orders/8711c1cb-8bd9-4ebc-89c8-15cdb97e5dc5' + apikey;
+            var config = {
+                headers: { 'Access-Control-Allow-Origin': '*' }
+            };
+            axios.get(url, config)
                 .then(function (res) {
                     vm.orders = res.data;
                 });
         },
         methods: {
+            calculateTotalSum: function(){
+                var totalSum = 0
+                this.orders.items.filter(function (item) {
+                    totalSum = totalSum + (item.quantity * item.price);
+                });
+                return totalSum;
+            },
+            getOrderId: function(){
+                console.log(this.$route.query);
+                return this.$route.query;               
+            }
         },
         filters: {
             currency: function (value) {
