@@ -165,7 +165,7 @@ stages:
                       );
                        
                       CREATE TABLE [dbo].[OrderItems](
-                          [Id] UNIQUEIDENTIFIER NOT NULL PRIMARY KEY, 
+                          [Id] UNIQUEIDENTIFIER NOT NULL, 
                           [OrderId] UNIQUEIDENTIFIER NULL, 
                           [Name] NVARCHAR(50) NULL, 
                           [Price] DECIMAL NULL, 
