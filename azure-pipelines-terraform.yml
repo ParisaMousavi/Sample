@@ -86,7 +86,7 @@ stages:
                     provider: 'azurerm'
                     command: 'plan'
                     workingDirectory: '$(System.DefaultWorkingDirectory)/terraform'
-                    commandOptions: '-var image-tag="260"'
+                    commandOptions: '-var image-tag="280"'
                     environmentServiceNameAzureRM: 'connect-spn-2'
                 - task: TerraformTaskV1@0
                   displayName: 'apply'
@@ -94,7 +94,7 @@ stages:
                     provider: 'azurerm'
                     command: 'apply'
                     workingDirectory: '$(System.DefaultWorkingDirectory)/terraform'
-                    commandOptions: '-var image-tag="260"'
+                    commandOptions: '-var image-tag="280"'
                     environmentServiceNameAzureRM: 'connect-spn-2'
                     
                 - task: SqlAzureDacpacDeployment@1
