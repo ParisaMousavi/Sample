@@ -34,7 +34,12 @@ namespace Sample.Api.Orders.Controllers
         [HttpGet("{id}")]
         public async Task<IActionResult> GetOrderAsync(Guid id)
         {
-            return NotFound();
+            var result = await _ordersProvider.GetOrderAsync(id);
+            if (result.IsSuccess)
+            {
+                return Ok(result.Order);
+            }
+            return NotFound(result.ErrorMessage);
         }
 
         [DisableCors]

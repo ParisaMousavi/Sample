@@ -70,9 +70,27 @@ namespace Sample.Api.Orders.Services
             throw new NotImplementedException();
         }
 
-        Task<(bool IsSuccess, Models.Order Order, string ErrorMessage)> IOrdersProvider.GetOrderAsync(Guid id)
+        async Task<(bool IsSuccess, Models.Order Order, string ErrorMessage)> IOrdersProvider.GetOrderAsync(Guid id)
         {
-            throw new NotImplementedException();
+            try
+            {
+                var order = await _dbContext.Orders.FirstOrDefaultAsync(o => o.Id == id);
+                var orderItems =  _dbContext.OrderItems.Where(oi => oi.OrderId == order.Id);
+                if (order != null)
+                {
+                    var result = _mapper.Map<Models.Order>(order);
+                    var resultoi = _mapper.Map<IEnumerable< Models.OrderItem>>(orderItems);
+                    result.Items = (ICollection<Models.OrderItem>) resultoi;
+                    return (true, result, null);
+                }
+                return (false, null, "Not Found");
+            }
+            catch (Exception ex)
+            {
+
+                _logger?.LogError(ex.ToString());
+                return (false, null, ex.Message);
+            }
         }
 
         async Task<(bool IsSuccess, IEnumerable<Models.Order> Orders, string ErrorMessage)> IOrdersProvider.GetOrdersAsync()

@@ -117,7 +117,7 @@ namespace Sample.Api.Products.Services
                 var product = _dbContext.Products.FirstOrDefaultAsync(p => p.Id == id);
                 if(product != null)
                 {
-                    //var result = _mapper.Map<Db.Product, Models.Product>(product);
+                    var result = _mapper.Map<Models.Product>(product);
                     return (true, null , null);
                 }
                 return (false, null, "Not Found");
