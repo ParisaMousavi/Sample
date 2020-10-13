@@ -51,7 +51,7 @@ resource "azurerm_storage_account" "storage" {
 resource "azurerm_storage_container" "storage-container-products" {
   name                  = "products"
   storage_account_name  = azurerm_storage_account.storage.name
-  container_access_type = "blob"
+  container_access_type = "private"
 }
 
 resource "azurerm_storage_container" "storage-container-productsthumbnail" {

@@ -42,7 +42,6 @@ namespace Sample.Api.Orders.Controllers
             return NotFound(result.ErrorMessage);
         }
 
-        [DisableCors]
         [HttpPost]
         public async Task<IActionResult> AddOrderAsync([FromBody]Models.Order order)
         {

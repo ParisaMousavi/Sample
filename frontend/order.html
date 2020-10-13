@@ -10,7 +10,7 @@
 
 <div id="app" class="d-flex">
 
-    <div id="container" class="m-5">
+    <!-- <div id="container" class="m-5">
         <h2>Products list</h2>
         <table class="table table-striped ">
             <thead class="thead-dark">
@@ -30,7 +30,7 @@
             </tbody>
         </table>
         <button class="btn btn-primary" v-on:click="addProduct()"> Add Product</button>
-    </div>
+    </div> -->
 </div>
 
 
@@ -44,7 +44,7 @@
         },
         created: function () {
             var apikey = '';
-            var url = 'http://localhost:7003/api/orders' + apikey;
+            var url = 'http://localhost:7003/api/orders/8711c1cb-8bd9-4ebc-89c8-15cdb97e5dc5' + apikey;
             axios.get(url)
                 .then(function (res) {
                     vm.orders = res.data;
