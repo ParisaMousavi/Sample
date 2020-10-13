@@ -162,6 +162,15 @@ stages:
                     storage: 'azuresampleimagestorage'
                     ContainerName: '$web'
 
+                - task: AzureFileCopy@3
+                  displayName: 'Upload order.html to static website'
+                  inputs:
+                    SourcePath: '$(System.DefaultWorkingDirectory)/frontend/order.html'
+                    azureSubscription: 'connect-spn-2'
+                    Destination: 'AzureBlob'
+                    storage: 'azuresampleimagestorage'
+                    ContainerName: '$web'
+
                 - task: SqlAzureDacpacDeployment@1
                   displayName: 'Products table'
                   inputs:
