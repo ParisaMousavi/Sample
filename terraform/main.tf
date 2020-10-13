@@ -30,6 +30,36 @@ resource "azurerm_resource_group" "rg" {
     }
 }
 
+resource "azurerm_storage_account" "storage" {
+  name                     = "azuresampleimagestorage"
+  resource_group_name      = azurerm_resource_group.rg.name
+  location                 = azurerm_resource_group.rg.location
+  account_tier             = "Standard"
+  account_replication_type = "LRS"
+
+  static_website {
+    index_document = "products.html"
+  }
+
+  tags = {
+    environment = "staging",
+    project = "sample"
+  }
+}
+
+
+resource "azurerm_storage_container" "storage-container-products" {
+  name                  = "products"
+  storage_account_name  = azurerm_storage_account.storage.name
+  container_access_type = "blob"
+}
+
+resource "azurerm_storage_container" "storage-container-productsthumbnail" {
+  name                  = "productsthumbnail"
+  storage_account_name  = azurerm_storage_account.storage.name
+  container_access_type = "private"
+}
+
 
 data "azurerm_container_registry" "azure-sample-acr" {
   name                = "azuresampleacr"
@@ -71,7 +101,11 @@ resource "azurerm_container_group" "products-aci" {
       ProductDBConnectionString = "Server=tcp:${azurerm_sql_server.products-db-srv.fully_qualified_domain_name},1433;Initial Catalog=${azurerm_sql_database.products-db.name};Persist Security Info=False;User ID=${azurerm_sql_server.products-db-srv.administrator_login};Password=${azurerm_sql_server.products-db-srv.administrator_login_password};MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;"
       }
     }  
-
+    
+    tags = {
+      environment = "staging",
+      project = "sample"
+    } 
   }
 
 
@@ -102,41 +136,51 @@ resource "azurerm_container_group" "orders-aci" {
       OrderDBConnectionString = "Server=tcp:${azurerm_sql_server.products-db-srv.fully_qualified_domain_name},1433;Initial Catalog=${azurerm_sql_database.products-db.name};Persist Security Info=False;User ID=${azurerm_sql_server.products-db-srv.administrator_login};Password=${azurerm_sql_server.products-db-srv.administrator_login_password};MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;"
       }    
     }
+
+    tags = {
+      environment = "staging",
+      project = "sample"
+    }     
+  }
+
+resource "azurerm_container_group" "images-aci" {
+  name                = "images-service"
+  location            = azurerm_resource_group.rg.location
+  resource_group_name = azurerm_resource_group.rg.name
+  ip_address_type     = "public"
+  dns_name_label      = "images-service"
+  os_type             = "Windows"
+
+  image_registry_credential {
+    server   = data.azurerm_container_registry.azure-sample-acr.login_server
+    username = data.azurerm_container_registry.azure-sample-acr.admin_username
+    password = data.azurerm_container_registry.azure-sample-acr.admin_password 
+  }
+
+  container {
+    name   = "images-service"
+    image  = "${data.azurerm_container_registry.azure-sample-acr.login_server}/sampleapiorders:${var.image-tag}"
+    cpu    = "0.5"
+    memory = "1.5"
+    ports {
+      port     = 80
+      protocol = "TCP"
+    }
+    secure_environment_variables = {
+      AzureBlobStorageConnectionString = azurerm_storage_account.storage.primary_connection_string
+      
+      }    
+    }
+
+    tags = {
+      environment = "staging",
+      project = "sample"
+    }    
   }
 
 
 
 
-
-resource "azurerm_storage_account" "storage" {
-  name                     = "azuresampleimagestorage"
-  resource_group_name      = azurerm_resource_group.rg.name
-  location                 = azurerm_resource_group.rg.location
-  account_tier             = "Standard"
-  account_replication_type = "LRS"
-
-  static_website {
-    index_document = "products.html"
-  }
-
-  tags = {
-    environment = "staging",
-    project = "sample"
-  }
-}
-
-
-resource "azurerm_storage_container" "storage-container-products" {
-  name                  = "products"
-  storage_account_name  = azurerm_storage_account.storage.name
-  container_access_type = "blob"
-}
-
-resource "azurerm_storage_container" "storage-container-productsthumbnail" {
-  name                  = "productsthumbnail"
-  storage_account_name  = azurerm_storage_account.storage.name
-  container_access_type = "blob"
-}
 
 
 resource "azurerm_sql_server" "products-db-srv" {
