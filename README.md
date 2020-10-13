@@ -13,7 +13,7 @@ This sample project is a quick start for developing a cloud based solution.
 
 **Scenario**: Assume we have a very simple online product stock. As soon as a product is added to the online stock a message is sent to a storage queue and a function will be triggered because of the pushed message to the queue. This function generate a thumbnail form the original image. 
 
-![alt](drawio/Asynchronous-request-reply-pattern.png)
+![alt](drawio/Messaging-logic.png)
 
 ## Azure Resources
 The following Azure resources are used in this sample project.
