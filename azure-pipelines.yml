@@ -183,11 +183,12 @@ stages:
                         GO
 
                         CREATE TABLE [dbo].[Products] (
-                            [Id]        UNIQUEIDENTIFIER NOT NULL PRIMARY KEY,
+                            [Id]        UNIQUEIDENTIFIER NOT NULL,
                             [Name]      NVARCHAR (50)    NULL,
                             [Price]     DECIMAL (18)     NULL,
                             [Inventory] INT              NULL,
-                            [ImageUrl]  NVARCHAR (MAX)   NULL
+                            [ImageUrl]  NVARCHAR (MAX)   NULL,
+                            PRIMARY KEY CLUSTERED ([Id] ASC)
                         )
                         GO 
 
@@ -229,6 +230,7 @@ stages:
                           [Name] NVARCHAR(50) NULL, 
                           [Price] DECIMAL NULL, 
                           [Quantity] INT NULL, 
+                          PRIMARY KEY CLUSTERED ([Id] ASC),
                           CONSTRAINT [FK_OrderOrderItem] FOREIGN KEY ([OrderId]) REFERENCES [Orders]([Id])
                       );
                       
