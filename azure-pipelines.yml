@@ -183,7 +183,7 @@ stages:
                         GO
 
                         CREATE TABLE [dbo].[Products] (
-                            [Id]        UNIQUEIDENTIFIER NOT NULL,
+                            [Id]        UNIQUEIDENTIFIER NOT NULL PRIMARY KEY,
                             [Name]      NVARCHAR (50)    NULL,
                             [Price]     DECIMAL (18)     NULL,
                             [Inventory] INT              NULL,
@@ -224,7 +224,7 @@ stages:
                       );
                        
                       CREATE TABLE [dbo].[OrderItems](
-                          [Id] INT NOT NULL PRIMARY KEY, 
+                          [Id] UNIQUEIDENTIFIER NOT NULL PRIMARY KEY, 
                           [OrderId] UNIQUEIDENTIFIER NULL, 
                           [Name] NVARCHAR(50) NULL, 
                           [Price] DECIMAL NULL, 
