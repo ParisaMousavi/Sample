@@ -126,6 +126,19 @@ resource "azurerm_storage_account" "storage" {
 }
 
 
+resource "azurerm_storage_container" "storage-container-products" {
+  name                  = "products"
+  storage_account_name  = azurerm_storage_account.storage.name
+  container_access_type = "blob"
+}
+
+resource "azurerm_storage_container" "storage-container-productsthumbnail" {
+  name                  = "productsthumbnail"
+  storage_account_name  = azurerm_storage_account.storage.name
+  container_access_type = "blob"
+}
+
+
 resource "azurerm_sql_server" "products-db-srv" {
   name                         = "products-db-srv"
   resource_group_name          = azurerm_resource_group.rg.name
