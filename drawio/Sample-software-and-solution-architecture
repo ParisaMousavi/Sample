@@ -1,4 +1,4 @@
-<mxfile host="app.diagrams.net" modified="2020-10-14T08:50:55.738Z" agent="5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/86.0.4240.75 Safari/537.36" etag="RjQs8tj_pOG3P8dfmHdR" version="13.8.0" type="github" pages="4">
+<mxfile host="app.diagrams.net" modified="2020-10-14T08:51:39.668Z" agent="5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/86.0.4240.75 Safari/537.36" etag="MJ0wi0Dxsovilajs2wZU" version="13.8.0" type="github" pages="4">
   <diagram id="FDEZJa5pFwYp03ZJSzmy" name="Application">
     <mxGraphModel dx="1038" dy="580" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
       <root>
@@ -142,6 +142,9 @@
         </mxCell>
         <mxCell id="Mt5fDwV55gqZxkrrA8sy-5" value="Azure CDN" style="aspect=fixed;html=1;points=[];align=center;image;fontSize=12;image=img/lib/azure2/app_services/CDN_Profiles.svg;labelBackgroundColor=none;" vertex="1" parent="eH0Q8FC1d2WfIhLmoqbl-1">
           <mxGeometry x="-170" y="70" width="68" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="Mt5fDwV55gqZxkrrA8sy-12" value="Set the HTTP/HTTPS origin" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;" vertex="1" parent="eH0Q8FC1d2WfIhLmoqbl-1">
+          <mxGeometry x="-210.5" y="50" width="160" height="20" as="geometry" />
         </mxCell>
       </root>
     </mxGraphModel>
