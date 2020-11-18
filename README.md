@@ -66,4 +66,5 @@ Solution Architecture is a follows:
 - Microsoft.Extensions.Http.Polly -> for Circuit Breaker Design Pattern for more resiliency
 - Microsoft.Azure.Cosmos.Table
 
+![alt](drawio/Sample-software-and-solution-architecture)
 
