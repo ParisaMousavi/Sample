@@ -5,14 +5,6 @@
 #   description = "The Build-Id is the image tag."
 # }
 
-# terraform{
-#     backend "azurerm" {
-#         resource_group_name = "sample-terraform-rg"
-#         storage_account_name = "sampleterraform"
-#         container_name = "terrform"
-#         key = "development.terraform.tfstate"
-#     }
-# }
 
 # data "azurerm_client_config" "current" {}
 
@@ -26,35 +18,35 @@ resource "azurerm_resource_group" "rg" {
     }
 }
 
-# resource "azurerm_storage_account" "storage" {
-#   name                     = "azuresampleimagestorage"
-#   resource_group_name      = azurerm_resource_group.rg.name
-#   location                 = azurerm_resource_group.rg.location
-#   account_tier             = "Standard"
-#   account_replication_type = "LRS"
+resource "azurerm_storage_account" "storage" {
+  name                     = "azuresampleimagestorage"
+  resource_group_name      = azurerm_resource_group.rg.name
+  location                 = azurerm_resource_group.rg.location
+  account_tier             = "Standard"
+  account_replication_type = "LRS"
 
-#   static_website {
-#     index_document = "products.html"
-#   }
+  static_website {
+    index_document = "products.html"
+  }
 
-#   tags = {
-#     environment = "staging",
-#     project = "sample"
-#   }
-# }
+  tags = {
+    environment = "staging",
+    project = "sample"
+  }
+}
 
 
-# resource "azurerm_storage_container" "storage-container-products" {
-#   name                  = "products"
-#   storage_account_name  = azurerm_storage_account.storage.name
-#   container_access_type = "private"
-# }
+resource "azurerm_storage_container" "storage-container-products" {
+  name                  = "products"
+  storage_account_name  = azurerm_storage_account.storage.name
+  container_access_type = "private"
+}
 
-# resource "azurerm_storage_container" "storage-container-productsthumbnail" {
-#   name                  = "productsthumbnail"
-#   storage_account_name  = azurerm_storage_account.storage.name
-#   container_access_type = "private"
-# }
+resource "azurerm_storage_container" "storage-container-productsthumbnail" {
+  name                  = "productsthumbnail"
+  storage_account_name  = azurerm_storage_account.storage.name
+  container_access_type = "private"
+}
 
 
 # data "azurerm_container_registry" "azure-sample-acr" {
