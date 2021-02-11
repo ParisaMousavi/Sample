@@ -68,6 +68,3 @@ Solution Architecture is a follows:
 
 ![alt](drawio/Sample-software-and-solution-architecture)
 
-
-
-test
