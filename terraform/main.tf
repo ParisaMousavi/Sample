@@ -14,7 +14,8 @@ resource "azurerm_resource_group" "rg" {
 
     tags = {
         environment = "staging",
-        project = "sample"
+        project = "sample",
+        CostCenter = "PA2021"
     }
 }
 
