@@ -5,7 +5,7 @@ import "azure-functions" as azure
 param resource_types default [
   "azurerm_resource_group",
   "azurerm_virtual_network",
-  "azurerm_storage_account"
+  "azurerm_storage_account",
 ]
 
 param mandatory_tags default ["costcenter"]
