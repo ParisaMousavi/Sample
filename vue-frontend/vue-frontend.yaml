@@ -1,0 +1,19 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: sampledocker
+spec:
+  selector:
+    matchLabels:
+      app: sampledocker
+  replicas: 1 # tells deployment to run 1 pods matching the template
+  template: # create pods using pod definition in this template
+    metadata:
+      labels:
+        app: sampledocker
+    spec:
+      containers:
+      - name: sampledocker
+        image: sampledocker
+        ports:
+        - containerPort: 8080
