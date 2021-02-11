@@ -13,8 +13,13 @@ mandatory_tags = [
   "CostCenter",
 ]
 
+resources = [
+  "azurerm_resource_group",
+  "azurerm_virtual_machine",
+]
+
 # Get all Azure VMs
-allAzureVMs = plan.find_resources("azurerm_virtual_machine")
+allAzureVMs = plan.find_resources(resources)
 
 # Filter to Azure VMs with violations
 # Warnings will be printed for all violations since the last parameter is true
