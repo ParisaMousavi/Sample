@@ -1,4 +1,4 @@
-# This policy uses the Sentinel tfplan import to require that all Azure VMs
+# This policy uses the Sentinel tfplan import to validate CostCenter tag on ResourceGroup
 # have all mandatory tags.
 
 # Note that the comparison is case-sensitive even though Azure tags are not.
@@ -13,17 +13,13 @@ mandatory_tags = [
   "CostCenter",
 ]
 
-resources = [
-  "azurerm_resource_group",
-  "azurerm_virtual_machine",
-]
 
 # Get all Azure VMs
-allAzureVMs = plan.find_resources(resources)
+rgs = plan.find_resources("azurerm_resource_group")
 
 # Filter to Azure VMs with violations
 # Warnings will be printed for all violations since the last parameter is true
-violatingAzureVMs = plan.filter_attribute_not_contains_list(allAzureVMs,
+violatingAzureVMs = plan.filter_attribute_not_contains_list(rgs,
                         "tags", mandatory_tags, true)
 
 #Main rule
