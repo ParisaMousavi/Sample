@@ -67,3 +67,4 @@ Solution Architecture is a follows:
 - Microsoft.Azure.Cosmos.Table
 
 ![alt](drawio/Sample-software-and-solution-architecture)
+test
